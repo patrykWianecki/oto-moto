@@ -2,9 +2,11 @@ package com.app.controller;
 
 import java.util.List;
 
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,13 +25,8 @@ public class LocationController {
   private final LocationService locationService;
   private final LocationValidator locationValidator;
 
-  // @InitBinder
-  // private void initBinder(WebDataBinder webDataBinder) {
-  //   webDataBinder.addValidators(locationValidator);
-  // }
-
-  @GetMapping("/{locationResponse}")
-  public ResponseEntity<List<LocalityDto>> getAvailableLocalities(@PathVariable LocationResponse locationResponse) {
+  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<List<LocalityDto>> getAvailableLocalities(@RequestBody LocationResponse locationResponse) {
     locationValidator.validateLocationResponse(locationResponse);
     List<LocalityDto> localities = locationService.createRequest(locationResponse);
 

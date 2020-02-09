@@ -6,6 +6,7 @@ import com.app.model.County;
 import com.app.model.Locality;
 import com.app.model.LocationResponse;
 import com.app.model.Voivodeship;
+import com.app.model.dto.LocalityDto;
 
 public class MockDataForTests {
 
@@ -38,6 +39,35 @@ public class MockDataForTests {
         .latitude(10)
         .name(STALOWA_WOLA_LOCALITY)
         .build();
+  }
+
+  public static List<LocalityDto> createLocalitiesDto() {
+    return List.of(
+        LocalityDto.builder()
+            .id("11-11-11")
+            .countyId("11-11")
+            .name(STALOWA_WOLA_LOCALITY)
+            .longitude(10)
+            .latitude(10)
+            .distance(0)
+            .build(),
+        LocalityDto.builder()
+            .id("11-11-12")
+            .countyId("11-11")
+            .name(PYSZNICA_LOCALITY)
+            .longitude(10.1)
+            .latitude(10.1)
+            .distance(16)
+            .build(),
+        LocalityDto.builder()
+            .id("11-11-13")
+            .countyId("11-11")
+            .name(ZAKLIKOW_LOCALITY)
+            .longitude(10.11)
+            .latitude(10.11)
+            .distance(17)
+            .build()
+    );
   }
 
   public static List<Locality> createLocalities() {
