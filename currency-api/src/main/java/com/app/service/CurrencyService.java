@@ -8,6 +8,7 @@ import java.net.http.HttpClient.Version;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
@@ -25,7 +26,7 @@ public class CurrencyService {
 
   public Currency findCurrentExchange() throws URISyntaxException, InterruptedException {
     CountDownLatch countDownLatch = new CountDownLatch(1);
-    final List<Currency> currency = new java.util.ArrayList<>();
+    final List<Currency> currency = new ArrayList<>();
 
     createResponse().thenAccept(response -> {
           Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -35,7 +36,10 @@ public class CurrencyService {
     );
     countDownLatch.await();
 
-    return currency.get(0);
+    return currency
+        .stream()
+        .findFirst()
+        .orElseThrow(() -> new NullPointerException("Failed to get actual currency"));
   }
 
   private static HttpRequest createGetRequest() throws URISyntaxException {

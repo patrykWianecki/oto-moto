@@ -1,46 +1,42 @@
 package com.app.controller;
 
-import java.net.URISyntaxException;
-import java.time.LocalDate;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.app.data.MockDataForTests;
-import com.app.model.Base;
-import com.app.model.Currency;
 import com.app.service.CurrencyService;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@SpringBootTest
+@AutoConfigureMockMvc
 @ExtendWith(SpringExtension.class)
 class CurrencyControllerTest {
 
-  @Mock
+  @MockBean
   private CurrencyService currencyService;
 
-  @InjectMocks
-  private CurrencyController currencyController;
-
-  // TODO zmienić nazwę testu
-  // Dopisać inne testy jak sie da
+  @Autowired
+  private MockMvc mockMvc;
 
   @Test
-  void should() throws URISyntaxException, InterruptedException {
+  void should_get_valid_currency_response() throws Exception {
     // given
     when(currencyService.findCurrentExchange()).thenReturn(MockDataForTests.createCurrency());
 
-    // when
-    Currency actualCurrency = currencyController.sendCurrency();
-
-    // then
-    assertNotNull(actualCurrency);
-    assertEquals(Base.PLN, actualCurrency.getBase());
-    assertEquals(LocalDate.of(2020, 10, 10).toString(), actualCurrency.getDate());
-    assertEquals(MockDataForTests.createCurrency().getRates(), actualCurrency.getRates());
+    // when + then
+    mockMvc
+        .perform(MockMvcRequestBuilders.get("/currency"))
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect(MockMvcResultMatchers.handler().methodName("sendCurrency"))
+        .andExpect(MockMvcResultMatchers.content().contentType("application/json"));
   }
 }

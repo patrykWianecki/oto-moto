@@ -18,9 +18,9 @@ public class MockDataForTests {
 
   private static Rate createRate() {
     return Rate.builder()
-        .EUR("4.30")
-        .GBP("5.10")
-        .USD("3.80")
+        .EUR("0.23")
+        .GBP("0.20")
+        .USD("0.26")
         .PLN("1.00")
         .build();
   }

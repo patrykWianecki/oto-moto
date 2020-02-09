@@ -1,31 +1,47 @@
 package com.app.service;
 
 import java.net.URISyntaxException;
+import java.time.LocalDate;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.app.data.MockDataForTests;
+import com.app.model.Base;
 import com.app.model.Currency;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @ExtendWith({SpringExtension.class})
 class CurrencyServiceTest {
 
-  @InjectMocks
+  @Mock
   private CurrencyService currencyService;
 
-  // TODO napisać testy
   @Test
-  void should() throws URISyntaxException, InterruptedException {
+  void should_get_correct_currency_response() throws URISyntaxException, InterruptedException {
     // given
+    when(currencyService.findCurrentExchange()).thenReturn(MockDataForTests.createCurrency());
 
     // when
-    Currency currency = currencyService.findCurrentExchange();
+    Currency actualCurrency = currencyService.findCurrentExchange();
 
     // then
-    assertEquals("", "");
+    assertNotNull(actualCurrency);
+    assertEquals(Base.PLN, actualCurrency.getBase());
+    assertEquals(LocalDate.of(2020, 10, 10).toString(), actualCurrency.getDate());
+    assertEquals(MockDataForTests.createCurrency().getRates(), actualCurrency.getRates());
+  }
+
+  @Test
+  void should_handle_empty_response() throws URISyntaxException, InterruptedException {
+    // given
+    when(currencyService.findCurrentExchange()).thenThrow(NullPointerException.class);
+
+    // when + then
+    assertThrows(NullPointerException.class, () -> currencyService.findCurrentExchange());
   }
 }
