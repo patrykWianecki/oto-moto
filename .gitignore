@@ -23,21 +23,3 @@ build/
 
 ### VS Code ###
 .vscode/
-
-### currency-api ###
-/currency-api/.mvn/
-/currency-api/mvnw
-/currency-api/mvnw.cmd
-/currency-api/HELP.md
-
-### oto-moto-client ###
-/otomoto-client/.mvn/
-/otomoto-client/mvnw
-/otomoto-client/mvnw.cmd
-/otomoto-client/HELP.md
-
-### oto-moto-service ###
-/otomoto-service/.mvn/
-/otomoto-service/mvnw
-/otomoto-service/mvnw.cmd
-/otomoto-service/HELP.md
