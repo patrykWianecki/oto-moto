@@ -46,23 +46,17 @@ class LocationServiceTest {
     assertNotNull(localities);
     assertEquals(3, localities.size());
 
-    System.out.println("1 =======================");
-    System.out.println(localities);
-    System.out.println("2 =======================");
-
     LocalityDto firstLocality = localities.get(0);
     assertEquals(STALOWA_WOLA_LOCALITY, firstLocality.getName());
     assertEquals(0, firstLocality.getDistance());
 
     LocalityDto secondLocality = localities.get(1);
     assertEquals(PYSZNICA_LOCALITY, secondLocality.getName());
-    // TODO
-//    assertEquals(16, secondLocality.getDistance());
+    assertEquals(16, secondLocality.getDistance());
 
     LocalityDto thirdLocality = localities.get(2);
     assertEquals(ZAKLIKOW_LOCALITY, thirdLocality.getName());
-    // TODO
-    //    assertEquals(17, thirdLocality.getDistance());
+    assertEquals(17, thirdLocality.getDistance());
   }
 
   @Test

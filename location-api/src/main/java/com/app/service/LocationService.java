@@ -33,9 +33,10 @@ public class LocationService {
 
   public List<LocalityDto> createRequest(LocationResponse locationResponse) {
     LocalityDto baseLocality = findLocalityWithGivenName(locationResponse);
-    updateDistanceBetweenLocalities(baseLocality);
+    List<LocalityDto> localities = getLocalitiesMatchingGivenRadious(locationResponse.getRadius());
+    updateDistanceBetweenLocalities(localities, baseLocality);
 
-    return getLocalitiesMatchingGivenRadious(locationResponse.getRadius());
+    return localities;
   }
 
   private List<LocalityDto> getLocalitiesMatchingGivenRadious(int radious) {
@@ -46,10 +47,9 @@ public class LocationService {
         .collect(Collectors.toList());
   }
 
-  private void updateDistanceBetweenLocalities(LocalityDto baseLocalityDto) {
-    localityRepository.findAll()
+  private void updateDistanceBetweenLocalities(List<LocalityDto> localities, LocalityDto baseLocalityDto) {
+    localities
         .stream()
-        .map(ModelMapper::fromLocalityToLocalityDto)
         .peek(localityToCalc -> localityToCalc.setDistance(calculateDistanceBetweenLocations(baseLocalityDto, localityToCalc)))
         .map(ModelMapper::fromLocalityDtoToLocality)
         .forEach(localityRepository::save);
