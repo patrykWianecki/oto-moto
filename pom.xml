@@ -12,6 +12,7 @@
 
     <modules>
         <module>currency-api</module>
+        <module>location-api</module>
         <module>otomoto-client</module>
         <module>otomoto-service</module>
     </modules>
