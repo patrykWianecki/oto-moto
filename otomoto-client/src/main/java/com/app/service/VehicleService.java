@@ -1,76 +1,83 @@
 package com.app.service;
 
-import java.math.BigInteger;
-
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import com.app.model.Vehicle;
+import com.app.model.VehicleDto;
 
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-@Service
+import static org.springframework.http.HttpHeaders.*;
+import static org.springframework.http.MediaType.*;
+
 @RequiredArgsConstructor
+@Service
 public class VehicleService {
 
-    private final WebClient webClient;
+  private static final String URL = "http://localhost:8080/vehicles";
 
-    public VehicleService() {
-        webClient = WebClient.builder()
-            .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
-            .baseUrl("http://localhost:8080/vehicles")
-            .build();
-    }
+  private final WebClient webClient;
 
-    public Mono<Vehicle> addVehicle(final Vehicle vehicle) {
-        return webClient
-            .post()
-            .body(BodyInserters.fromValue(vehicle))
-            .retrieve()
-            .bodyToMono(Vehicle.class);
-    }
+  public VehicleService() {
+    webClient = WebClient.builder()
+        .defaultHeader(ACCEPT, APPLICATION_JSON_VALUE)
+        .baseUrl(URL)
+        .build();
+  }
 
-    public Mono<Vehicle> updateVehicle(final BigInteger id, final Vehicle vehicle) {
-        return webClient
-            .put()
-            .uri("/{id}", id)
-            .body(BodyInserters.fromValue(vehicle))
-            .retrieve()
-            .bodyToMono(Vehicle.class);
-    }
+  public Mono<ResponseEntity<VehicleDto>> addVehicle(final VehicleDto vehicle) {
+    return webClient
+        .post()
+        .body(BodyInserters.fromValue(vehicle))
+        .retrieve()
+        .bodyToMono(VehicleDto.class)
+        .map(ResponseEntity::ok);
+  }
 
-    public Mono<Vehicle> findVehicleById(final BigInteger id) {
-        return webClient
-            .get()
-            .uri("/{id}", id)
-            .retrieve()
-            .bodyToMono(Vehicle.class);
-    }
+  public Mono<ResponseEntity<VehicleDto>> updateVehicle(final String vehicleId, final VehicleDto vehicle) {
+    return webClient
+        .put()
+        .uri("/{vehicleId}", vehicleId)
+        .body(BodyInserters.fromValue(vehicle))
+        .retrieve()
+        .bodyToMono(VehicleDto.class)
+        .map(ResponseEntity::ok);
+  }
 
-    public Flux<Vehicle> findAllVehicles() {
-        return webClient
-            .get()
-            .retrieve()
-            .bodyToFlux(Vehicle.class);
-    }
+  public Mono<ResponseEntity<VehicleDto>> findVehicleById(final String vehicleId) {
+    return webClient
+        .get()
+        .uri("/{vehicleId}", vehicleId)
+        .retrieve()
+        .bodyToMono(VehicleDto.class)
+        .map(ResponseEntity::ok);
+  }
 
-    public Mono<Void> removeVehicleById(final BigInteger id) {
-        return webClient
-            .delete()
-            .uri("/{id}", id)
-            .retrieve()
-            .bodyToMono(Void.class);
-    }
+  public Flux<VehicleDto> findAllVehicles() {
+    return webClient
+        .get()
+        .retrieve()
+        .bodyToFlux(VehicleDto.class);
+  }
 
-    public Flux<Void> removeAllVehicles() {
-        return webClient
-            .delete()
-            .retrieve()
-            .bodyToFlux(Void.class);
-    }
+  public Mono<ResponseEntity<Void>> removeVehicleById(final String vehicleId) {
+    return webClient
+        .delete()
+        .uri("/{vehicleId}", vehicleId)
+        .retrieve()
+        .bodyToMono(Void.class)
+        .map(ResponseEntity::ok);
+  }
+
+  public Flux<ResponseEntity<Void>> removeAllVehicles() {
+    return webClient
+        .delete()
+        .retrieve()
+        .bodyToFlux(Void.class)
+        .map(ResponseEntity::ok);
+  }
 }
