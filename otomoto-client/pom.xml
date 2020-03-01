@@ -6,7 +6,6 @@
     <artifactId>otomoto-client</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>otomoto-client</name>
-    <description>Demo project for Spring Boot</description>
 
     <parent>
         <artifactId>otomoto</artifactId>
@@ -37,7 +36,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
-            <version>2.2.0.RELEASE</version>
+            <version>2.2.4.RELEASE</version>
         </dependency>
     </dependencies>
 
@@ -49,5 +48,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
