@@ -1,18 +1,16 @@
 package com.app.controller;
 
-import java.math.BigInteger;
-
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.app.exception.MyException;
-import com.app.model.Vehicle;
+import com.app.model.dto.VehicleDto;
 import com.app.service.VehicleService;
 
 import lombok.RequiredArgsConstructor;
@@ -24,59 +22,35 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/vehicles")
 public class VehicleController {
 
-    private final VehicleService vehicleService;
+  private final VehicleService vehicleService;
 
-    @PostMapping
-    public Mono<Vehicle> addVehicle(@RequestBody final Vehicle vehicle) {
-        try {
-            return vehicleService.addVehicle(vehicle);
-        } catch (Exception e) {
-            return Mono.error(new MyException("Failed to add new vehicle"));
-        }
-    }
+  @PostMapping
+  public Mono<ResponseEntity<VehicleDto>> addVehicle(@RequestBody final VehicleDto vehicle) {
+    return vehicleService.addVehicle(vehicle);
+  }
 
-    @PutMapping("/{id}")
-    public Mono<Vehicle> updateVehicle(@RequestBody final Vehicle vehicle) {
-        try {
-            return vehicleService.updateVehicle(vehicle);
-        } catch (Exception e) {
-            return Mono.error(new MyException("Failed to update vehicle with id " + vehicle.getId()));
-        }
-    }
+  @PutMapping
+  public Mono<ResponseEntity<VehicleDto>> updateVehicle(@RequestParam String vehicleId, @RequestBody final VehicleDto vehicleDto) {
+    return vehicleService.updateVehicle(vehicleId, vehicleDto);
+  }
 
-    @GetMapping("/{id}")
-    public Mono<Vehicle> findVehicleById(@PathVariable final BigInteger id) {
-        try {
-            return vehicleService.findVehicleById(id);
-        } catch (Exception e) {
-            return Mono.error(new MyException("Failed to find vehicle with id " + id));
-        }
-    }
+  @GetMapping
+  public Mono<ResponseEntity<VehicleDto>> findVehicleById(@RequestParam final String id) {
+    return vehicleService.findVehicleById(id);
+  }
 
-    @GetMapping
-    public Flux<Vehicle> findAllVehicles() {
-        try {
-            return vehicleService.findAllVehicles();
-        } catch (Exception e) {
-            return Flux.error(new MyException("Failed to find all vehicles"));
-        }
-    }
+  @GetMapping("/all")
+  public Flux<VehicleDto> findAllVehicles() {
+    return vehicleService.findAllVehicles();
+  }
 
-    @DeleteMapping("/{id}")
-    public Mono<Void> removeVehicleById(@PathVariable final BigInteger id) {
-        try {
-            return vehicleService.removeVehicleById(id);
-        } catch (Exception e) {
-            return Mono.error(new MyException("Failed to remove vehicle with id " + id));
-        }
-    }
+  @DeleteMapping
+  public Mono<ResponseEntity<Void>> removeVehicleById(@RequestParam final String id) {
+    return vehicleService.removeVehicleById(id);
+  }
 
-    @DeleteMapping
-    public Mono<Void> removeAllVehicles() {
-        try {
-            return vehicleService.removeAllVehicles();
-        } catch (Exception e) {
-            return Mono.error(new MyException("Failed to remove all vehicles"));
-        }
-    }
+  @DeleteMapping("/all")
+  public Mono<ResponseEntity<Void>> removeAllVehicles() {
+    return vehicleService.removeAllVehicles();
+  }
 }

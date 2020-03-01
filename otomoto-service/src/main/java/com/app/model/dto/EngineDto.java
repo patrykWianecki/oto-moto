@@ -14,9 +14,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class EngineDto {
 
-    private Double capacity;
-    private EmmisionClass emmisionClass;
-    private Fuel fuel;
-    private Double fuelConsumption;
-    private Integer power;
+  private Double capacity;
+  private EmmisionClass emmisionClass;
+  private Fuel fuel;
+  private Double fuelConsumption;
+  private Integer power;
 }

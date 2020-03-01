@@ -24,23 +24,23 @@ import lombok.NoArgsConstructor;
 @Builder
 public class VehicleDto {
 
-    private BigInteger id;
-    private Colour colour;
-    private Condition condition;
-    private String currency;
-    private Drive drive;
-    private Set<Feature> features;
-    private LocalDate firstRegistration;
-    private EngineDto engineDto;
-    private Gearbox gearbox;
-    private boolean isAccidentFree;
-    private boolean isDamaged;
-    private String location;
-    private Make make;
-    private Long mileage;
-    private String model;
-    private Integer numberOfSeats;
-    private Integer numberOfVehicleOwners;
-    private BigDecimal price;
-    private Type type;
+  private String id;
+  private Colour colour;
+  private Condition condition;
+  private String currency;
+  private Drive drive;
+  private Set<Feature> features;
+  private LocalDate firstRegistration;
+  private EngineDto engineDto;
+  private Gearbox gearbox;
+  private boolean isAccidentFree;
+  private boolean isDamaged;
+  private String location;
+  private Make make;
+  private Long mileage;
+  private String model;
+  private Integer numberOfSeats;
+  private Integer numberOfVehicleOwners;
+  private BigDecimal price;
+  private Type type;
 }
