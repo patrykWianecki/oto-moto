@@ -15,12 +15,12 @@ import lombok.NoArgsConstructor;
 @Document(collection = "users")
 public class User {
 
-    @Id
-    private Long id;
+  @Id
+  private Long id;
 
-    private String username;
-    private String password;
-    private Role role;
-    private String email;
-    private boolean isValid;
+  private String username;
+  private String password;
+  private Role role;
+  private String email;
+  private boolean isValid;
 }

@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class OtomotoServiceApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(OtomotoServiceApplication.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(OtomotoServiceApplication.class, args);
+  }
 }

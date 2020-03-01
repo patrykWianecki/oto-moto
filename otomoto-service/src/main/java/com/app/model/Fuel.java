@@ -1,9 +1,9 @@
 package com.app.model;
 
 public enum Fuel {
-    DIESEL,
-    ELECTRIC,
-    HYBRID,
-    LPG,
-    PETROL
+  DIESEL,
+  ELECTRIC,
+  HYBRID,
+  LPG,
+  PETROL
 }
