@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.app.model.LocationResponse;
 import com.app.service.LocationService;
 import com.app.validator.LocationValidator;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import static com.app.data.MockDataForTests.*;
@@ -93,8 +94,8 @@ class LocationControllerTest {
   private static String toJson(LocationResponse locationResponse) {
     try {
       return new ObjectMapper().writeValueAsString(locationResponse);
-    } catch (Exception e) {
-      throw new IllegalStateException("Failed to create json object");
+    } catch (JsonProcessingException e) {
+      throw new IllegalStateException("Failed to create json object", e);
     }
   }
 }
