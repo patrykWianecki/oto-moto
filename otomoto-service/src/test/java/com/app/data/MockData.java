@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.util.Set;
 
 import com.app.model.Engine;
-import com.app.model.Type;
 import com.app.model.Vehicle;
 import com.app.model.dto.EngineDto;
 import com.app.model.dto.VehicleDto;
@@ -18,6 +17,7 @@ import static com.app.model.Feature.*;
 import static com.app.model.Fuel.*;
 import static com.app.model.Gearbox.*;
 import static com.app.model.Make.*;
+import static com.app.model.Type.*;
 
 public class MockData {
 
@@ -41,7 +41,7 @@ public class MockData {
         .numberOfSeats(4)
         .numberOfVehicleOwners(0)
         .price(BigDecimal.valueOf(900000))
-        .type(Type.SEDAN)
+        .type(SEDAN)
         .build();
   }
 
@@ -75,7 +75,7 @@ public class MockData {
         .numberOfSeats(4)
         .numberOfVehicleOwners(0)
         .price(BigDecimal.valueOf(900000))
-        .type(Type.SEDAN)
+        .type(SEDAN)
         .build();
   }
 

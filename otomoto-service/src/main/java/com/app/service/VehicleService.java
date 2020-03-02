@@ -33,7 +33,8 @@ public class VehicleService {
         .map(ResponseEntity::ok);
   }
 
-  public Mono<ResponseEntity<VehicleDto>> updateVehicle(final String vehicleId, final VehicleDto vehicleDto) {
+  public Mono<ResponseEntity<VehicleDto>> updateVehicle(final String vehicleId,
+      final VehicleDto vehicleDto) {
     Optional.ofNullable(vehicleDto).orElseThrow(() -> new IllegalStateException("Missing vehicle"));
     return vehicleRepository.findById(vehicleId)
         .map(vehicle -> {

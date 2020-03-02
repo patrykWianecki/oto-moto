@@ -30,13 +30,14 @@ public class VehicleController {
   }
 
   @PutMapping
-  public Mono<ResponseEntity<VehicleDto>> updateVehicle(@RequestParam String vehicleId, @RequestBody final VehicleDto vehicleDto) {
+  public Mono<ResponseEntity<VehicleDto>> updateVehicle(@RequestParam String vehicleId,
+      @RequestBody final VehicleDto vehicleDto) {
     return vehicleService.updateVehicle(vehicleId, vehicleDto);
   }
 
   @GetMapping
-  public Mono<ResponseEntity<VehicleDto>> findVehicleById(@RequestParam final String id) {
-    return vehicleService.findVehicleById(id);
+  public Mono<ResponseEntity<VehicleDto>> findVehicleById(@RequestParam final String vehicleId) {
+    return vehicleService.findVehicleById(vehicleId);
   }
 
   @GetMapping("/all")
@@ -45,8 +46,8 @@ public class VehicleController {
   }
 
   @DeleteMapping
-  public Mono<ResponseEntity<Void>> removeVehicleById(@RequestParam final String id) {
-    return vehicleService.removeVehicleById(id);
+  public Mono<ResponseEntity<Void>> removeVehicleById(@RequestParam final String vehicleId) {
+    return vehicleService.removeVehicleById(vehicleId);
   }
 
   @DeleteMapping("/all")
