@@ -1,6 +1,7 @@
 package com.app.controller;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,7 +31,7 @@ public class LocationController {
     locationValidator.validateLocationResponse(locationResponse);
     List<LocalityDto> localities = locationService.createRequest(locationResponse);
 
-    if (localities.isEmpty()) {
+    if (Objects.isNull(localities) || localities.isEmpty()) {
       return ResponseEntity.noContent().build();
     }
 

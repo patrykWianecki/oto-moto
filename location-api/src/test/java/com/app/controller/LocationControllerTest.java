@@ -75,9 +75,26 @@ class LocationControllerTest {
   }
 
   @Test
-  void should_get_no_content_response() throws Exception {
+  void should_get_no_content_response_when_request_is_empty() throws Exception {
     // given
     when(locationService.createRequest(any(LocationResponse.class))).thenReturn(Collections.emptyList());
+    doNothing().when(locationValidator).validateLocationResponse(any());
+
+    // when + then
+    mockMvc
+        .perform(
+            get("/localities")
+                .content(toJson(createValidLocationResponse()))
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+        .andExpect(handler().methodName("getAvailableLocalities"))
+        .andExpect(status().isNoContent());
+  }
+
+  @Test
+  void should_get_no_content_response_when_request_is_null() throws Exception {
+    // given
+    when(locationService.createRequest(any(LocationResponse.class))).thenReturn(null);
     doNothing().when(locationValidator).validateLocationResponse(any());
 
     // when + then
