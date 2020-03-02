@@ -41,10 +41,11 @@ class LocationControllerTest {
   @Test
   void should_get_valid_currency_response() throws Exception {
     // given
-    when(locationService.createRequest(any(LocationResponse.class))).thenReturn(createLocalitiesDto());
+    when(locationService.createRequest(any(LocationResponse.class)))
+        .thenReturn(createLocalitiesDto());
     doNothing().when(locationValidator).validateLocationResponse(any());
 
-    // when + then
+    // when
     mockMvc
         .perform(
             get("/localities")
@@ -72,15 +73,19 @@ class LocationControllerTest {
         .andExpect(jsonPath("$[2].latitude", equalTo(10.11)))
         .andExpect(jsonPath("$[2].distance", equalTo(17)))
         .andReturn();
+
+    // then
+    verifyServices();
   }
 
   @Test
   void should_get_no_content_response_when_request_is_empty() throws Exception {
     // given
-    when(locationService.createRequest(any(LocationResponse.class))).thenReturn(Collections.emptyList());
+    when(locationService.createRequest(any(LocationResponse.class)))
+        .thenReturn(Collections.emptyList());
     doNothing().when(locationValidator).validateLocationResponse(any());
 
-    // when + then
+    // when
     mockMvc
         .perform(
             get("/localities")
@@ -89,6 +94,9 @@ class LocationControllerTest {
         )
         .andExpect(handler().methodName("getAvailableLocalities"))
         .andExpect(status().isNoContent());
+
+    // then
+    verifyServices();
   }
 
   @Test
@@ -97,7 +105,7 @@ class LocationControllerTest {
     when(locationService.createRequest(any(LocationResponse.class))).thenReturn(null);
     doNothing().when(locationValidator).validateLocationResponse(any());
 
-    // when + then
+    // when
     mockMvc
         .perform(
             get("/localities")
@@ -106,6 +114,14 @@ class LocationControllerTest {
         )
         .andExpect(handler().methodName("getAvailableLocalities"))
         .andExpect(status().isNoContent());
+
+    // then
+    verifyServices();
+  }
+
+  private void verifyServices() {
+    verify(locationService, times(1)).createRequest(any(LocationResponse.class));
+    verify(locationValidator, times(1)).validateLocationResponse(any(LocationResponse.class));
   }
 
   private static String toJson(LocationResponse locationResponse) {
