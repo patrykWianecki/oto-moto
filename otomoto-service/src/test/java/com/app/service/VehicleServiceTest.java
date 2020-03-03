@@ -34,6 +34,7 @@ import static com.app.model.Make.*;
 import static com.app.model.Type.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
+import static org.springframework.http.HttpStatus.*;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -65,18 +66,53 @@ public class VehicleServiceTest {
   }
 
   @Test
+  public void should_return_bad_request_when_add_vehicle_fails() {
+    // given
+    when(vehicleRepository.save(any(Vehicle.class))).thenReturn(Mono.empty());
+
+    // when
+    Mono<ResponseEntity<VehicleDto>> actualResponse = vehicleService.addVehicle(vehicleDto);
+
+    // then
+    StepVerifier
+        .create(actualResponse)
+        .expectNextMatches(response -> BAD_REQUEST.equals(response.getStatusCode()))
+        .expectComplete()
+        .verify();
+  }
+
+  @Test
   public void should_update_vehicle() {
     // given
     when(vehicleRepository.findById(anyString())).thenReturn(Mono.just(vehicle));
     when(vehicleRepository.save(any(Vehicle.class))).thenReturn(Mono.just(vehicle));
 
     // when
-    Mono<ResponseEntity<VehicleDto>> actualVehicle = vehicleService.updateVehicle("", vehicleDto);
+    Mono<ResponseEntity<VehicleDto>> actualResponse
+        = vehicleService.updateVehicle(VEHICLE_DTO_ID, vehicleDto);
 
     // then
     StepVerifier
-        .create(actualVehicle)
+        .create(actualResponse)
         .expectNextMatches(VehicleServiceTest::isResponseValid)
+        .expectComplete()
+        .verify();
+  }
+
+  @Test
+  public void should_return_bad_request_when_update_vehicle_fails() {
+    // given
+    when(vehicleRepository.findById(anyString())).thenReturn(Mono.empty());
+    when(vehicleRepository.save(any(Vehicle.class))).thenReturn(Mono.empty());
+
+    // when
+    Mono<ResponseEntity<VehicleDto>> actualResponse
+        = vehicleService.updateVehicle(VEHICLE_DTO_ID, vehicleDto);
+
+    // then
+    StepVerifier
+        .create(actualResponse)
+        .expectNextMatches(response -> BAD_REQUEST.equals(response.getStatusCode()))
         .expectComplete()
         .verify();
   }
@@ -87,12 +123,30 @@ public class VehicleServiceTest {
     when(vehicleRepository.findById(anyString())).thenReturn(Mono.just(vehicle));
 
     // when
-    Mono<ResponseEntity<VehicleDto>> actualVehicle = vehicleService.findVehicleById("");
+    Mono<ResponseEntity<VehicleDto>> actualResponse
+        = vehicleService.findVehicleById(VEHICLE_DTO_ID);
 
     // then
     StepVerifier
-        .create(actualVehicle)
+        .create(actualResponse)
         .expectNextMatches(VehicleServiceTest::isResponseValid)
+        .expectComplete()
+        .verify();
+  }
+
+  @Test
+  public void should_return_bad_request_when_find_vehicle_by_id_fails() {
+    // given
+    when(vehicleRepository.findById(anyString())).thenReturn(Mono.empty());
+
+    // when
+    Mono<ResponseEntity<VehicleDto>> actualResponse
+        = vehicleService.findVehicleById(VEHICLE_DTO_ID);
+
+    // then
+    StepVerifier
+        .create(actualResponse)
+        .expectNextMatches(response -> BAD_REQUEST.equals(response.getStatusCode()))
         .expectComplete()
         .verify();
   }
@@ -119,13 +173,12 @@ public class VehicleServiceTest {
     when(vehicleRepository.deleteById(anyString())).thenReturn(Mono.empty());
 
     // when
-    Mono<ResponseEntity<Void>> actualVehicles = vehicleService.removeVehicleById("");
+    Mono<ResponseEntity<Void>> actualResponse = vehicleService.removeVehicleById(VEHICLE_DTO_ID);
 
     // then
     StepVerifier
-        .create(actualVehicles)
-        .expectComplete()
-        .verify();
+        .create(actualResponse)
+        .verifyComplete();
   }
 
   @Test
@@ -134,14 +187,12 @@ public class VehicleServiceTest {
     when(vehicleRepository.deleteAll()).thenReturn(Mono.empty());
 
     // when
-    Mono<ResponseEntity<Void>> actualVehicles = vehicleService.removeAllVehicles();
+    Mono<ResponseEntity<Void>> actualResponse = vehicleService.removeAllVehicles();
 
     // then
     StepVerifier
-        .create(actualVehicles)
-        .expectNext()
-        .expectComplete()
-        .verify();
+        .create(actualResponse)
+        .verifyComplete();
   }
 
   private static boolean isResponseValid(final ResponseEntity<VehicleDto> response) {

@@ -30,7 +30,8 @@ public class VehicleService {
     return Mono.just(fromVehicleDtoToVehicle(vehicleDto))
         .flatMap(vehicleRepository::save)
         .map(ModelMapper::fromVehicleToVehicleDto)
-        .map(ResponseEntity::ok);
+        .map(ResponseEntity::ok)
+        .defaultIfEmpty(ResponseEntity.badRequest().build());
   }
 
   public Mono<ResponseEntity<VehicleDto>> updateVehicle(final String vehicleId,
@@ -61,7 +62,8 @@ public class VehicleService {
         })
         .flatMap(vehicleRepository::save)
         .map(ModelMapper::fromVehicleToVehicleDto)
-        .map(ResponseEntity::ok);
+        .map(ResponseEntity::ok)
+        .defaultIfEmpty(ResponseEntity.badRequest().build());
   }
 
   private static Engine createEngine(VehicleDto vehicleDto) {
