@@ -46,6 +46,7 @@ public class VehicleService {
           vehicle.setDrive(vehicleDto.getDrive());
           vehicle.setEngine(createEngine(vehicleDto));
           vehicle.setFeatures(vehicleDto.getFeatures());
+          vehicle.setDateOfProduction(vehicleDto.getDateOfProduction());
           vehicle.setFirstRegistration(vehicleDto.getFirstRegistration());
           vehicle.setGearbox(vehicleDto.getGearbox());
           vehicle.setAccidentFree(vehicleDto.isAccidentFree());

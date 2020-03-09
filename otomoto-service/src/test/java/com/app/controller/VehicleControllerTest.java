@@ -26,6 +26,9 @@ import static org.mockito.Mockito.*;
 @Import(VehicleService.class)
 class VehicleControllerTest {
 
+  private static final String VEHICLES_MAPPING = "/vehicles";
+  private static final String ID_QUERY = "vehicleId";
+
   @MockBean
   private VehicleRepository vehicleRepository;
 
@@ -43,7 +46,7 @@ class VehicleControllerTest {
     // when
     webTestClient
         .get()
-        .uri("/vehicles/all")
+        .uri(VEHICLES_MAPPING + "/all")
         .exchange()
         .expectStatus()
         .isOk()
@@ -63,14 +66,34 @@ class VehicleControllerTest {
     webTestClient
         .get()
         .uri(uriBuilder -> uriBuilder
-            .path("/vehicles")
-            .queryParam("vehicleId", "71623v12hvk1j2")
+            .path(VEHICLES_MAPPING)
+            .queryParam(ID_QUERY, VEHICLE_ID)
             .build())
         .exchange()
         .expectStatus()
         .isOk()
         .expectBody()
         .json(createValidResponse());
+
+    // then
+    verify(vehicleRepository, times(1)).findById(anyString());
+  }
+
+  @Test
+  void should_return_bad_request_when_find_vehicle_by_id_fails() {
+    // given
+    when(vehicleRepository.findById(anyString())).thenReturn(Mono.empty());
+
+    // when
+    webTestClient
+        .get()
+        .uri(uriBuilder -> uriBuilder
+            .path(VEHICLES_MAPPING)
+            .queryParam(ID_QUERY, VEHICLE_ID)
+            .build())
+        .exchange()
+        .expectStatus()
+        .isBadRequest();
 
     // then
     verify(vehicleRepository, times(1)).findById(anyString());
@@ -84,13 +107,31 @@ class VehicleControllerTest {
     // when
     webTestClient
         .post()
-        .uri("/vehicles")
+        .uri(VEHICLES_MAPPING)
         .body(BodyInserters.fromValue(vehicleDto))
         .exchange()
         .expectStatus()
         .isOk()
         .expectBody()
         .json(createValidResponse());
+
+    // then
+    verify(vehicleRepository, times(1)).save(any(Vehicle.class));
+  }
+
+  @Test
+  void should_return_bad_request_when_add_new_vehicle_fails() {
+    // given
+    when(vehicleRepository.save(any(Vehicle.class))).thenReturn(Mono.empty());
+
+    // when
+    webTestClient
+        .post()
+        .uri(VEHICLES_MAPPING)
+        .body(BodyInserters.fromValue(vehicleDto))
+        .exchange()
+        .expectStatus()
+        .isBadRequest();
 
     // then
     verify(vehicleRepository, times(1)).save(any(Vehicle.class));
@@ -106,18 +147,41 @@ class VehicleControllerTest {
     webTestClient
         .put()
         .uri(uriBuilder -> uriBuilder
-            .path("/vehicles")
-            .queryParam("vehicleId", "71623v12hvk1j2")
+            .path(VEHICLES_MAPPING)
+            .queryParam(ID_QUERY, VEHICLE_ID)
             .build())
         .body(BodyInserters.fromValue(vehicleDto))
         .exchange()
-        //          .expectStatus()
-        //          .isOk()
+        .expectStatus()
+        .isOk()
         .expectBody();
 
     // then
     verify(vehicleRepository, times(1)).findById(anyString());
     verify(vehicleRepository, times(1)).save(any(Vehicle.class));
+  }
+
+  @Test
+  void should_return_bad_request_when_update_existing_vehicle_fails() {
+    // given
+    when(vehicleRepository.findById(anyString())).thenReturn(Mono.empty());
+    when(vehicleRepository.save(any(Vehicle.class))).thenReturn(Mono.empty());
+
+    // when
+    webTestClient
+        .put()
+        .uri(uriBuilder -> uriBuilder
+            .path(VEHICLES_MAPPING)
+            .queryParam(ID_QUERY, VEHICLE_ID)
+            .build())
+        .body(BodyInserters.fromValue(vehicleDto))
+        .exchange()
+        .expectStatus()
+        .isBadRequest();
+
+    // then
+    verify(vehicleRepository, times(1)).findById(anyString());
+    verify(vehicleRepository, never()).save(any(Vehicle.class));
   }
 
   @Test
@@ -129,8 +193,8 @@ class VehicleControllerTest {
     webTestClient
         .delete()
         .uri(uriBuilder -> uriBuilder
-            .path("/vehicles")
-            .queryParam("vehicleId", "71623v12hvk1j2")
+            .path(VEHICLES_MAPPING)
+            .queryParam(ID_QUERY, VEHICLE_ID)
             .build())
         .exchange()
         .expectStatus()
@@ -148,47 +212,12 @@ class VehicleControllerTest {
     // when
     webTestClient
         .delete()
-        .uri("/vehicles/all")
+        .uri(VEHICLES_MAPPING + "/all")
         .exchange()
         .expectStatus()
         .isOk();
 
     // then
     verify(vehicleRepository, times(1)).deleteAll();
-  }
-
-  private static String createValidResponse() {
-    return """
-        {
-          "id": "71623v12hvk1j2",
-          "colour": "BLACK",
-          "condition": "NEW",
-          "currency": "PLN",
-          "drive": "ALL_WHEEL_DRIVE",
-          "features": [
-            "ASR",
-            "ESP",
-            "ABS"
-          ],
-          "firstRegistration": "2020-01-01",
-          "engineDto": {
-            "capacity": 4.0,
-            "emmisionClass": "EURO_6",
-            "fuel": "PETROL",
-            "fuelConsumption": 15.0,
-            "power": 612
-          },
-          "gearbox": "AUTOMATIC",
-          "location": "Warsaw",
-          "make": "BMW",
-          "mileage": 0,
-          "model": "E-Class",
-          "numberOfSeats": 4,
-          "numberOfVehicleOwners": 0,
-          "price": 900000,
-          "type": "SEDAN",
-          "accidentFree": true,
-          "damaged": false
-        }""";
   }
 }

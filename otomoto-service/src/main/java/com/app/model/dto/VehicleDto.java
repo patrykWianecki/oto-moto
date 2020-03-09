@@ -30,6 +30,7 @@ public class VehicleDto {
   private String currency;
   private Drive drive;
   private Set<Feature> features;
+  private LocalDate dateOfProduction;
   private LocalDate firstRegistration;
   private EngineDto engineDto;
   private Gearbox gearbox;

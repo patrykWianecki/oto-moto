@@ -31,6 +31,8 @@ public class VehicleDto {
   private EngineDto engine;
   private Set<Feature> features;
   @JsonFormat(pattern = "yyyy-MM-dd")
+  private LocalDate dateOfProduction;
+  @JsonFormat(pattern = "yyyy-MM-dd")
   private LocalDate firstRegistration;
   private Gearbox gearbox;
   private boolean isAccidentFree;
