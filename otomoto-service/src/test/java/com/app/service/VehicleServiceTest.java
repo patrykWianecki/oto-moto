@@ -1,18 +1,18 @@
 package com.app.service;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Set;
 
+import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit4.SpringRunner;
 
+import com.app.model.Generation.Mercedes.SClass;
+import com.app.model.Model;
 import com.app.model.Vehicle;
 import com.app.model.dto.EngineDto;
 import com.app.model.dto.VehicleDto;
@@ -22,7 +22,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
-import static com.app.data.MockData.*;
+import static com.app.data.MockDataForTests.*;
 import static com.app.model.Colour.*;
 import static com.app.model.Condition.*;
 import static com.app.model.Drive.*;
@@ -36,9 +36,10 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.http.HttpStatus.*;
 
-@SpringBootTest
-@RunWith(SpringRunner.class)
 public class VehicleServiceTest {
+
+  @Rule
+  public MockitoRule rule = MockitoJUnit.rule();
 
   @Mock
   private VehicleRepository vehicleRepository;
@@ -203,30 +204,34 @@ public class VehicleServiceTest {
   private static boolean isVehicleValid(VehicleDto vehicleDto) {
     return BLACK.equals(vehicleDto.getColour()) &&
         NEW.equals(vehicleDto.getCondition()) &&
-        "PLN".equals(vehicleDto.getCurrency()) &&
+        CURRENCY_PLN.equals(vehicleDto.getCurrency()) &&
+        dateOfProduction.isEqual(vehicleDto.getDateOfProduction()) &&
         ALL_WHEEL_DRIVE.equals(vehicleDto.getDrive()) &&
         isEngineValid(vehicleDto.getEngineDto()) &&
         Set.of(ABS, ASR, ESP).containsAll(vehicleDto.getFeatures()) &&
-        LocalDate.of(2020, 1, 1).isEqual(vehicleDto.getFirstRegistration()) &&
+        dateOfFirstRegistration.isEqual(vehicleDto.getFirstRegistration()) &&
         AUTOMATIC.equals(vehicleDto.getGearbox()) &&
+        SClass.W222.name().equals(vehicleDto.getGeneration()) &&
         vehicleDto.isAccidentFree() &&
         !vehicleDto.isDamaged() &&
-        "Warsaw".equals(vehicleDto.getLocation()) &&
-        BMW.equals(vehicleDto.getMake()) &&
-        0 == vehicleDto.getMileage() &&
-        "E-Class".equals(vehicleDto.getModel()) &&
-        4 == vehicleDto.getNumberOfSeats() &&
-        0 == vehicleDto.getNumberOfVehicleOwners() &&
-        BigDecimal.valueOf(900000).equals(vehicleDto.getPrice()) &&
-        SEDAN.equals(vehicleDto.getType());
+        !vehicleDto.isPriceNegotiable() &&
+        LOCATION_WARSAW.equals(vehicleDto.getLocation()) &&
+        MERCEDES.equals(vehicleDto.getMake()) &&
+        MILEAGE.equals(vehicleDto.getMileage()) &&
+        Model.Mercedes.SCLASS.name().equals(vehicleDto.getModel()) &&
+        NUMBER_OF_SEATS.equals(vehicleDto.getNumberOfSeats()) &&
+        NUMBER_OF_VEHICLE_OWNERS.equals(vehicleDto.getNumberOfVehicleOwners()) &&
+        PRICE.equals(vehicleDto.getPrice()) &&
+        SEDAN.equals(vehicleDto.getType()) &&
+        VIN.equals(vehicleDto.getVin());
   }
 
   private static boolean isEngineValid(final EngineDto engineDto) {
     return Objects.nonNull(engineDto) &&
-        4.0 == engineDto.getCapacity() &&
+        CAPACITY.equals(engineDto.getCapacity()) &&
         EURO_6.equals(engineDto.getEmmisionClass()) &&
         PETROL.equals(engineDto.getFuel()) &&
-        15.0 == engineDto.getFuelConsumption() &&
-        612 == engineDto.getPower();
+        FUEL_CONSUMPTION.equals(engineDto.getFuelConsumption()) &&
+        POWER.equals(engineDto.getPower());
   }
 }

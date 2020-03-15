@@ -1,7 +1,6 @@
 package com.app.model.dto;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -15,10 +14,12 @@ import com.app.model.Type;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -28,14 +29,16 @@ public class VehicleDto {
   private Colour colour;
   private Condition condition;
   private String currency;
-  private Drive drive;
-  private Set<Feature> features;
   private LocalDate dateOfProduction;
-  private LocalDate firstRegistration;
+  private Drive drive;
   private EngineDto engineDto;
+  private Set<Feature> features;
+  private LocalDate firstRegistration;
   private Gearbox gearbox;
+  private String generation;
   private boolean isAccidentFree;
   private boolean isDamaged;
+  private boolean isPriceNegotiable;
   private String location;
   private Make make;
   private Long mileage;
@@ -44,4 +47,5 @@ public class VehicleDto {
   private Integer numberOfVehicleOwners;
   private BigDecimal price;
   private Type type;
+  private String vin;
 }

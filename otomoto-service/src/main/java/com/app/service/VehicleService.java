@@ -43,22 +43,25 @@ public class VehicleService {
           vehicle.setColour(vehicleDto.getColour());
           vehicle.setCondition(vehicleDto.getCondition());
           vehicle.setCurrency(vehicleDto.getCurrency());
+          vehicle.setDateOfProduction(vehicleDto.getDateOfProduction());
           vehicle.setDrive(vehicleDto.getDrive());
           vehicle.setEngine(createEngine(vehicleDto));
           vehicle.setFeatures(vehicleDto.getFeatures());
-          vehicle.setDateOfProduction(vehicleDto.getDateOfProduction());
           vehicle.setFirstRegistration(vehicleDto.getFirstRegistration());
           vehicle.setGearbox(vehicleDto.getGearbox());
+          vehicle.setGeneration(vehicleDto.getGeneration());
           vehicle.setAccidentFree(vehicleDto.isAccidentFree());
           vehicle.setDamaged(vehicleDto.isDamaged());
+          vehicle.setPriceNegotiable(vehicleDto.isPriceNegotiable());
           vehicle.setLocation(vehicleDto.getLocation());
           vehicle.setMake(vehicleDto.getMake());
           vehicle.setMileage(vehicleDto.getMileage());
           vehicle.setModel(vehicleDto.getModel());
           vehicle.setNumberOfSeats(vehicleDto.getNumberOfSeats());
-          vehicle.setNumberOfSeats(vehicleDto.getNumberOfSeats());
+          vehicle.setNumberOfVehicleOwners(vehicleDto.getNumberOfVehicleOwners());
           vehicle.setPrice(vehicleDto.getPrice());
           vehicle.setType(vehicleDto.getType());
+          vehicle.setVin(vehicleDto.getVin());
           return vehicle;
         })
         .flatMap(vehicleRepository::save)
