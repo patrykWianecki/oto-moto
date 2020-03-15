@@ -1,5 +1,6 @@
 package com.app.controller;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +15,12 @@ import com.app.model.Vehicle;
 import com.app.model.dto.VehicleDto;
 import com.app.repository.VehicleRepository;
 import com.app.service.VehicleService;
+import com.app.validator.VehicleValidator;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import static com.app.data.MockData.*;
+import static com.app.data.MockDataForTests.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
@@ -30,6 +32,8 @@ class VehicleControllerTest {
   private static final String ID_QUERY = "vehicleId";
 
   @MockBean
+  private VehicleValidator vehicleValidator;
+  @MockBean
   private VehicleRepository vehicleRepository;
 
   @Autowired
@@ -37,6 +41,11 @@ class VehicleControllerTest {
 
   private Vehicle vehicle = createVehicle();
   private VehicleDto vehicleDto = createVehicleDto();
+
+  @BeforeEach
+  public void setUp() {
+    when(vehicleValidator.supports(eq(VehicleDto.class))).thenReturn(true);
+  }
 
   @Test
   void should_find_all_vehicles() {

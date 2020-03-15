@@ -2,14 +2,15 @@ package com.app.validator;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.Arrays;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.EnumUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -20,13 +21,21 @@ import com.app.model.EmmisionClass;
 import com.app.model.Feature;
 import com.app.model.Fuel;
 import com.app.model.Gearbox;
+import com.app.model.Generation;
 import com.app.model.Make;
+import com.app.model.Model;
 import com.app.model.Type;
 import com.app.model.dto.EngineDto;
 import com.app.model.dto.VehicleDto;
 
-import static java.math.BigDecimal.*;
+import lombok.NoArgsConstructor;
 
+import static java.math.BigDecimal.*;
+import static java.util.Objects.*;
+import static org.apache.commons.lang3.EnumUtils.*;
+import static org.apache.commons.lang3.StringUtils.*;
+
+@NoArgsConstructor
 public class VehicleValidator implements Validator {
 
   @Override
@@ -38,77 +47,131 @@ public class VehicleValidator implements Validator {
   public void validate(final Object o, final Errors errors) {
     VehicleDto vehicleDto = (VehicleDto) o;
 
-    if (!StringUtils.isNotBlank(vehicleDto.getId())) {
-      throw new IllegalArgumentException("Vehicle id is missing");
-    }
-    if (!EnumUtils.isValidEnum(Colour.class, vehicleDto.getColour().name())) {
+    Colour colour = vehicleDto.getColour();
+    if (isNull(colour) || !isValidEnum(Colour.class, colour.name())) {
       throw new IllegalArgumentException("Vehicle colour is missing");
     }
-    if (!EnumUtils.isValidEnum(Condition.class, vehicleDto.getCondition().name())) {
+
+    Condition condition = vehicleDto.getCondition();
+    if (isNull(condition) || !isValidEnum(Condition.class, condition.name())) {
       throw new IllegalArgumentException("Vehicle condition does not exist");
     }
-    if (!StringUtils.isNotBlank(vehicleDto.getCurrency())) {
+
+    if (!isNotBlank(vehicleDto.getCurrency())) {
       throw new IllegalArgumentException("Vehicle currency is missing");
     }
-    if (!EnumUtils.isValidEnum(Drive.class, vehicleDto.getDrive().name())) {
-      throw new IllegalArgumentException("Vehicle drive does not exist");
-    }
-
-    validateFeatures(vehicleDto.getFeatures());
 
     LocalDate dateOfProduction = vehicleDto.getDateOfProduction();
-    if (Objects.isNull(dateOfProduction)) {
+    if (isNull(dateOfProduction)) {
       throw new IllegalArgumentException("Production date has incorrect value");
     }
 
-    LocalDate firstRegistration = vehicleDto.getFirstRegistration();
-    if (Objects.isNull(firstRegistration) || firstRegistration.isBefore(dateOfProduction)) {
-      throw new IllegalArgumentException("First registration date has incorrect value");
+    Drive drive = vehicleDto.getDrive();
+    if (isNull(drive) || !isValidEnum(Drive.class, drive.name())) {
+      throw new IllegalArgumentException("Vehicle drive does not exist");
     }
 
     validateEngine(vehicleDto.getEngineDto());
+    validateFeatures(vehicleDto.getFeatures());
 
-    if (!EnumUtils.isValidEnum(Gearbox.class, vehicleDto.getGearbox().name())) {
+    LocalDate firstRegistration = vehicleDto.getFirstRegistration();
+    if (isNull(firstRegistration) || firstRegistration.isBefore(dateOfProduction)) {
+      throw new IllegalArgumentException("First registration date has incorrect value");
+    }
+
+    Gearbox gearbox = vehicleDto.getGearbox();
+    if (isNull(gearbox) || !isValidEnum(Gearbox.class, gearbox.name())) {
       throw new IllegalArgumentException("Vehicle gearbox is missing");
     }
 
-    if (StringUtils.isEmpty(vehicleDto.getLocation())) {
-      throw new IllegalArgumentException("Vehicle location is missing");
-    }
-    if (!EnumUtils.isValidEnum(Make.class, vehicleDto.getMake().name())) {
+    Make make = vehicleDto.getMake();
+    if (isNull(make) || !isValidEnum(Make.class, make.name())) {
       throw new IllegalArgumentException("Vehicle make is missing");
     }
 
+    String model = vehicleDto.getModel();
+    if (!isNotBlank(model)) {
+      throw new IllegalArgumentException("Vehicle model is missing");
+    } else if (!doesModelExist(make, model)) {
+      throw new IllegalArgumentException("Given model does not exist");
+    }
+
+    String generation = vehicleDto.getGeneration();
+    if (!isNotBlank(generation)) {
+      throw new IllegalArgumentException("Generation is not valid");
+    } else if (!doesGenerationExist(make, model, generation)) {
+      throw new IllegalArgumentException("Given generation does not exist");
+    }
+
+    if (isEmpty(vehicleDto.getLocation())) {
+      throw new IllegalArgumentException("Vehicle location is missing");
+    }
+
     Long mileage = vehicleDto.getMileage();
-    if (Objects.isNull(mileage) || mileage < 0) {
+    if (isNull(mileage) || mileage < 0) {
       throw new IllegalArgumentException("Mileage has incorrect value");
     }
 
-    if (Objects.isNull(vehicleDto.getModel())) {
-      throw new IllegalArgumentException("Vehicle model is missing");
-    }
-
     Integer numberOfSeats = vehicleDto.getNumberOfSeats();
-    if (Objects.isNull(numberOfSeats) || numberOfSeats < 1) {
+    if (isNull(numberOfSeats) || numberOfSeats < 1) {
       throw new IllegalArgumentException("Number of seats has incorrect value");
     }
 
     Integer numberOfVehicleOwners = vehicleDto.getNumberOfVehicleOwners();
-    if (Objects.isNull(numberOfVehicleOwners) || numberOfVehicleOwners < 0) {
+    if (isNull(numberOfVehicleOwners) || numberOfVehicleOwners < 0) {
       throw new IllegalArgumentException("Number of vehicle owners has incorrect valueo");
     }
 
     BigDecimal price = vehicleDto.getPrice();
-    if (Objects.isNull(price) || price.compareTo(ONE) <= 0) {
+    if (isNull(price) || price.compareTo(ONE) <= 0) {
       throw new IllegalArgumentException("Price has incorrect value");
     }
-    if (!EnumUtils.isValidEnum(Type.class, vehicleDto.getType().name())) {
+
+    Type type = vehicleDto.getType();
+    if (isNull(type) || !isValidEnum(Type.class, type.name())) {
       throw new IllegalArgumentException("Vehicle is missing");
+    }
+
+    String vin = vehicleDto.getVin();
+    if (!isNotBlank(vin)) {
+      throw new IllegalArgumentException("Vehicle vin is missing");
+    }
+    // TODO VIN validation
+  }
+
+  private static void validateEngine(EngineDto engineDto) {
+    if (isNull(engineDto)) {
+      throw new IllegalArgumentException("Missing vehicle engine");
+    }
+
+    Double capacity = engineDto.getCapacity();
+    if (isNull(capacity) || capacity <= 0.0) {
+      throw new IllegalArgumentException("Engine capacity has incorrect value");
+    }
+
+    EmmisionClass emmisionClass = engineDto.getEmmisionClass();
+    if (isNull(emmisionClass) || !isValidEnum(EmmisionClass.class, emmisionClass.name())) {
+      throw new IllegalArgumentException("Emission class does not exist");
+    }
+
+    Fuel fuel = engineDto.getFuel();
+    if (isNull(fuel) || !isValidEnum(Fuel.class, fuel.name())) {
+      throw new IllegalArgumentException("Fuel type does not exist");
+    }
+
+    Double fuelConsumption = engineDto.getFuelConsumption();
+    if (isNull(fuelConsumption) || fuelConsumption <= 0.0) {
+      throw new IllegalArgumentException("Engine fuel consumption has incorrect value");
+    }
+
+    Integer power = engineDto.getPower();
+    if (isNull(power) || power <= 0) {
+      throw new IllegalArgumentException("Engine power has incorrect value");
     }
   }
 
   private static void validateFeatures(Set<Feature> features) {
-    if (CollectionUtils.isNotEmpty(features)) {
+    if (!CollectionUtils.isNotEmpty(features)) {
       throw new IllegalArgumentException("Vehicle has no features");
     }
 
@@ -124,30 +187,29 @@ public class VehicleValidator implements Validator {
         .containsAll(features);
   }
 
-  private static void validateEngine(EngineDto engineDto) {
-    if (Objects.isNull(engineDto)) {
-      throw new IllegalArgumentException("Missing vehicle engine");
-    }
+  private static boolean doesModelExist(Make make, String model) {
+    return Arrays.stream(Model.class.getDeclaredClasses())
+        .filter(aClass -> make.value.equalsIgnoreCase(aClass.getSimpleName()))
+        .flatMap(aClass -> Arrays.stream(aClass.getEnumConstants()))
+        .map(Object::toString)
+        .anyMatch(model::equalsIgnoreCase);
+  }
 
-    Double capacity = engineDto.getCapacity();
-    if (Objects.isNull(capacity) || capacity <= 0.0) {
-      throw new IllegalArgumentException("Engine capacity has incorrect value");
+  private static boolean doesGenerationExist(Make make, String model, String generation) {
+    if (doesMakeExistInGenerations(make.value)) {
+      return Arrays.stream(Generation.class.getDeclaredClasses())
+          .filter(aClass -> make.value.equalsIgnoreCase(aClass.getSimpleName()))
+          .flatMap(aClass -> Arrays.stream(aClass.getDeclaredClasses()))
+          .filter(aClass -> model.equalsIgnoreCase(aClass.getSimpleName()))
+          .flatMap(aClass -> Arrays.stream(aClass.getEnumConstants()))
+          .anyMatch(o -> generation.equalsIgnoreCase(o.toString()));
     }
-    if (!EnumUtils.isValidEnum(EmmisionClass.class, engineDto.getEmmisionClass().name())) {
-      throw new IllegalArgumentException("Emission class does not exist");
-    }
-    if (!EnumUtils.isValidEnum(Fuel.class, engineDto.getFuel().name())) {
-      throw new IllegalArgumentException("Fuel type does not exist");
-    }
+    return false;
+  }
 
-    Double fuelConsumption = engineDto.getFuelConsumption();
-    if (Objects.isNull(fuelConsumption) || fuelConsumption <= 0.0) {
-      throw new IllegalArgumentException("Engine fuel consumption has incorrect value");
-    }
-
-    Integer power = engineDto.getPower();
-    if (Objects.isNull(power) || power <= 0) {
-      throw new IllegalArgumentException("Engine power has incorrect value");
-    }
+  private static boolean doesMakeExistInGenerations(String make) {
+    return Stream.of(Generation.class.getDeclaredClasses())
+        .map(Class::getSimpleName)
+        .anyMatch(make::equals);
   }
 }
