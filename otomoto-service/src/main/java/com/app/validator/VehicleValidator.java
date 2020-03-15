@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -35,7 +36,7 @@ import static java.util.Objects.*;
 import static org.apache.commons.lang3.EnumUtils.*;
 import static org.apache.commons.lang3.StringUtils.*;
 
-@NoArgsConstructor
+@Component
 public class VehicleValidator implements Validator {
 
   @Override
