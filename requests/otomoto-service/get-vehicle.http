@@ -1,0 +1,9 @@
+# GET ALL VEHICLES
+GET http://localhost:8080/vehicles/all
+
+###
+
+# GET VEHICLE BY ID
+GET http://localhost:8080/vehicles?vehicleId={vehicleId}
+
+###
