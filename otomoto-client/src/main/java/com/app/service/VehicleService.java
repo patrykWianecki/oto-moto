@@ -19,6 +19,8 @@ import static org.springframework.http.MediaType.*;
 public class VehicleService {
 
   private static final String URL = "http://localhost:8080/vehicles";
+  private static final String VEHICLE_ID_PARAM = "?vehicleId={vehicleId}";
+  private static final String ALL = "/all";
 
   private final WebClient webClient;
 
@@ -29,20 +31,21 @@ public class VehicleService {
         .build();
   }
 
-  public Mono<ResponseEntity<VehicleDto>> addVehicle(final VehicleDto vehicle) {
+  public Mono<ResponseEntity<VehicleDto>> addVehicle(final VehicleDto vehicleDto) {
     return webClient
         .post()
-        .body(BodyInserters.fromValue(vehicle))
+        .body(BodyInserters.fromValue(vehicleDto))
         .retrieve()
         .bodyToMono(VehicleDto.class)
         .map(ResponseEntity::ok);
   }
 
-  public Mono<ResponseEntity<VehicleDto>> updateVehicle(final String vehicleId, final VehicleDto vehicle) {
+  public Mono<ResponseEntity<VehicleDto>> updateVehicle(final String vehicleId,
+      final VehicleDto vehicleDto) {
     return webClient
         .put()
-        .uri("/{vehicleId}", vehicleId)
-        .body(BodyInserters.fromValue(vehicle))
+        .uri(VEHICLE_ID_PARAM, vehicleId)
+        .body(BodyInserters.fromValue(vehicleDto))
         .retrieve()
         .bodyToMono(VehicleDto.class)
         .map(ResponseEntity::ok);
@@ -51,7 +54,7 @@ public class VehicleService {
   public Mono<ResponseEntity<VehicleDto>> findVehicleById(final String vehicleId) {
     return webClient
         .get()
-        .uri("/{vehicleId}", vehicleId)
+        .uri(VEHICLE_ID_PARAM, vehicleId)
         .retrieve()
         .bodyToMono(VehicleDto.class)
         .map(ResponseEntity::ok);
@@ -60,6 +63,7 @@ public class VehicleService {
   public Flux<VehicleDto> findAllVehicles() {
     return webClient
         .get()
+        .uri(ALL)
         .retrieve()
         .bodyToFlux(VehicleDto.class);
   }
@@ -67,7 +71,7 @@ public class VehicleService {
   public Mono<ResponseEntity<Void>> removeVehicleById(final String vehicleId) {
     return webClient
         .delete()
-        .uri("/{vehicleId}", vehicleId)
+        .uri(VEHICLE_ID_PARAM, vehicleId)
         .retrieve()
         .bodyToMono(Void.class)
         .map(ResponseEntity::ok);
@@ -76,6 +80,7 @@ public class VehicleService {
   public Flux<ResponseEntity<Void>> removeAllVehicles() {
     return webClient
         .delete()
+        .uri(ALL)
         .retrieve()
         .bodyToFlux(Void.class)
         .map(ResponseEntity::ok);
