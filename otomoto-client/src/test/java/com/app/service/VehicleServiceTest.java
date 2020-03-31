@@ -37,11 +37,11 @@ public class VehicleServiceTest {
   private static final int OK_STATUS_CODE = 200;
   private static final VehicleDto vehicleDto = createVehicleDto();
 
-  private final MockWebServer mockWebServer = new MockWebServer();
   private final String PATH_VEHICLES = "/vehicles";
-  private final String PATH = "http://localhost:" + mockWebServer.getPort() + PATH_VEHICLES;
-  private final String PATH_PARAM = "?vehicleId=" + VEHICLE_DTO_ID;
+  private final String PATH_VEHICLE_ID = "?vehicleId=" + VEHICLE_DTO_ID;
   private final String PATH_ALL = "/all";
+  private final MockWebServer mockWebServer = new MockWebServer();
+  private final String PATH = "http://localhost:" + mockWebServer.getPort() + PATH_VEHICLES;
   private final JacksonConfiguration jacksonConfiguration = new JacksonConfiguration();
 
   @AfterEach
@@ -89,7 +89,7 @@ public class VehicleServiceTest {
     // then
     RecordedRequest recordedRequest = mockWebServer.takeRequest();
     assertEquals(PUT.name(), recordedRequest.getMethod());
-    assertEquals(PATH_VEHICLES + PATH_PARAM, recordedRequest.getPath());
+    assertEquals(PATH_VEHICLES + PATH_VEHICLE_ID, recordedRequest.getPath());
 
     DocumentContext context = JsonPath.parse(recordedRequest.getBody().inputStream());
     VehicleDto actualVehicle = jacksonConfiguration.objectMapper()
@@ -104,10 +104,7 @@ public class VehicleServiceTest {
     VehicleService vehicleService = new VehicleService(
         WebClient.create(mockWebServer.url(PATH).toString())
     );
-    mockWebServer.enqueue(new MockResponse()
-        .setResponseCode(OK_STATUS_CODE)
-        .setHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-        .setBody(jacksonConfiguration.objectMapper().writeValueAsString(vehicleDto)));
+    mockWebServer.enqueue(createMockResponseWithBody());
 
     // when
     Mono<ResponseEntity<VehicleDto>> response = vehicleService.findVehicleById(VEHICLE_DTO_ID);
@@ -116,9 +113,11 @@ public class VehicleServiceTest {
     // then
     RecordedRequest recordedRequest = mockWebServer.takeRequest();
     assertEquals(GET.name(), recordedRequest.getMethod());
-    assertEquals(PATH_VEHICLES + PATH_PARAM, recordedRequest.getPath());
+    assertEquals(PATH_VEHICLES + PATH_VEHICLE_ID, recordedRequest.getPath());
 
     DocumentContext context = JsonPath.parse(recordedRequest.getBody().inputStream());
+    // TODO - assert Vehicle
+
     //    VehicleDto actualVehicle = jacksonConfiguration.objectMapper()
     //        .readValue(context.jsonString(), VehicleDto.class);
     //
@@ -148,6 +147,8 @@ public class VehicleServiceTest {
     assertEquals(PATH_VEHICLES + PATH_ALL, recordedRequest.getPath());
 
     DocumentContext context = JsonPath.parse(recordedRequest.getBody().inputStream());
+    // TODO assert Vehicles
+
     //    List<VehicleDto> actualVehicles = Arrays
     //        .stream(
     //            jacksonConfiguration.objectMapper().readValue(context.jsonString(),
@@ -164,11 +165,7 @@ public class VehicleServiceTest {
     VehicleService vehicleService = new VehicleService(
         WebClient.create(mockWebServer.url(PATH).toString())
     );
-    mockWebServer.enqueue(
-        new MockResponse()
-            .setResponseCode(OK_STATUS_CODE)
-            .setHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-    );
+    mockWebServer.enqueue(createMockResponseWithoutBody());
 
     // when
     Mono<ResponseEntity<Void>> response = vehicleService.removeVehicleById(VEHICLE_DTO_ID);
@@ -177,10 +174,10 @@ public class VehicleServiceTest {
     // then
     RecordedRequest recordedRequest = mockWebServer.takeRequest();
     assertEquals(DELETE.name(), recordedRequest.getMethod());
-    assertEquals(PATH_VEHICLES + PATH_PARAM, recordedRequest.getPath());
+    assertEquals(PATH_VEHICLES + PATH_VEHICLE_ID, recordedRequest.getPath());
 
     DocumentContext context = JsonPath.parse(recordedRequest.getBody().inputStream());
-    // TODO
+    // TODO assert response
   }
 
   @Test
@@ -189,11 +186,7 @@ public class VehicleServiceTest {
     VehicleService vehicleService = new VehicleService(
         WebClient.create(mockWebServer.url(PATH).toString())
     );
-    mockWebServer.enqueue(
-        new MockResponse()
-            .setResponseCode(OK_STATUS_CODE)
-            .setHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-    );
+    mockWebServer.enqueue(createMockResponseWithoutBody());
 
     // when
     Flux<ResponseEntity<Void>> response = vehicleService.removeAllVehicles();
@@ -205,7 +198,7 @@ public class VehicleServiceTest {
     assertEquals(PATH_VEHICLES + PATH_ALL, recordedRequest.getPath());
 
     DocumentContext context = JsonPath.parse(recordedRequest.getBody().inputStream());
-    // TODO
+    // TODO assert response
   }
 
   private MockResponse createMockResponseWithBody() throws JsonProcessingException {
@@ -215,7 +208,13 @@ public class VehicleServiceTest {
         .setBody(jacksonConfiguration.objectMapper().writeValueAsString(vehicleDto));
   }
 
-  private void assertVehicle(VehicleDto vehicleDto) {
+  private static MockResponse createMockResponseWithoutBody() {
+    return new MockResponse()
+        .setResponseCode(OK_STATUS_CODE)
+        .setHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE);
+  }
+
+  private static void assertVehicle(VehicleDto vehicleDto) {
     assertNotNull(vehicleDto);
     assertEquals(VEHICLE_DTO_ID, vehicleDto.getId());
     assertEquals(BLACK, vehicleDto.getColour());
