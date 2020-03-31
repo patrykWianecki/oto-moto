@@ -77,12 +77,12 @@ public class VehicleService {
         .map(ResponseEntity::ok);
   }
 
-  public Flux<ResponseEntity<Void>> removeAllVehicles() {
+  public Mono<ResponseEntity<Void>> removeAllVehicles() {
     return webClient
         .delete()
         .uri(ALL)
         .retrieve()
-        .bodyToFlux(Void.class)
+        .bodyToMono(Void.class)
         .map(ResponseEntity::ok);
   }
 }

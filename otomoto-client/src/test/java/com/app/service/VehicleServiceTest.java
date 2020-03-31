@@ -189,8 +189,8 @@ public class VehicleServiceTest {
     mockWebServer.enqueue(createMockResponseWithoutBody());
 
     // when
-    Flux<ResponseEntity<Void>> response = vehicleService.removeAllVehicles();
-    response.blockFirst();
+    Mono<ResponseEntity<Void>> response = vehicleService.removeAllVehicles();
+    response.block();
 
     // then
     RecordedRequest recordedRequest = mockWebServer.takeRequest();

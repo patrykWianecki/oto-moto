@@ -62,7 +62,7 @@ public class VehicleController {
   }
 
   @DeleteMapping("/all")
-  public Flux<ResponseEntity<Void>> removeAllVehicles() {
+  public Mono<ResponseEntity<Void>> removeAllVehicles() {
     return vehicleService.removeAllVehicles();
   }
 }

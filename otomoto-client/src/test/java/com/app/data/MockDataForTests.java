@@ -73,7 +73,7 @@ public class MockDataForTests {
         .build();
   }
 
-  public static String createJSON() {
+  public static String createValidResponse() {
     return """
         {
           "id": "7865asfdasdfaw3",
