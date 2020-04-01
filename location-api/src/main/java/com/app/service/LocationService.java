@@ -47,16 +47,21 @@ public class LocationService {
         .collect(Collectors.toList());
   }
 
-  private void updateDistanceBetweenLocalities(List<LocalityDto> localities, LocalityDto baseLocalityDto) {
+  private void updateDistanceBetweenLocalities(List<LocalityDto> localities,
+      LocalityDto baseLocalityDto) {
     localities
         .stream()
-        .peek(localityToCalc -> localityToCalc.setDistance(calculateDistanceBetweenLocations(baseLocalityDto, localityToCalc)))
+        .peek(localityToCalc -> localityToCalc.setDistance(
+            calculateDistanceBetweenLocations(baseLocalityDto, localityToCalc)
+            )
+        )
         .map(ModelMapper::fromLocalityDtoToLocality)
         .forEach(localityRepository::save);
   }
 
   private LocalityDto findLocalityWithGivenName(LocationResponse locationResponse) {
-    VoivodeshipDto voivodeshipDto = findVoivodeshipWithGivenName(locationResponse.getVoivodeshipName());
+    VoivodeshipDto voivodeshipDto = findVoivodeshipWithGivenName(
+        locationResponse.getVoivodeshipName());
     CountyDto countyDto = findCountyWithGivenName(voivodeshipDto, locationResponse.getCountyName());
     return localityRepository.findByName(locationResponse.getLocalityName())
         .stream()
@@ -64,26 +69,35 @@ public class LocationService {
         .filter(locality -> countyDto.getId().equals(locality.getCountyId()))
         .map(ModelMapper::fromLocalityToLocalityDto)
         .findFirst()
-        .orElseThrow(() -> new NullPointerException("Locality with given name does not exist " + locationResponse.getLocalityName()));
+        .orElseThrow(() -> new NullPointerException(
+                "Locality with given name does not exist " + locationResponse.getLocalityName()
+            )
+        );
   }
 
   private VoivodeshipDto findVoivodeshipWithGivenName(String voidodeshipName) {
     return voivodeshipRepository.findByName(voidodeshipName)
         .map(ModelMapper::fromVoivodeshipToVoivodeshipDto)
-        .orElseThrow(() -> new NullPointerException("Voivodeship with given name does not exist " + voidodeshipName));
+        .orElseThrow(() -> new NullPointerException(
+                "Voivodeship with given name does not exist " + voidodeshipName
+            )
+        );
   }
 
   private CountyDto findCountyWithGivenName(VoivodeshipDto voivodeshipDto, String countyName) {
     return countyRepository.findByName(countyName)
         .stream()
-        .filter(c -> Objects.nonNull(c.getVoivodeshipId()))
-        .filter(c -> voivodeshipDto.getId().equals(c.getVoivodeshipId()))
+        .filter(county -> Objects.nonNull(county.getVoivodeshipId()))
+        .filter(county -> voivodeshipDto.getId().equals(county.getVoivodeshipId()))
         .map(ModelMapper::fromCountyToCountyDto)
         .findFirst()
-        .orElseThrow(() -> new NullPointerException("County with given name does not exist " + countyName));
+        .orElseThrow(
+            () -> new NullPointerException("County with given name does not exist " + countyName)
+        );
   }
 
-  private int calculateDistanceBetweenLocations(LocalityDto baseLocalityDto, LocalityDto localityToCalculateDto) {
+  private int calculateDistanceBetweenLocations(LocalityDto baseLocalityDto,
+      LocalityDto localityToCalculateDto) {
     double baseLocalityLongitude = localityToCalculateDto.getLongitude();
     double baseLocalityLatitude = localityToCalculateDto.getLatitude();
     double longitudeToCalculate = baseLocalityDto.getLongitude();

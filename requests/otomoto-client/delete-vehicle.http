@@ -1,0 +1,9 @@
+# DELETE ALL VEHICLES
+DELETE http://localhost:8080/vehicles/all
+
+###
+
+# DELETE VEHICLE BY ID
+DELETE http://localhost:8080/vehicles?vehicleId={vehicleId}
+
+###

@@ -1,11 +1,10 @@
 package com.app.model;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.Set;
 
-import org.springframework.data.annotation.Id;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -22,21 +21,20 @@ import lombok.Setter;
 @Builder
 public class VehicleDto {
 
-  @Id
   private String id;
   private Colour colour;
   private Condition condition;
   private String currency;
-  private Drive drive;
-  private EngineDto engine;
-  private Set<Feature> features;
-  @JsonFormat(pattern = "yyyy-MM-dd")
   private LocalDate dateOfProduction;
-  @JsonFormat(pattern = "yyyy-MM-dd")
+  private Drive drive;
+  private EngineDto engineDto;
+  private Set<Feature> features;
   private LocalDate firstRegistration;
   private Gearbox gearbox;
+  private String generation;
   private boolean isAccidentFree;
   private boolean isDamaged;
+  private boolean isPriceNegotiable;
   private String location;
   private Make make;
   private Long mileage;
@@ -45,4 +43,5 @@ public class VehicleDto {
   private Integer numberOfVehicleOwners;
   private BigDecimal price;
   private Type type;
+  private String vin;
 }
