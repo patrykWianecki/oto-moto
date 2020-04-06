@@ -1,4 +1,9 @@
-# GET ACTUAL CURRENCIES
-GET http://localhost:8082/currency
+# GET ACTUAL CURRENCIES WITH DEFAULT EUR BASE
+GET http://localhost:8082/currency?base=
 
 ###
+
+# GET ACTUAL CURRENCIES WITH PLN BASE
+GET http://localhost:8082/currency?base=PLN
+
+###ó
