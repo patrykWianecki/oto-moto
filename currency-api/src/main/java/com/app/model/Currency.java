@@ -1,17 +1,18 @@
 package com.app.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 
-@Data
+/**
+ * This is a model class to hold currency information.
+ *
+ * @author Patryk Wianecki
+ */
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter
 public class Currency {
 
-  private Base base;
+  private String base;
   private String date;
   private Rate rates;
 }
