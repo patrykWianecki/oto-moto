@@ -3,13 +3,12 @@ package com.app.service;
 import java.util.Objects;
 import java.util.Set;
 
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.app.model.Generation.Mercedes.SClass;
 import com.app.model.Model;
@@ -36,10 +35,8 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.http.HttpStatus.*;
 
+@ExtendWith(SpringExtension.class)
 public class VehicleServiceTest {
-
-  @Rule
-  public MockitoRule rule = MockitoJUnit.rule();
 
   @Mock
   private VehicleRepository vehicleRepository;

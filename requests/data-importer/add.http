@@ -1,0 +1,64 @@
+# ADD VOIVODESHIPS
+POST http://localhost:8084/importer/voivodeships
+Content-Type: application/json
+
+{
+  "voivodeships": [
+    {
+      "id": "5e920820cc59bf3c462ba6b4",
+      "name": "PODKARPACKIE"
+    },
+    {
+      "id": "5e920820cc59bf3c462ba6b5",
+      "name": "MAŁOPOLSKIE"
+    }
+  ]
+}
+
+###
+
+# ADD COUNTIES
+POST http://localhost:8084/importer/counties
+Content-Type: application/json
+
+{
+  "counties": [
+    {
+      "id": "5e920820cc59bf3c462ba6s2",
+      "name": "stalowowolski",
+      "voivodeshipId": "5e920820cc59bf3c462ba6b4"
+    },
+    {
+      "id": "5e920820cc60bf3c462ba6s2",
+      "name": "niżański",
+      "voivodeshipId": "5e920820cc59bf3c462ba6b4"
+    }
+  ]
+}
+
+###
+
+# ADD LOCALITIES
+POST http://localhost:8084/importer/localities
+Content-Type: application/json
+
+{
+  "localities": [
+    {
+      "id": "5e920820cc59bf3c462ba6qs",
+      "name": "Stalowa Wola",
+      "countyId": "5e920820cc59bf3c462ba6s2",
+      "longitude": 22.0499998,
+      "latitude": 50.5666644
+    },
+    {
+      "id": "4e920820cc59bf3c462ba6qs",
+      "name": "Jastkowice",
+      "countyId": "5e920820cc59bf3c462ba6s2",
+      "longitude": 22.10667,
+      "latitude": 50.60389
+    }
+  ]
+}
+
+###

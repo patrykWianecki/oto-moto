@@ -3,10 +3,10 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>currency-api</artifactId>
+    <artifactId>data-importer</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>currency-api</name>
-    <description>Exchange rate API</description>
+    <name>data-importer</name>
+    <description>Data importer</description>
 
     <parent>
         <artifactId>otomoto</artifactId>
@@ -17,12 +17,4 @@
     <properties>
         <java.version>13</java.version>
     </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>4.5.12</version>
-        </dependency>
-    </dependencies>
 </project>
