@@ -54,7 +54,7 @@ public class VehicleValidator implements Validator {
       throw new IllegalArgumentException("Vehicle condition does not exist");
     }
 
-    if (!isNotBlank(vehicleDto.getCurrency())) {
+    if (isBlank(vehicleDto.getCurrency())) {
       throw new IllegalArgumentException("Vehicle currency is missing");
     }
 
@@ -87,14 +87,14 @@ public class VehicleValidator implements Validator {
     }
 
     String model = vehicleDto.getModel();
-    if (!isNotBlank(model)) {
+    if (isBlank(model)) {
       throw new IllegalArgumentException("Vehicle model is missing");
     } else if (!doesModelExist(make, model)) {
       throw new IllegalArgumentException("Given model does not exist");
     }
 
     String generation = vehicleDto.getGeneration();
-    if (!isNotBlank(generation)) {
+    if (isBlank(generation)) {
       throw new IllegalArgumentException("Generation is not valid");
     } else if (!doesGenerationExist(make, model, generation)) {
       throw new IllegalArgumentException("Given generation does not exist");
@@ -104,19 +104,19 @@ public class VehicleValidator implements Validator {
       throw new IllegalArgumentException("Vehicle location is missing");
     }
 
-    Long mileage = vehicleDto.getMileage();
-    if (isNull(mileage) || mileage < 0) {
+    long mileage = vehicleDto.getMileage();
+    if (mileage < 0) {
       throw new IllegalArgumentException("Mileage has incorrect value");
     }
 
-    Integer numberOfSeats = vehicleDto.getNumberOfSeats();
-    if (isNull(numberOfSeats) || numberOfSeats < 1) {
+    int numberOfSeats = vehicleDto.getNumberOfSeats();
+    if (numberOfSeats < 1) {
       throw new IllegalArgumentException("Number of seats has incorrect value");
     }
 
-    Integer numberOfVehicleOwners = vehicleDto.getNumberOfVehicleOwners();
-    if (isNull(numberOfVehicleOwners) || numberOfVehicleOwners < 0) {
-      throw new IllegalArgumentException("Number of vehicle owners has incorrect valueo");
+    int numberOfVehicleOwners = vehicleDto.getNumberOfVehicleOwners();
+    if (numberOfVehicleOwners < 0) {
+      throw new IllegalArgumentException("Number of vehicle owners has incorrect value");
     }
 
     BigDecimal price = vehicleDto.getPrice();
@@ -130,7 +130,7 @@ public class VehicleValidator implements Validator {
     }
 
     String vin = vehicleDto.getVin();
-    if (!isNotBlank(vin)) {
+    if (isBlank(vin)) {
       throw new IllegalArgumentException("Vehicle vin is missing");
     }
   }
@@ -140,8 +140,8 @@ public class VehicleValidator implements Validator {
       throw new IllegalArgumentException("Missing vehicle engine");
     }
 
-    Double capacity = engineDto.getCapacity();
-    if (isNull(capacity) || capacity <= 0.0) {
+    double capacity = engineDto.getCapacity();
+    if (capacity <= 0.0) {
       throw new IllegalArgumentException("Engine capacity has incorrect value");
     }
 
@@ -155,13 +155,13 @@ public class VehicleValidator implements Validator {
       throw new IllegalArgumentException("Fuel type does not exist");
     }
 
-    Double fuelConsumption = engineDto.getFuelConsumption();
-    if (isNull(fuelConsumption) || fuelConsumption <= 0.0) {
+    double fuelConsumption = engineDto.getFuelConsumption();
+    if (fuelConsumption <= 0.0) {
       throw new IllegalArgumentException("Engine fuel consumption has incorrect value");
     }
 
-    Integer power = engineDto.getPower();
-    if (isNull(power) || power <= 0) {
+    int power = engineDto.getPower();
+    if (power <= 0) {
       throw new IllegalArgumentException("Engine power has incorrect value");
     }
   }
