@@ -214,10 +214,10 @@ public class VehicleServiceTest {
         !vehicleDto.isPriceNegotiable() &&
         LOCATION_WARSAW.equals(vehicleDto.getLocation()) &&
         MERCEDES.equals(vehicleDto.getMake()) &&
-        MILEAGE.equals(vehicleDto.getMileage()) &&
+        MILEAGE == vehicleDto.getMileage() &&
         Model.Mercedes.SCLASS.name().equals(vehicleDto.getModel()) &&
-        NUMBER_OF_SEATS.equals(vehicleDto.getNumberOfSeats()) &&
-        NUMBER_OF_VEHICLE_OWNERS.equals(vehicleDto.getNumberOfVehicleOwners()) &&
+        NUMBER_OF_SEATS == vehicleDto.getNumberOfSeats() &&
+        NUMBER_OF_VEHICLE_OWNERS == vehicleDto.getNumberOfVehicleOwners() &&
         PRICE.equals(vehicleDto.getPrice()) &&
         SEDAN.equals(vehicleDto.getType()) &&
         VIN.equals(vehicleDto.getVin());
@@ -225,10 +225,10 @@ public class VehicleServiceTest {
 
   private static boolean isEngineValid(final EngineDto engineDto) {
     return Objects.nonNull(engineDto) &&
-        CAPACITY.equals(engineDto.getCapacity()) &&
+        CAPACITY == engineDto.getCapacity() &&
         EURO_6.equals(engineDto.getEmmisionClass()) &&
         PETROL.equals(engineDto.getFuel()) &&
-        FUEL_CONSUMPTION.equals(engineDto.getFuelConsumption()) &&
-        POWER.equals(engineDto.getPower());
+        FUEL_CONSUMPTION == engineDto.getFuelConsumption() &&
+        POWER == engineDto.getPower();
   }
 }
