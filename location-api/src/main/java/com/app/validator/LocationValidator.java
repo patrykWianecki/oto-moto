@@ -1,5 +1,6 @@
 package com.app.validator;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.stereotype.Component;
@@ -18,13 +19,13 @@ public class LocationValidator {
     String voivodeshipName = locationResponse.getVoivodeshipName();
     int radious = locationResponse.getRadius();
 
-    if (voivodeshipName == null || isNotNameUpperCase(voivodeshipName)) {
+    if (Objects.isNull(voivodeshipName) || isNotNameUpperCase(voivodeshipName)) {
       throw new IllegalArgumentException("Voivodeship name is null or in wrong format");
     }
-    if (countyName == null || isNotNameUpperCase(countyName)) {
+    if (Objects.isNull(countyName) || isNotNameUpperCase(countyName)) {
       throw new IllegalArgumentException("County name is null or in wrong format");
     }
-    if (localityName == null || isNotNameUpperCase(localityName)) {
+    if (Objects.isNull(localityName) || isNotNameUpperCase(localityName)) {
       throw new IllegalArgumentException("Locality name is null or in wrong format");
     }
     if (radious <= 0) {
