@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.app.model.LocationResponse;
 import com.app.model.dto.CountyDto;
 import com.app.model.dto.LocalityDto;
-import com.app.model.dto.ModelMapper;
+import com.app.model.dto.mapper.ModelMapper;
 import com.app.model.dto.VoivodeshipDto;
 import com.app.repository.CountyRepository;
 import com.app.repository.LocalityRepository;
