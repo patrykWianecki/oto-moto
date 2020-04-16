@@ -21,6 +21,7 @@ import static com.app.model.Type.*;
 
 public class MockDataForTests {
 
+  public static final String BLANK = "";
   public static final String VEHICLE_DTO_ID = "7865asfdasdfaw3";
   public static final String VIN = "JH4CW2H61CC000073";
   public static final String CURRENCY_PLN = "PLN";

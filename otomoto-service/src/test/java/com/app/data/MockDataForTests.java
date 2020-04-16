@@ -23,18 +23,19 @@ import static com.app.model.Type.*;
 
 public class MockDataForTests {
 
+  public static final String BLANK = "";
   public static final String VEHICLE_ID = "71623v12hvk1j2";
   public static final String VEHICLE_DTO_ID = "7865asfdasdfaw3";
   public static final String VIN = "JH4CW2H61CC000073";
   public static final String CURRENCY_PLN = "PLN";
   public static final String LOCATION_WARSAW = "Warsaw";
-  public static final Long MILEAGE = 0L;
-  public static final Integer NUMBER_OF_SEATS = 4;
-  public static final Integer NUMBER_OF_VEHICLE_OWNERS = 0;
-  public static final Integer POWER = 612;
+  public static final long MILEAGE = 0L;
+  public static final int NUMBER_OF_SEATS = 4;
+  public static final int NUMBER_OF_VEHICLE_OWNERS = 0;
+  public static final int POWER = 612;
   public static final BigDecimal PRICE = BigDecimal.valueOf(900000);
-  public static final Double CAPACITY = 4.0D;
-  public static final Double FUEL_CONSUMPTION = 15.0D;
+  public static final double CAPACITY = 4.0D;
+  public static final double FUEL_CONSUMPTION = 15.0D;
   public static final LocalDate dateOfProduction = LocalDate.of(2019, 12, 1);
   public static final LocalDate dateOfFirstRegistration = LocalDate.of(2020, 1, 1);
 
