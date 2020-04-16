@@ -8,15 +8,14 @@ import com.app.model.dto.VehicleDto;
 public interface ModelMapper {
 
   static Vehicle fromVehicleDtoToVehicle(final VehicleDto vehicleDto) {
-    return vehicleDto == null ? null : Vehicle.builder()
+    return Vehicle.builder()
         .id(vehicleDto.getId())
         .colour(vehicleDto.getColour())
         .condition(vehicleDto.getCondition())
         .currency(vehicleDto.getCurrency())
         .dateOfProduction(vehicleDto.getDateOfProduction())
         .drive(vehicleDto.getDrive())
-        .engine(vehicleDto.getEngineDto() == null ?
-            null : fromEngineDtoToEngine(vehicleDto.getEngineDto()))
+        .engine(fromEngineDtoToEngine(vehicleDto.getEngineDto()))
         .features(vehicleDto.getFeatures())
         .firstRegistration(vehicleDto.getFirstRegistration())
         .gearbox(vehicleDto.getGearbox())
@@ -37,14 +36,14 @@ public interface ModelMapper {
   }
 
   static VehicleDto fromVehicleToVehicleDto(final Vehicle vehicle) {
-    return vehicle == null ? null : VehicleDto.builder()
+    return VehicleDto.builder()
         .id(vehicle.getId())
         .colour(vehicle.getColour())
         .condition(vehicle.getCondition())
         .currency(vehicle.getCurrency())
         .dateOfProduction(vehicle.getDateOfProduction())
         .drive(vehicle.getDrive())
-        .engineDto(vehicle.getEngine() == null ? null : fromEngineToEngineDto(vehicle.getEngine()))
+        .engineDto(fromEngineToEngineDto(vehicle.getEngine()))
         .features(vehicle.getFeatures())
         .firstRegistration(vehicle.getFirstRegistration())
         .gearbox(vehicle.getGearbox())
@@ -65,7 +64,7 @@ public interface ModelMapper {
   }
 
   static Engine fromEngineDtoToEngine(final EngineDto engineDto) {
-    return engineDto == null ? null : Engine.builder()
+    return Engine.builder()
         .capacity(engineDto.getCapacity())
         .emmisionClass(engineDto.getEmmisionClass())
         .fuel(engineDto.getFuel())
@@ -75,7 +74,7 @@ public interface ModelMapper {
   }
 
   static EngineDto fromEngineToEngineDto(final Engine engine) {
-    return engine == null ? null : EngineDto.builder()
+    return EngineDto.builder()
         .capacity(engine.getCapacity())
         .emmisionClass(engine.getEmmisionClass())
         .fuel(engine.getFuel())
