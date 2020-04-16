@@ -12,14 +12,12 @@ import com.app.model.Generation.Audi.A_6;
 import com.app.model.Model.Audi;
 import com.app.model.VehicleDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.jayway.jsonpath.DocumentContext;
-import com.jayway.jsonpath.JsonPath;
 
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
-import okhttp3.mockwebserver.RecordedRequest;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.test.StepVerifier;
 
 import static com.app.data.MockDataForTests.*;
 import static com.app.model.Colour.*;
@@ -29,7 +27,7 @@ import static com.app.model.Make.*;
 import static com.app.model.Type.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.http.HttpHeaders.*;
-import static org.springframework.http.HttpMethod.*;
+import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.MediaType.*;
 
 public class VehicleServiceTest {
@@ -50,7 +48,7 @@ public class VehicleServiceTest {
   }
 
   @Test
-  public void should_add_vehicle() throws InterruptedException, JsonProcessingException {
+  public void should_add_vehicle() throws JsonProcessingException {
     // given
     VehicleService vehicleService = new VehicleService(
         WebClient.create(mockWebServer.url(PATH).toString())
@@ -59,22 +57,15 @@ public class VehicleServiceTest {
 
     // when
     Mono<ResponseEntity<VehicleDto>> response = vehicleService.addVehicle(createVehicleDto());
-    response.block();
 
     // then
-    RecordedRequest recordedRequest = mockWebServer.takeRequest();
-    assertEquals(POST.name(), recordedRequest.getMethod());
-    assertEquals(PATH_VEHICLES, recordedRequest.getPath());
-
-    DocumentContext context = JsonPath.parse(recordedRequest.getBody().inputStream());
-    VehicleDto actualVehicle = jacksonConfiguration.objectMapper()
-        .readValue(context.jsonString(), VehicleDto.class);
-
-    assertVehicle(actualVehicle);
+    StepVerifier.create(response)
+        .expectNextMatches(vehicleResponse -> OK.equals(vehicleResponse.getStatusCode()) &&
+            vehicleDto.equals(vehicleResponse.getBody()));
   }
 
   @Test
-  public void should_update_vehicle() throws InterruptedException, JsonProcessingException {
+  public void should_update_vehicle() throws JsonProcessingException {
     // given
     VehicleService vehicleService = new VehicleService(
         WebClient.create(mockWebServer.url(PATH).toString())
@@ -84,22 +75,17 @@ public class VehicleServiceTest {
     // when
     Mono<ResponseEntity<VehicleDto>> response =
         vehicleService.updateVehicle(VEHICLE_DTO_ID, createVehicleDto());
-    response.block();
 
     // then
-    RecordedRequest recordedRequest = mockWebServer.takeRequest();
-    assertEquals(PUT.name(), recordedRequest.getMethod());
-    assertEquals(PATH_VEHICLES + PATH_VEHICLE_ID, recordedRequest.getPath());
-
-    DocumentContext context = JsonPath.parse(recordedRequest.getBody().inputStream());
-    VehicleDto actualVehicle = jacksonConfiguration.objectMapper()
-        .readValue(context.jsonString(), VehicleDto.class);
-
-    assertVehicle(actualVehicle);
+    StepVerifier
+        .create(response)
+        .expectNextMatches(vehicleResponse -> OK.equals(vehicleResponse.getStatusCode()) &&
+            vehicleDto.equals(vehicleResponse.getBody())
+        );
   }
 
   @Test
-  public void should_find_vehicle_by_id() throws InterruptedException, JsonProcessingException {
+  public void should_find_vehicle_by_id() throws JsonProcessingException {
     // given
     VehicleService vehicleService = new VehicleService(
         WebClient.create(mockWebServer.url(PATH).toString())
@@ -108,24 +94,16 @@ public class VehicleServiceTest {
 
     // when
     Mono<ResponseEntity<VehicleDto>> response = vehicleService.findVehicleById(VEHICLE_DTO_ID);
-    response.block();
 
     // then
-    RecordedRequest recordedRequest = mockWebServer.takeRequest();
-    assertEquals(GET.name(), recordedRequest.getMethod());
-    assertEquals(PATH_VEHICLES + PATH_VEHICLE_ID, recordedRequest.getPath());
-
-    DocumentContext context = JsonPath.parse(recordedRequest.getBody().inputStream());
-    // TODO - assert Vehicle
-
-    //    VehicleDto actualVehicle = jacksonConfiguration.objectMapper()
-    //        .readValue(context.jsonString(), VehicleDto.class);
-    //
-    //    assertVehicle(actualVehicle);
+    StepVerifier
+        .create(response)
+        .expectNextMatches(vehicleResponse -> OK.equals(vehicleResponse.getStatusCode()) &&
+            vehicleDto.equals(vehicleResponse.getBody()));
   }
 
   @Test
-  public void should_find_all_vehicles() throws InterruptedException, JsonProcessingException {
+  public void should_find_all_vehicles() throws JsonProcessingException {
     // given
     VehicleService vehicleService = new VehicleService(
         WebClient.create(mockWebServer.url(PATH).toString())
@@ -139,28 +117,15 @@ public class VehicleServiceTest {
 
     // when
     Flux<VehicleDto> response = vehicleService.findAllVehicles();
-    response.blockFirst();
 
     // then
-    RecordedRequest recordedRequest = mockWebServer.takeRequest();
-    assertEquals(GET.name(), recordedRequest.getMethod());
-    assertEquals(PATH_VEHICLES + PATH_ALL, recordedRequest.getPath());
-
-    DocumentContext context = JsonPath.parse(recordedRequest.getBody().inputStream());
-    // TODO assert Vehicles
-
-    //    List<VehicleDto> actualVehicles = Arrays
-    //        .stream(
-    //            jacksonConfiguration.objectMapper().readValue(context.jsonString(),
-    //                VehicleDto[].class)
-    //        )
-    //        .collect(Collectors.toList());
-    //
-    //    assertVehicle(actualVehicles.get(0));
+    StepVerifier
+        .create(response)
+        .expectNextMatches(vehicleDto::equals);
   }
 
   @Test
-  public void should_remove_vehicle_by_id() throws InterruptedException {
+  public void should_remove_vehicle_by_id() {
     // given
     VehicleService vehicleService = new VehicleService(
         WebClient.create(mockWebServer.url(PATH).toString())
@@ -169,19 +134,15 @@ public class VehicleServiceTest {
 
     // when
     Mono<ResponseEntity<Void>> response = vehicleService.removeVehicleById(VEHICLE_DTO_ID);
-    response.block();
 
     // then
-    RecordedRequest recordedRequest = mockWebServer.takeRequest();
-    assertEquals(DELETE.name(), recordedRequest.getMethod());
-    assertEquals(PATH_VEHICLES + PATH_VEHICLE_ID, recordedRequest.getPath());
-
-    DocumentContext context = JsonPath.parse(recordedRequest.getBody().inputStream());
-    // TODO assert response
+    StepVerifier
+        .create(response)
+        .expectNextMatches(vehicleResponse -> OK.equals(vehicleResponse.getStatusCode()));
   }
 
   @Test
-  public void should_remove_all_vehicles() throws InterruptedException {
+  public void should_remove_all_vehicles() {
     // given
     VehicleService vehicleService = new VehicleService(
         WebClient.create(mockWebServer.url(PATH).toString())
@@ -190,15 +151,10 @@ public class VehicleServiceTest {
 
     // when
     Mono<ResponseEntity<Void>> response = vehicleService.removeAllVehicles();
-    response.block();
 
     // then
-    RecordedRequest recordedRequest = mockWebServer.takeRequest();
-    assertEquals(DELETE.name(), recordedRequest.getMethod());
-    assertEquals(PATH_VEHICLES + PATH_ALL, recordedRequest.getPath());
-
-    DocumentContext context = JsonPath.parse(recordedRequest.getBody().inputStream());
-    // TODO assert response
+    StepVerifier.create(response)
+        .expectNextMatches(vehicleResponse -> OK.equals(vehicleResponse.getStatusCode()));
   }
 
   private MockResponse createMockResponseWithBody() throws JsonProcessingException {
