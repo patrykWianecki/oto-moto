@@ -12,17 +12,13 @@ import com.app.model.Gearbox;
 import com.app.model.Make;
 import com.app.model.Type;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Builder
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class VehicleDto {
 
   private String id;
@@ -41,10 +37,10 @@ public class VehicleDto {
   private boolean isPriceNegotiable;
   private String location;
   private Make make;
-  private Long mileage;
+  private long mileage;
   private String model;
-  private Integer numberOfSeats;
-  private Integer numberOfVehicleOwners;
+  private int numberOfSeats;
+  private int numberOfVehicleOwners;
   private BigDecimal price;
   private Type type;
   private String vin;

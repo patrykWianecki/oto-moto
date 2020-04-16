@@ -9,17 +9,13 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Builder
 @Getter
 @Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Document(collection = "vehicles")
 public class Vehicle {
 
@@ -42,10 +38,10 @@ public class Vehicle {
   private boolean isPriceNegotiable;
   private String location;
   private Make make;
-  private Long mileage;
+  private long mileage;
   private String model;
-  private Integer numberOfSeats;
-  private Integer numberOfVehicleOwners;
+  private int numberOfSeats;
+  private int numberOfVehicleOwners;
   private BigDecimal price;
   private Type type;
   private String vin;

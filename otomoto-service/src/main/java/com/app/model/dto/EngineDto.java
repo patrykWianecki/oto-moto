@@ -3,22 +3,18 @@ package com.app.model.dto;
 import com.app.model.EmmisionClass;
 import com.app.model.Fuel;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Builder
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 public class EngineDto {
 
-  private Double capacity;
+  private double capacity;
   private EmmisionClass emmisionClass;
   private Fuel fuel;
-  private Double fuelConsumption;
-  private Integer power;
+  private double fuelConsumption;
+  private int power;
 }

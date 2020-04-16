@@ -1,14 +1,11 @@
 package com.app.model.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
+@Getter
 public class LocalityDto {
 
   private String id;
@@ -16,5 +13,6 @@ public class LocalityDto {
   private String countyId;
   private double longitude;
   private double latitude;
+  @Setter
   private int distance;
 }
