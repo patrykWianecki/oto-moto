@@ -1,8 +1,8 @@
 package com.app.controller;
 
 import java.util.List;
-import java.util.Objects;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,11 +27,12 @@ public class LocationController {
   private final LocationValidator locationValidator;
 
   @GetMapping(produces = APPLICATION_JSON_VALUE)
-  public ResponseEntity<List<LocalityDto>> getAvailableLocalities(@RequestBody LocationResponse locationResponse) {
+  public ResponseEntity<List<LocalityDto>> getAvailableLocalities(
+      @RequestBody LocationResponse locationResponse) {
     locationValidator.validateLocationResponse(locationResponse);
     List<LocalityDto> localities = locationService.createRequest(locationResponse);
 
-    if (Objects.isNull(localities) || localities.isEmpty()) {
+    if (CollectionUtils.isEmpty(localities)) {
       return ResponseEntity.noContent().build();
     }
 
