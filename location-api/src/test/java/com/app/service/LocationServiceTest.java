@@ -34,9 +34,11 @@ class LocationServiceTest {
   @Test
   void should_find_all_matching_localities() {
     // given
-    when(voivodeshipRepository.findByName(PODKARPACKIE_VOIVODESHIP)).thenReturn(Optional.of(createVoivodeship()));
+    when(voivodeshipRepository.findByName(PODKARPACKIE_VOIVODESHIP))
+        .thenReturn(Optional.of(createVoivodeship()));
     when(countyRepository.findByName(STALOWOWOLSKI_COUNTY)).thenReturn(Optional.of(createCounty()));
-    when(localityRepository.findByName(STALOWA_WOLA_LOCALITY)).thenReturn(Optional.of(createLocality()));
+    when(localityRepository.findByName(STALOWA_WOLA_LOCALITY))
+        .thenReturn(Optional.of(createLocality()));
     when(localityRepository.findAll()).thenReturn(createLocalities());
 
     // when
@@ -62,9 +64,11 @@ class LocationServiceTest {
   @Test
   void should_return_empty_list_of_localities() {
     // given
-    when(voivodeshipRepository.findByName(PODKARPACKIE_VOIVODESHIP)).thenReturn(Optional.of(createVoivodeship()));
+    when(voivodeshipRepository.findByName(PODKARPACKIE_VOIVODESHIP))
+        .thenReturn(Optional.of(createVoivodeship()));
     when(countyRepository.findByName(STALOWOWOLSKI_COUNTY)).thenReturn(Optional.of(createCounty()));
-    when(localityRepository.findByName(STALOWA_WOLA_LOCALITY)).thenReturn(Optional.of(createLocality()));
+    when(localityRepository.findByName(STALOWA_WOLA_LOCALITY))
+        .thenReturn(Optional.of(createLocality()));
 
     // when
     List<LocalityDto> localities = locationService.createRequest(createValidLocationResponse());
@@ -76,26 +80,43 @@ class LocationServiceTest {
 
   @Test
   void should_throw_exception_when_voivodeship_does_not_exist_in_database() {
-    // when + then
-    assertThrows(NullPointerException.class, () -> locationService.createRequest(createValidLocationResponse()));
+    // when
+    NullPointerException nullPointerException = assertThrows(NullPointerException.class,
+        () -> locationService.createRequest(createValidLocationResponse()));
+
+    // then
+    assertEquals("Voivodeship with given name does not exist " + PODKARPACKIE_VOIVODESHIP,
+        nullPointerException.getMessage());
   }
 
   @Test
   void should_throw_exception_when_county_does_not_exist_in_database() {
     // given
-    when(voivodeshipRepository.findByName(PODKARPACKIE_VOIVODESHIP)).thenReturn(Optional.of(createVoivodeship()));
+    when(voivodeshipRepository.findByName(PODKARPACKIE_VOIVODESHIP))
+        .thenReturn(Optional.of(createVoivodeship()));
 
-    // when + then
-    assertThrows(NullPointerException.class, () -> locationService.createRequest(createValidLocationResponse()));
+    // when
+    NullPointerException nullPointerException = assertThrows(NullPointerException.class,
+        () -> locationService.createRequest(createValidLocationResponse()));
+
+    // then
+    assertEquals("County with given name does not exist " + STALOWOWOLSKI_COUNTY,
+        nullPointerException.getMessage());
   }
 
   @Test
   void should_throw_exception_when_locality_does_not_exist_in_database() {
     // given
-    when(voivodeshipRepository.findByName(PODKARPACKIE_VOIVODESHIP)).thenReturn(Optional.of(createVoivodeship()));
+    when(voivodeshipRepository.findByName(PODKARPACKIE_VOIVODESHIP))
+        .thenReturn(Optional.of(createVoivodeship()));
     when(countyRepository.findByName(STALOWOWOLSKI_COUNTY)).thenReturn(Optional.of(createCounty()));
 
-    // when + then
-    assertThrows(NullPointerException.class, () -> locationService.createRequest(createValidLocationResponse()));
+    // when
+    NullPointerException nullPointerException = assertThrows(NullPointerException.class,
+        () -> locationService.createRequest(createValidLocationResponse()));
+
+    // then
+    assertEquals("Locality with given name does not exist " + STALOWA_WOLA_LOCALITY,
+        nullPointerException.getMessage());
   }
 }
