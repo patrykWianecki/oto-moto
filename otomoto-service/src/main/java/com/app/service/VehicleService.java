@@ -26,7 +26,6 @@ public class VehicleService {
   private final VehicleRepository vehicleRepository;
 
   public Mono<ResponseEntity<VehicleDto>> addVehicle(final VehicleDto vehicleDto) {
-    Optional.ofNullable(vehicleDto).orElseThrow(() -> new IllegalStateException("Missing vehicle"));
     return Mono.just(fromVehicleDtoToVehicle(vehicleDto))
         .flatMap(vehicleRepository::save)
         .map(ModelMapper::fromVehicleToVehicleDto)
@@ -36,7 +35,6 @@ public class VehicleService {
 
   public Mono<ResponseEntity<VehicleDto>> updateVehicle(final String vehicleId,
       final VehicleDto vehicleDto) {
-    Optional.ofNullable(vehicleDto).orElseThrow(() -> new IllegalStateException("Missing vehicle"));
     return vehicleRepository.findById(vehicleId)
         .map(vehicle -> {
           vehicle.setId(vehicleDto.getId());
