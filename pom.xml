@@ -105,6 +105,7 @@
                     <source>14</source>
                     <target>14</target>
                     <release>14</release>
+                    <compilerArgs>--enable-preview</compilerArgs>
                 </configuration>
             </plugin>
             <plugin>
