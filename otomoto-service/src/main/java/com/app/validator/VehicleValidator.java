@@ -3,6 +3,7 @@ package com.app.validator;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -133,6 +134,7 @@ public class VehicleValidator implements Validator {
     if (isBlank(vin)) {
       throw new IllegalArgumentException("Vehicle vin is missing");
     }
+    validateVin(vin);
   }
 
   private static void validateEngine(EngineDto engineDto) {
@@ -207,5 +209,51 @@ public class VehicleValidator implements Validator {
     return Stream.of(Generation.class.getDeclaredClasses())
         .map(Class::getSimpleName)
         .anyMatch(make::equals);
+  }
+
+  private static void validateVin(String vin) {
+    List<Integer> values =
+        List.of(1, 2, 3, 4, 5, 6, 7, 8, 0, 1, 2, 3, 4, 5, 0, 7, 0, 9, 2, 3, 4, 5, 6, 7, 8, 9);
+    List<Integer> weights = List.of(8, 7, 6, 5, 4, 3, 2, 10, 0, 9, 8, 7, 6, 5, 4, 3, 2);
+
+    vin = vin.replaceAll("-", "");
+    vin = vin.toUpperCase();
+
+    int vinLength = vin.length();
+    if (vinLength != 17) {
+      throw new IllegalArgumentException("VIN number must be 17 characters, but was " + vinLength);
+    }
+
+    int sum = 0;
+    for (int i = 0; i < 17; i++) {
+      char vinCharacter = vin.charAt(i);
+      int value;
+      int weight = weights.get(i);
+
+      if (vinCharacter >= 'A' && vinCharacter <= 'Z') {
+        value = values.get(vinCharacter - 'A');
+        if (value == 0) {
+          throw new IllegalArgumentException("VIN contains illegal letter " + vinCharacter);
+        }
+      } else if (vinCharacter >= '0' && vinCharacter <= '9') {
+        value = vinCharacter - '0';
+      } else {
+        throw new IllegalArgumentException("VIN contains illegal character " + vinCharacter);
+      }
+      sum = sum + weight * value;
+    }
+
+    validateCheckDigitCalculation(vin, sum);
+  }
+
+  private static void validateCheckDigitCalculation(String vin, int sum) {
+    sum = sum % 11;
+    char check = vin.charAt(8);
+    if (check != 'X' && (check < '0' || check > '9')) {
+      throw new IllegalArgumentException("Incorrect VIN - check digit returned wrong value");
+    }
+    if ((sum != 10 || check != 'X') && sum != check - '0') {
+      throw new IllegalArgumentException("Incorrect VIN - check digit calculated wrong value");
+    }
   }
 }

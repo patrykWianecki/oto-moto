@@ -24,8 +24,8 @@ class VehicleValidatorTest {
   @InjectMocks
   private VehicleValidator vehicleValidator;
 
-  private VehicleDto vehicleDto = createVehicleDto();
-  private EngineDto engineDto = createEngineDto();
+  private final VehicleDto vehicleDto = createVehicleDto();
+  private final EngineDto engineDto = createEngineDto();
   private Errors errors;
 
   @BeforeEach
@@ -35,8 +35,6 @@ class VehicleValidatorTest {
 
   @Test
   void should_valid_vehicle() {
-    // given
-
     // when + then
     vehicleValidator.validate(vehicleDto, errors);
   }
@@ -47,11 +45,12 @@ class VehicleValidatorTest {
     vehicleDto.setColour(null);
 
     // when
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
-        () -> vehicleValidator.validate(vehicleDto, errors));
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
 
     // then
-    assertEquals("Vehicle colour is missing", illegalArgumentException.getMessage());
+    assertEquals("Vehicle colour is missing", exception.getMessage());
   }
 
   @Test
@@ -60,11 +59,12 @@ class VehicleValidatorTest {
     vehicleDto.setCondition(null);
 
     // when
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
-        () -> vehicleValidator.validate(vehicleDto, errors));
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
 
     // then
-    assertEquals("Vehicle condition does not exist", illegalArgumentException.getMessage());
+    assertEquals("Vehicle condition does not exist", exception.getMessage());
   }
 
   @Test
@@ -73,11 +73,12 @@ class VehicleValidatorTest {
     vehicleDto.setCurrency(null);
 
     // when
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
-        () -> vehicleValidator.validate(vehicleDto, errors));
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
 
     // then
-    assertEquals("Vehicle currency is missing", illegalArgumentException.getMessage());
+    assertEquals("Vehicle currency is missing", exception.getMessage());
   }
 
   @Test
@@ -86,11 +87,12 @@ class VehicleValidatorTest {
     vehicleDto.setDateOfProduction(null);
 
     // when
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
-        () -> vehicleValidator.validate(vehicleDto, errors));
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
 
     // then
-    assertEquals("Production date has incorrect value", illegalArgumentException.getMessage());
+    assertEquals("Production date has incorrect value", exception.getMessage());
   }
 
   @Test
@@ -99,11 +101,12 @@ class VehicleValidatorTest {
     vehicleDto.setDrive(null);
 
     // when
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
-        () -> vehicleValidator.validate(vehicleDto, errors));
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
 
     // then
-    assertEquals("Vehicle drive does not exist", illegalArgumentException.getMessage());
+    assertEquals("Vehicle drive does not exist", exception.getMessage());
   }
 
   @Test
@@ -112,11 +115,12 @@ class VehicleValidatorTest {
     vehicleDto.setEngineDto(null);
 
     // when
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
-        () -> vehicleValidator.validate(vehicleDto, errors));
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
 
     // then
-    assertEquals("Missing vehicle engine", illegalArgumentException.getMessage());
+    assertEquals("Missing vehicle engine", exception.getMessage());
   }
 
   @Test
@@ -126,11 +130,12 @@ class VehicleValidatorTest {
     vehicleDto.setEngineDto(engineDto);
 
     // when
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
-        () -> vehicleValidator.validate(vehicleDto, errors));
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
 
     // then
-    assertEquals("Engine capacity has incorrect value", illegalArgumentException.getMessage());
+    assertEquals("Engine capacity has incorrect value", exception.getMessage());
   }
 
   @Test
@@ -140,11 +145,12 @@ class VehicleValidatorTest {
     vehicleDto.setEngineDto(engineDto);
 
     // when
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
-        () -> vehicleValidator.validate(vehicleDto, errors));
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
 
     // then
-    assertEquals("Emission class does not exist", illegalArgumentException.getMessage());
+    assertEquals("Emission class does not exist", exception.getMessage());
   }
 
   @Test
@@ -154,11 +160,12 @@ class VehicleValidatorTest {
     vehicleDto.setEngineDto(engineDto);
 
     // when
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
-        () -> vehicleValidator.validate(vehicleDto, errors));
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
 
     // then
-    assertEquals("Fuel type does not exist", illegalArgumentException.getMessage());
+    assertEquals("Fuel type does not exist", exception.getMessage());
   }
 
   @Test
@@ -168,12 +175,12 @@ class VehicleValidatorTest {
     vehicleDto.setEngineDto(engineDto);
 
     // when
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
-        () -> vehicleValidator.validate(vehicleDto, errors));
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
 
     // then
-    assertEquals("Engine fuel consumption has incorrect value",
-        illegalArgumentException.getMessage());
+    assertEquals("Engine fuel consumption has incorrect value", exception.getMessage());
   }
 
   @Test
@@ -183,11 +190,12 @@ class VehicleValidatorTest {
     vehicleDto.setEngineDto(engineDto);
 
     // when
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
-        () -> vehicleValidator.validate(vehicleDto, errors));
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
 
     // then
-    assertEquals("Engine power has incorrect value", illegalArgumentException.getMessage());
+    assertEquals("Engine power has incorrect value", exception.getMessage());
   }
 
   @Test
@@ -196,11 +204,12 @@ class VehicleValidatorTest {
     vehicleDto.setFeatures(null);
 
     // when
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
-        () -> vehicleValidator.validate(vehicleDto, errors));
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
 
     // then
-    assertEquals("Vehicle has no features", illegalArgumentException.getMessage());
+    assertEquals("Vehicle has no features", exception.getMessage());
   }
 
   @Test
@@ -209,11 +218,12 @@ class VehicleValidatorTest {
     vehicleDto.setFeatures(Collections.emptySet());
 
     // when
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
-        () -> vehicleValidator.validate(vehicleDto, errors));
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
 
     // then
-    assertEquals("Vehicle has no features", illegalArgumentException.getMessage());
+    assertEquals("Vehicle has no features", exception.getMessage());
   }
 
   @Test
@@ -222,12 +232,12 @@ class VehicleValidatorTest {
     vehicleDto.setFirstRegistration(null);
 
     // when
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
-        () -> vehicleValidator.validate(vehicleDto, errors));
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
 
     // then
-    assertEquals("First registration date has incorrect value",
-        illegalArgumentException.getMessage());
+    assertEquals("First registration date has incorrect value", exception.getMessage());
   }
 
   @Test
@@ -236,12 +246,12 @@ class VehicleValidatorTest {
     vehicleDto.setFirstRegistration(vehicleDto.getDateOfProduction().minus(1, DAYS));
 
     // when
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
-        () -> vehicleValidator.validate(vehicleDto, errors));
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
 
     // then
-    assertEquals("First registration date has incorrect value",
-        illegalArgumentException.getMessage());
+    assertEquals("First registration date has incorrect value", exception.getMessage());
   }
 
   @Test
@@ -250,11 +260,12 @@ class VehicleValidatorTest {
     vehicleDto.setGearbox(null);
 
     // when
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
-        () -> vehicleValidator.validate(vehicleDto, errors));
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
 
     // then
-    assertEquals("Vehicle gearbox is missing", illegalArgumentException.getMessage());
+    assertEquals("Vehicle gearbox is missing", exception.getMessage());
   }
 
   @Test
@@ -263,11 +274,12 @@ class VehicleValidatorTest {
     vehicleDto.setGeneration(null);
 
     // when
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
-        () -> vehicleValidator.validate(vehicleDto, errors));
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
 
     // then
-    assertEquals("Generation is not valid", illegalArgumentException.getMessage());
+    assertEquals("Generation is not valid", exception.getMessage());
   }
 
   @Test
@@ -276,11 +288,12 @@ class VehicleValidatorTest {
     vehicleDto.setGeneration(BLANK);
 
     // when
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
-        () -> vehicleValidator.validate(vehicleDto, errors));
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
 
     // then
-    assertEquals("Generation is not valid", illegalArgumentException.getMessage());
+    assertEquals("Generation is not valid", exception.getMessage());
   }
 
   @Test
@@ -289,11 +302,12 @@ class VehicleValidatorTest {
     vehicleDto.setGeneration("Wrong generation");
 
     // when
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
-        () -> vehicleValidator.validate(vehicleDto, errors));
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
 
     // then
-    assertEquals("Given generation does not exist", illegalArgumentException.getMessage());
+    assertEquals("Given generation does not exist", exception.getMessage());
   }
 
   @Test
@@ -302,11 +316,12 @@ class VehicleValidatorTest {
     vehicleDto.setLocation(null);
 
     // when
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
-        () -> vehicleValidator.validate(vehicleDto, errors));
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
 
     // then
-    assertEquals("Vehicle location is missing", illegalArgumentException.getMessage());
+    assertEquals("Vehicle location is missing", exception.getMessage());
   }
 
   @Test
@@ -315,11 +330,12 @@ class VehicleValidatorTest {
     vehicleDto.setLocation(BLANK);
 
     // when
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
-        () -> vehicleValidator.validate(vehicleDto, errors));
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
 
     // then
-    assertEquals("Vehicle location is missing", illegalArgumentException.getMessage());
+    assertEquals("Vehicle location is missing", exception.getMessage());
   }
 
   @Test
@@ -328,11 +344,12 @@ class VehicleValidatorTest {
     vehicleDto.setMake(null);
 
     // when
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
-        () -> vehicleValidator.validate(vehicleDto, errors));
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
 
     // then
-    assertEquals("Vehicle make is missing", illegalArgumentException.getMessage());
+    assertEquals("Vehicle make is missing", exception.getMessage());
   }
 
   @Test
@@ -341,11 +358,12 @@ class VehicleValidatorTest {
     vehicleDto.setMileage(-1L);
 
     // when
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
-        () -> vehicleValidator.validate(vehicleDto, errors));
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
 
     // then
-    assertEquals("Mileage has incorrect value", illegalArgumentException.getMessage());
+    assertEquals("Mileage has incorrect value", exception.getMessage());
   }
 
   @Test
@@ -354,11 +372,12 @@ class VehicleValidatorTest {
     vehicleDto.setModel(null);
 
     // when
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
-        () -> vehicleValidator.validate(vehicleDto, errors));
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
 
     // then
-    assertEquals("Vehicle model is missing", illegalArgumentException.getMessage());
+    assertEquals("Vehicle model is missing", exception.getMessage());
   }
 
   @Test
@@ -367,11 +386,12 @@ class VehicleValidatorTest {
     vehicleDto.setModel(BLANK);
 
     // when
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
-        () -> vehicleValidator.validate(vehicleDto, errors));
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
 
     // then
-    assertEquals("Vehicle model is missing", illegalArgumentException.getMessage());
+    assertEquals("Vehicle model is missing", exception.getMessage());
   }
 
   @Test
@@ -380,11 +400,12 @@ class VehicleValidatorTest {
     vehicleDto.setModel("Wrong model");
 
     // when
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
-        () -> vehicleValidator.validate(vehicleDto, errors));
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
 
     // then
-    assertEquals("Given model does not exist", illegalArgumentException.getMessage());
+    assertEquals("Given model does not exist", exception.getMessage());
   }
 
   @Test
@@ -393,11 +414,12 @@ class VehicleValidatorTest {
     vehicleDto.setNumberOfSeats(0);
 
     // when
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
-        () -> vehicleValidator.validate(vehicleDto, errors));
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
 
     // then
-    assertEquals("Number of seats has incorrect value", illegalArgumentException.getMessage());
+    assertEquals("Number of seats has incorrect value", exception.getMessage());
   }
 
   @Test
@@ -406,12 +428,12 @@ class VehicleValidatorTest {
     vehicleDto.setNumberOfVehicleOwners(-1);
 
     // when
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
-        () -> vehicleValidator.validate(vehicleDto, errors));
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
 
     // then
-    assertEquals("Number of vehicle owners has incorrect value",
-        illegalArgumentException.getMessage());
+    assertEquals("Number of vehicle owners has incorrect value", exception.getMessage());
   }
 
   @Test
@@ -420,11 +442,12 @@ class VehicleValidatorTest {
     vehicleDto.setPrice(null);
 
     // when
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
-        () -> vehicleValidator.validate(vehicleDto, errors));
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
 
     // then
-    assertEquals("Price has incorrect value", illegalArgumentException.getMessage());
+    assertEquals("Price has incorrect value", exception.getMessage());
   }
 
   @Test
@@ -433,11 +456,12 @@ class VehicleValidatorTest {
     vehicleDto.setPrice(BigDecimal.valueOf(-1L));
 
     // when
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
-        () -> vehicleValidator.validate(vehicleDto, errors));
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
 
     // then
-    assertEquals("Price has incorrect value", illegalArgumentException.getMessage());
+    assertEquals("Price has incorrect value", exception.getMessage());
   }
 
   @Test
@@ -446,11 +470,12 @@ class VehicleValidatorTest {
     vehicleDto.setType(null);
 
     // when
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
-        () -> vehicleValidator.validate(vehicleDto, errors));
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
 
     // then
-    assertEquals("Vehicle is missing", illegalArgumentException.getMessage());
+    assertEquals("Vehicle is missing", exception.getMessage());
   }
 
   @Test
@@ -459,11 +484,12 @@ class VehicleValidatorTest {
     vehicleDto.setVin(null);
 
     // when
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
-        () -> vehicleValidator.validate(vehicleDto, errors));
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
 
     // then
-    assertEquals("Vehicle vin is missing", illegalArgumentException.getMessage());
+    assertEquals("Vehicle vin is missing", exception.getMessage());
   }
 
   @Test
@@ -472,10 +498,123 @@ class VehicleValidatorTest {
     vehicleDto.setVin(BLANK);
 
     // when
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
-        () -> vehicleValidator.validate(vehicleDto, errors));
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
 
     // then
-    assertEquals("Vehicle vin is missing", illegalArgumentException.getMessage());
+    assertEquals("Vehicle vin is missing", exception.getMessage());
+  }
+
+  @Test
+  void should_throw_exception_when_vin_size_is_smaller_than_seventeen() {
+    // given
+    vehicleDto.setVin("JH4CW2I61CC00007");
+
+    // when
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
+
+    // then
+    assertEquals("VIN number must be 17 characters, but was 16", exception.getMessage());
+  }
+
+  @Test
+  void should_throw_exception_when_vin_size_is_greater_than_seventeen() {
+    // given
+    vehicleDto.setVin("JH4CW2I61CC0000733");
+
+    // when
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
+
+    // then
+    assertEquals("VIN number must be 17 characters, but was 18", exception.getMessage());
+  }
+
+  @Test
+  void should_throw_exception_when_vin_contains_illegal_letter_I() {
+    // given
+    vehicleDto.setVin("JH4CW2I61CC000073");
+
+    // when
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
+
+    // then
+    assertEquals("VIN contains illegal letter I", exception.getMessage());
+  }
+
+  @Test
+  void should_throw_exception_when_vin_contains_illegal_letter_O() {
+    // given
+    vehicleDto.setVin("JH4CW2O61CC000073");
+
+    // when
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
+
+    // then
+    assertEquals("VIN contains illegal letter O", exception.getMessage());
+  }
+
+  @Test
+  void should_throw_exception_when_vin_contains_illegal_letter_Q() {
+    // given
+    vehicleDto.setVin("JH4CW2Q61CC000073");
+
+    // when
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
+
+    // then
+    assertEquals("VIN contains illegal letter Q", exception.getMessage());
+  }
+
+  @Test
+  void should_throw_exception_when_vin_contains_illegal_character() {
+    // given
+    vehicleDto.setVin("JH4CW2%61CC000073");
+
+    // when
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
+
+    // then
+    assertEquals("VIN contains illegal character %", exception.getMessage());
+  }
+
+  @Test
+  void should_throw_exception_when_vin_check_digit_calculation_has_incorrect_value() {
+    // given
+    vehicleDto.setVin("JH4CW2H6ECC000073");
+
+    // when
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
+
+    // then
+    assertEquals("Incorrect VIN - check digit returned wrong value", exception.getMessage());
+  }
+
+  @Test
+  void should_throw_exception_when_vin_check_digit_calculation_returned_incorrect_value() {
+    // given
+    vehicleDto.setVin("JH4CW2H65CC000000");
+
+    // when
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class, () -> vehicleValidator.validate(vehicleDto, errors)
+    );
+
+    // then
+    assertEquals("Incorrect VIN - check digit calculated wrong value", exception.getMessage());
   }
 }
