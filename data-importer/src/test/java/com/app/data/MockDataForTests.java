@@ -29,88 +29,76 @@ public interface MockDataForTests {
   String VOIVODESHIP_NAME_2 = "MAŁOPOLSKIE";
 
   static String createVoivodeshipsJSON() {
-    return """
-        {
-          "voivodeships": [
-            {
-              "id": "5e920820cc59bf3c462ba6b4",
-              "name": "PODKARPACKIE"
-            },
-            {
-              "id": "5e920820cc59bf3c462ba6b5",
-              "name": "MAŁOPOLSKIE"
-            }
-          ]
-        }
-        """;
+    return "{\n" +
+            "          \"voivodeships\": [\n" +
+            "            {\n" +
+            "              \"id\": \"5e920820cc59bf3c462ba6b4\",\n" +
+            "              \"name\": \"PODKARPACKIE\"\n" +
+            "            },\n" +
+            "            {\n" +
+            "              \"id\": \"5e920820cc59bf3c462ba6b5\",\n" +
+            "              \"name\": \"MAŁOPOLSKIE\"\n" +
+            "            }\n" +
+            "          ]\n" +
+            "        }";
   }
 
   static String createEmptyVoivodeshipsJSON() {
-    return """
-        {
-          "voivodeships": []
-        }
-        """;
+    return "{\n" +
+            "          \"voivodeships\": []\n" +
+            "        }";
   }
 
   static String createCountiesJSON() {
-    return """
-        {
-          "counties": [
-            {
-              "id": "5e120820cc59bf3c462ba6b4",
-              "name": "stalowowolski",
-              "voivodeshipId": "5e920820cc59bf3c462ba6b4"
-            },
-            {
-              "id": "5e130820cc59bf3c462ba6b5",
-              "name": "niżański",
-              "voivodeshipId": "5e920820cc59bf3c462ba6b5"
-            }
-          ]
-        }
-        """;
+    return "{\n" +
+            "          \"counties\": [\n" +
+            "            {\n" +
+            "              \"id\": \"5e120820cc59bf3c462ba6b4\",\n" +
+            "              \"name\": \"stalowowolski\",\n" +
+            "              \"voivodeshipId\": \"5e920820cc59bf3c462ba6b4\"\n" +
+            "            },\n" +
+            "            {\n" +
+            "              \"id\": \"5e130820cc59bf3c462ba6b5\",\n" +
+            "              \"name\": \"niżański\",\n" +
+            "              \"voivodeshipId\": \"5e920820cc59bf3c462ba6b5\"\n" +
+            "            }\n" +
+            "          ]\n" +
+            "        }";
   }
 
   static String createEmptyCountiesJSON() {
-    return """
-        {
-          "counties": []
-        }
-        """;
+    return "{\n" +
+            "          \"counties\": []\n" +
+            "        }";
   }
 
   static String createLocalitiesJSON() {
-    return """
-        {
-          "localities": [
-            {
-              "id": "5e920820cc59bf3c462ba6qs",
-              "countyId": "5e120820cc59bf3c462ba6b4",
-              "distance": 0,
-              "latitude": 50.5666644,
-              "longitude": 22.0499998,
-              "name": "Stalowa Wola"
-            },
-            {
-              "id": "4e920820cc59bf3c462ba6qs",
-              "countyId": "5e120820cc59bf3c462ba6b4",
-              "distance": 0,
-              "latitude": 50.60389,
-              "longitude": 22.10667,
-              "name": "Jastkowice"
-            }
-          ]
-        }
-        """;
+    return "{\n" +
+            "  \"localities\": [\n" +
+            "    {\n" +
+            "      \"id\": \"5e920820cc59bf3c462ba6qs\",\n" +
+            "      \"countyId\": \"5e120820cc59bf3c462ba6b4\",\n" +
+            "      \"distance\": 0,\n" +
+            "      \"latitude\": 50.5666644,\n" +
+            "      \"longitude\": 22.0499998,\n" +
+            "      \"name\": \"Stalowa Wola\"\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"id\": \"4e920820cc59bf3c462ba6qs\",\n" +
+            "      \"countyId\": \"5e120820cc59bf3c462ba6b4\",\n" +
+            "      \"distance\": 0,\n" +
+            "      \"latitude\": 50.60389,\n" +
+            "      \"longitude\": 22.10667,\n" +
+            "      \"name\": \"Jastkowice\"\n" +
+            "    }\n" +
+            "  ]\n" +
+            "}";
   }
 
   static String createEmptyLocalitiesJSON() {
-    return """
-        {
-          "localities": []
-        }
-        """;
+    return "{\n" +
+            "  \"localities\": []\n" +
+            "}";
   }
 
   static List<Voivodeship> createVoivodeships() {

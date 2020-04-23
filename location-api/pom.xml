@@ -14,7 +14,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <properties>
-        <java.version>1.13</java.version>
-    </properties>
+    <build>
+        <finalName>location-api</finalName>
+    </build>
 </project>

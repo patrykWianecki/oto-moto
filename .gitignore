@@ -12,6 +12,11 @@
 *.iws
 *.iml
 *.ipr
+currency-api/target/
+data-importer/target/
+location-api/target/
+otomoto-client/target/
+otomoto-service/target/
 
 ### NetBeans ###
 /nbproject/private/

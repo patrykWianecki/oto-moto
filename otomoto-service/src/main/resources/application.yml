@@ -5,5 +5,5 @@ spring:
   data:
     mongodb:
       database: otomoto_db
-      host: localhost
+      host: mongodb
       port: 27017

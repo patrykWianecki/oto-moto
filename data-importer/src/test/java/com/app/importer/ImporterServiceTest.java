@@ -32,7 +32,7 @@ class ImporterServiceTest {
   private MongoCollection<Document> documentMongoCollection;
 
   @InjectMocks
-  private ImporterService jsonImporter = new ImporterService("localhost", "test_db", 8888);
+  private final ImporterService jsonImporter = new ImporterService("localhost", "test_db", 8888);
 
   @BeforeEach
   public void setUp() {
@@ -42,8 +42,6 @@ class ImporterServiceTest {
 
   @Test
   void should_add_voivodeships_to_database() {
-    // given
-
     // when
     List<Voivodeship> voivodeships = jsonImporter.createVoivodeships(createVoivodeshipsJSON());
 
@@ -64,8 +62,6 @@ class ImporterServiceTest {
 
   @Test
   void should_return_empty_list_when_voivodeships_has_no_values() {
-    // given
-
     // when
     List<Voivodeship> voivodeships = jsonImporter.createVoivodeships(createEmptyVoivodeshipsJSON());
 
@@ -76,8 +72,6 @@ class ImporterServiceTest {
 
   @Test
   void should_return_empty_list_when_voivodeships_json_is_null() {
-    // given
-
     // when
     List<Voivodeship> voivodeships = jsonImporter.createVoivodeships(null);
 
@@ -88,8 +82,6 @@ class ImporterServiceTest {
 
   @Test
   void should_return_empty_list_when_voivodeships_json_is_empty() {
-    // given
-
     // when
     List<Voivodeship> voivodeships = jsonImporter.createVoivodeships(BLANK_JSON);
 
@@ -100,8 +92,6 @@ class ImporterServiceTest {
 
   @Test
   void should_add_counties_to_database() {
-    // given
-
     // when
     List<County> counties = jsonImporter.createCounties(createCountiesJSON());
 
@@ -124,8 +114,6 @@ class ImporterServiceTest {
 
   @Test
   void should_return_empty_list_when_counties_has_no_values() {
-    // given
-
     // when
     List<County> counties = jsonImporter.createCounties(createEmptyCountiesJSON());
 
@@ -136,8 +124,6 @@ class ImporterServiceTest {
 
   @Test
   void should_return_empty_list_when_counties_json_is_null() {
-    // given
-
     // when
     List<County> counties = jsonImporter.createCounties(null);
 
@@ -148,8 +134,6 @@ class ImporterServiceTest {
 
   @Test
   void should_return_empty_list_when_counties_json_is_empty() {
-    // given
-
     // when
     List<County> counties = jsonImporter.createCounties(BLANK_JSON);
 
@@ -160,8 +144,6 @@ class ImporterServiceTest {
 
   @Test
   void should_add_localities_to_database() {
-    // given
-
     // when
     List<Locality> localities = jsonImporter.createLocalities(createLocalitiesJSON());
 
@@ -190,8 +172,6 @@ class ImporterServiceTest {
 
   @Test
   void should_return_empty_list_when_localities_has_no_values() {
-    // given
-
     // when
     List<Locality> localities = jsonImporter.createLocalities(createEmptyLocalitiesJSON());
 
@@ -202,8 +182,6 @@ class ImporterServiceTest {
 
   @Test
   void should_return_empty_list_when_localities_json_is_null() {
-    // given
-
     // when
     List<Locality> localities = jsonImporter.createLocalities(null);
 
@@ -214,8 +192,6 @@ class ImporterServiceTest {
 
   @Test
   void should_return_empty_list_when_localities_json_is_empty() {
-    // given
-
     // when
     List<Locality> localities = jsonImporter.createLocalities(BLANK_JSON);
 

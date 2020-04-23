@@ -1,0 +1,91 @@
+version: '3.5'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: always
+    ports:
+      - 27017
+    volumes:
+      - /data/mongodb
+    networks:
+      - otomoto-network
+
+  otomoto-service:
+    image: otomoto-service
+    build:
+      context: ./otomoto-service
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - mongodb
+    ports:
+      - 8080
+    volumes:
+      - /data/otomoto-service
+    networks:
+      - otomoto-network
+
+  otomoto-client:
+    image: otomoto-client
+    build:
+      context: ./otomoto-client
+      dockerfile: Dockerfile
+    restart: always
+    links:
+      - otomoto-service
+    ports:
+      - 8081:8081
+    volumes:
+      - /data/otomoto-client
+    networks:
+      - otomoto-network
+
+  #  currency-api:
+  #    image: currency-api
+  #    build:
+  #      context: ./currency-api
+  #      dockerfile: Dockerfile
+  #    restart: always
+  #    ports:
+  #      - 8082
+  #    volumes:
+  #      - /data/currency-api
+  #    networks:
+  #      - otomoto-network
+
+  location-api:
+    image: location-api
+    build:
+      context: ./location-api
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - mongodb
+    ports:
+      - 8083
+    volumes:
+      - /data/location-api
+    networks:
+      - otomoto-network
+
+  data-importer:
+    image: data-importer
+    build:
+      context: ./data-importer
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - mongodb
+    ports:
+      - 8084
+    volumes:
+      - /data/data-importer
+    networks:
+      - otomoto-network
+
+networks:
+  otomoto-network:
+volumes:
+  otomoto-volume: {}

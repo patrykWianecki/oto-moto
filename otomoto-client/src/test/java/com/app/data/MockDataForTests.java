@@ -75,42 +75,40 @@ public class MockDataForTests {
   }
 
   public static String createValidResponse() {
-    return """
-        {
-          "id": "7865asfdasdfaw3",
-          "colour": "BLACK",
-          "condition": "NEW",
-          "currency": "PLN",
-          "dateOfProduction": "2019-12-01",
-          "drive": "ALL_WHEEL_DRIVE",
-          "engineDto": {
-            "capacity": 4.0,
-            "emmisionClass": "EURO_5",
-            "fuel": "DIESEL",
-            "fuelConsumption": 15.0,
-            "power": 612
-          },
-          "features": [
-            "ESP",
-            "ABS",
-            "ASR"
-          ],
-          "firstRegistration": "2020-01-01",
-          "gearbox": "AUTOMATIC",
-          "generation": "C8",
-          "location": "Warsaw",
-          "make": "AUDI",
-          "mileage": 0,
-          "model": "A_6",
-          "numberOfSeats": 4,
-          "numberOfVehicleOwners": 0,
-          "price": 900000,
-          "type": "SEDAN",
-          "vin": "JH4CW2H61CC000073",
-          "priceNegotiable": false,
-          "damaged": false,
-          "accidentFree": true
-        }
-        """;
+    return "{\n" +
+            "          \"id\": \"7865asfdasdfaw3\",\n" +
+            "          \"colour\": \"BLACK\",\n" +
+            "          \"condition\": \"NEW\",\n" +
+            "          \"currency\": \"PLN\",\n" +
+            "          \"dateOfProduction\": \"2019-12-01\",\n" +
+            "          \"drive\": \"ALL_WHEEL_DRIVE\",\n" +
+            "          \"engineDto\": {\n" +
+            "            \"capacity\": 4.0,\n" +
+            "            \"emmisionClass\": \"EURO_5\",\n" +
+            "            \"fuel\": \"DIESEL\",\n" +
+            "            \"fuelConsumption\": 15.0,\n" +
+            "            \"power\": 612\n" +
+            "          },\n" +
+            "          \"features\": [\n" +
+            "            \"ESP\",\n" +
+            "            \"ABS\",\n" +
+            "            \"ASR\"\n" +
+            "          ],\n" +
+            "          \"firstRegistration\": \"2020-01-01\",\n" +
+            "          \"gearbox\": \"AUTOMATIC\",\n" +
+            "          \"generation\": \"C8\",\n" +
+            "          \"location\": \"Warsaw\",\n" +
+            "          \"make\": \"AUDI\",\n" +
+            "          \"mileage\": 0,\n" +
+            "          \"model\": \"A_6\",\n" +
+            "          \"numberOfSeats\": 4,\n" +
+            "          \"numberOfVehicleOwners\": 0,\n" +
+            "          \"price\": 900000,\n" +
+            "          \"type\": \"SEDAN\",\n" +
+            "          \"vin\": \"JH4CW2H61CC000073\",\n" +
+            "          \"priceNegotiable\": false,\n" +
+            "          \"damaged\": false,\n" +
+            "          \"accidentFree\": true\n" +
+            "        }";
   }
 }
