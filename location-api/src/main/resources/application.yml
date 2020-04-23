@@ -7,3 +7,10 @@ spring:
       database: otomoto_db
       host: mongodb
       port: 27017
+
+logging:
+  level:
+    root:
+      OFF
+    org:
+      springframework: OFF
