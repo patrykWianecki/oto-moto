@@ -116,41 +116,40 @@ public class MockDataForTests {
   }
 
   public static String createValidResponse() {
-    return """
-        {
-          "id": "71623v12hvk1j2",
-          "colour": "BLACK",
-          "condition": "NEW",
-          "currency": "PLN",
-          "dateOfProduction": "2019-12-01",
-          "drive": "ALL_WHEEL_DRIVE",
-          "engineDto": {
-            "capacity": 4.0,
-            "emmisionClass": "EURO_6",
-            "fuel": "PETROL",
-            "fuelConsumption": 15.0,
-            "power": 612
-          },
-          "features": [
-            "ASR",
-            "ESP",
-            "ABS"
-          ],
-          "firstRegistration": "2020-01-01",
-          "gearbox": "AUTOMATIC",
-          "generation": "W222",
-          "accidentFree": true,
-          "damaged": false,
-          "priceNegotiable": false,
-          "location": "Warsaw",
-          "make": "MERCEDES",
-          "mileage": 0,
-          "model": "SCLASS",
-          "numberOfSeats": 4,
-          "numberOfVehicleOwners": 0,
-          "price": 900000,
-          "type": "SEDAN",
-          "vin": "JH4CW2H61CC000073"
-        }""";
+    return "{\n" +
+            "          \"id\": \"71623v12hvk1j2\",\n" +
+            "          \"colour\": \"BLACK\",\n" +
+            "          \"condition\": \"NEW\",\n" +
+            "          \"currency\": \"PLN\",\n" +
+            "          \"dateOfProduction\": \"2019-12-01\",\n" +
+            "          \"drive\": \"ALL_WHEEL_DRIVE\",\n" +
+            "          \"engineDto\": {\n" +
+            "            \"capacity\": 4.0,\n" +
+            "            \"emmisionClass\": \"EURO_6\",\n" +
+            "            \"fuel\": \"PETROL\",\n" +
+            "            \"fuelConsumption\": 15.0,\n" +
+            "            \"power\": 612\n" +
+            "          },\n" +
+            "          \"features\": [\n" +
+            "            \"ASR\",\n" +
+            "            \"ESP\",\n" +
+            "            \"ABS\"\n" +
+            "          ],\n" +
+            "          \"firstRegistration\": \"2020-01-01\",\n" +
+            "          \"gearbox\": \"AUTOMATIC\",\n" +
+            "          \"generation\": \"W222\",\n" +
+            "          \"accidentFree\": true,\n" +
+            "          \"damaged\": false,\n" +
+            "          \"priceNegotiable\": false,\n" +
+            "          \"location\": \"Warsaw\",\n" +
+            "          \"make\": \"MERCEDES\",\n" +
+            "          \"mileage\": 0,\n" +
+            "          \"model\": \"SCLASS\",\n" +
+            "          \"numberOfSeats\": 4,\n" +
+            "          \"numberOfVehicleOwners\": 0,\n" +
+            "          \"price\": 900000,\n" +
+            "          \"type\": \"SEDAN\",\n" +
+            "          \"vin\": \"JH4CW2H61CC000073\"\n" +
+            "        }";
   }
 }

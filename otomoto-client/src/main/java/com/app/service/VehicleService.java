@@ -18,7 +18,7 @@ import static org.springframework.http.MediaType.*;
 @Service
 public class VehicleService {
 
-  private static final String URL = "http://localhost:8080/vehicles";
+  private static final String URL = "http://otomoto-service:8080/vehicles";
   private static final String VEHICLE_ID_PARAM = "?vehicleId={vehicleId}";
   private static final String ALL = "/all";
 

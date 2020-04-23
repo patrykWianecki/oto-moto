@@ -36,7 +36,7 @@ public class CurrencyService {
   private static final long TIMEOUT_IN_SECONDS = 10L;
 
   @Value("${exchange-api-url}")
-  private String EXCHANGE_API_URL;
+  private String exchangeApiUrl;
 
   /**
    * Returns Currency object, which contains informations about base, date and rates.
@@ -80,7 +80,7 @@ public class CurrencyService {
   }
 
   private HttpRequest createGetRequest(String base) throws URISyntaxException {
-    String url = isEmpty(base) ? EXCHANGE_API_URL : createURLWithParam(base);
+    String url = isEmpty(base) ? exchangeApiUrl : createURLWithParam(base);
     return HttpRequest.newBuilder()
         .uri(new URI(url))
         .version(Version.HTTP_2)
@@ -90,7 +90,7 @@ public class CurrencyService {
   }
 
   private String createURLWithParam(String base) {
-    return EXCHANGE_API_URL + "?base=" + base;
+    return exchangeApiUrl + "?base=" + base;
   }
 
   private static void validateRequest(Currency currency) {
