@@ -6,4 +6,4 @@ GET http://localhost:8082/currency?base=
 # GET ACTUAL CURRENCIES WITH PLN BASE
 GET http://localhost:8082/currency?base=PLN
 
-###ó
+###

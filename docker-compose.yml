@@ -42,18 +42,18 @@ services:
     networks:
       - otomoto-network
 
-  #  currency-api:
-  #    image: currency-api
-  #    build:
-  #      context: ./currency-api
-  #      dockerfile: Dockerfile
-  #    restart: always
-  #    ports:
-  #      - 8082
-  #    volumes:
-  #      - /data/currency-api
-  #    networks:
-  #      - otomoto-network
+  currency-api:
+    image: currency-api
+    build:
+      context: ./currency-api
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 8082:8082
+    volumes:
+      - /data/currency-api
+    networks:
+      - otomoto-network
 
   location-api:
     image: location-api
