@@ -17,6 +17,7 @@ data-importer/target/
 location-api/target/
 otomoto-client/target/
 otomoto-service/target/
+eureka-server/target/
 
 ### NetBeans ###
 /nbproject/private/
