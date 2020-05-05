@@ -85,6 +85,19 @@ services:
     networks:
       - otomoto-network
 
+  api-gateway:
+    image: api-gateway
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 8085:8085
+    depends_on:
+      - eureka-server
+    networks:
+      - otomoto-network
+
   eureka-server:
     image: eureka-server
     build:

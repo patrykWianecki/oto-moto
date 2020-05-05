@@ -11,6 +11,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>api-gateway</module>
         <module>currency-api</module>
         <module>data-importer</module>
         <module>eureka-server</module>
