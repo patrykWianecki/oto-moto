@@ -17,9 +17,6 @@ eureka:
   instance:
     prefer-ip-address: true
 
-# TODO
-# connection with mongodb like in example with users-service
-
 logging:
   level:
     root:

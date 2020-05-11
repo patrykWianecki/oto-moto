@@ -1,39 +1,32 @@
 version: '3.5'
 
 services:
-#   https://stackoverflow:com/questions/42912755/how-to-create-a-db-for-mongodb-container-on-start-up
-#  mongodb:
-#    image: mongo:latest
-#    container_name: mongodb
-#    restart: always
-#    environment:
-#      MONGO_INITDB_ROOT_USERNAME: TODO
-#      MONGO_INITDB_ROOT_PASSWORD_FILE: TODO
-#      MONGO_INITDB_USERNAME: TODO
-#      MONGO_INITDB_PASSWORD_FILE: TODO
-#      MONGO_INITDB_DATABASE: TODO
-#    ports:
-#      - 27017
-#    volumes:
-#      - /data/mongodb
-#    networks:
-#      - otomoto-network
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: always
+    ports:
+      - 27017
+    volumes:
+      - /data/mongodb
+    networks:
+      - otomoto-network
 
-#  otomoto-service:
-#    image: otomoto-service
-#    build:
-#      context: ./otomoto-service
-#      dockerfile: Dockerfile
-#    restart: always
-#    depends_on:
-#      - mongodb
-#      - eureka-server
-#    ports:
-#      - 8080
-#    volumes:
-#      - /data/otomoto-service
-#    networks:
-#      - otomoto-network
+  otomoto-service:
+    image: otomoto-service
+    build:
+      context: ./otomoto-service
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - mongodb
+      - eureka-server
+    ports:
+      - 8080
+    volumes:
+      - /data/otomoto-service
+    networks:
+      - otomoto-network
 
 #  otomoto-client:
 #    image: otomoto-client
@@ -104,7 +97,7 @@ services:
       - 8085:8085
     depends_on:
       - eureka-server
-#      - otomoto-service
+      - otomoto-service
 #      - otomoto-client
       - currency-api
     networks:
