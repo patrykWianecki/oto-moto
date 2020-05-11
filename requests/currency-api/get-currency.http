@@ -1,9 +1,23 @@
 # GET ACTUAL CURRENCIES WITH DEFAULT EUR BASE
+
+# LOCALHOST
 GET http://localhost:8082/currency?base=
 
 ###
 
+# MICROSERVICES
+GET http://172.18.0.2:8082/currency?base=
+
+###
+
 # GET ACTUAL CURRENCIES WITH PLN BASE
-GET http://localhost:8082/currency?base=PLN
+
+# LOCALHOST
+GET http://172.18.0.2:8082/currency?base=PLN
+
+###
+
+# MICROSERVICE
+GET http://172.18.0.2:8082/currency?base=PLN
 
 ###
