@@ -12,8 +12,8 @@ eureka:
   instance:
     prefer-ip-address: true
 
-zuul:
-  ignored-services: '*'
-  prefix: /api
-  host:
-    connect-timeout-millis: 30000
+#zuul:
+#  ignored-services: '*'
+#  prefix: /api
+#  host:
+#    connect-timeout-millis: 30000

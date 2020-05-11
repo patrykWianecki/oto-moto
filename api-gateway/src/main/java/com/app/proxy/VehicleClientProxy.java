@@ -14,15 +14,15 @@ import com.app.dto.VehicleDto;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-@FeignClient(name = "otomoto-service")
-public interface VehicleServiceProxy {
+@FeignClient(name = "otomoto-client")
+public interface VehicleClientProxy {
 
     @PostMapping
     Mono<ResponseEntity<VehicleDto>> addVehicle(@RequestBody VehicleDto vehicle);
 
     @PutMapping
     Mono<ResponseEntity<VehicleDto>> updateVehicle(@RequestParam String vehicleId,
-            @RequestBody VehicleDto vehicleDto);
+            @RequestBody VehicleDto vehicle);
 
     @GetMapping
     Mono<ResponseEntity<VehicleDto>> findVehicleById(@RequestParam String vehicleId);
