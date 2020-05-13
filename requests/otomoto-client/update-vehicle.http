@@ -1,5 +1,49 @@
 # UPDATE VEHICLE
+
+# LOCALHOST
 PUT http://localhost:8081/vehicles?vehicleId={vehicleId}
+Content-Type: application/json
+
+{
+  "id": "{vehicleId}",
+  "colour": "BLUE",
+  "condition": "USED",
+  "currency": "PLN",
+  "dateOfProduction": "2019-10-10",
+  "drive": "ALL_WHEEL_DRIVE",
+  "engineDto": {
+    "capacity": 2.3,
+    "emmisionClass": "EURO_6",
+    "fuel": "DIESEL",
+    "fuelConsumption": 8.7,
+    "power": 313
+  },
+  "features": [
+    "ESP",
+    "ABS",
+    "ASR"
+  ],
+  "firstRegistration": "2019-11-09",
+  "gearbox": "AUTOMATIC",
+  "generation": "W222",
+  "location": "Krzyżanówek",
+  "make": "MERCEDES",
+  "mileage": 123456,
+  "model": "SCLASS",
+  "numberOfSeats": 5,
+  "numberOfVehicleOwners": 1,
+  "price": 26900,
+  "type": "WAGON",
+  "vin": "JH4CW2H61CC000073",
+  "accidentFree": true,
+  "damaged": false,
+  "priceNegotiable": false
+}
+
+###
+
+# MICROSERVICES
+PUT http://172.18.0.6:8081/vehicles?vehicleId={vehicleId}
 Content-Type: application/json
 
 {

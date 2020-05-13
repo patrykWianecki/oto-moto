@@ -1,9 +1,23 @@
 # GET ALL VEHICLES
-GET localhost:8081/vehicles/all
+
+# LOCALHOST
+GET http://localhost:8081/vehicles/all
+
+###
+
+# MICROSERVICES
+GET http://172.18.0.6:8081/vehicles/all
 
 ###
 
 # GET VEHICLE BY ID
+
+# LOCALHOST
 GET http://localhost:8081/vehicles?vehicleId={vehicleId}
+
+###
+
+# MICROSERVICES
+GET http://172.18.0.6:8081/vehicles?vehicleId={vehicleId}
 
 ###

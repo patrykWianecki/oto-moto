@@ -28,21 +28,21 @@ services:
     networks:
       - otomoto-network
 
-#  otomoto-client:
-#    image: otomoto-client
-#    build:
-#      context: ./otomoto-client
-#      dockerfile: Dockerfile
-#    restart: always
-#    links:
-#      - otomoto-service
-#      - eureka-server
-#    ports:
-#      - 8081
-#    volumes:
-#      - /data/otomoto-client
-#    networks:
-#      - otomoto-network
+  otomoto-client:
+    image: otomoto-client
+    build:
+      context: ./otomoto-client
+      dockerfile: Dockerfile
+    restart: always
+    links:
+      - otomoto-service
+      - eureka-server
+    ports:
+      - 8081
+    volumes:
+      - /data/otomoto-client
+    networks:
+      - otomoto-network
 
   currency-api:
     image: currency-api
@@ -98,7 +98,7 @@ services:
     depends_on:
       - eureka-server
       - otomoto-service
-#      - otomoto-client
+      - otomoto-client
       - currency-api
     networks:
       - otomoto-network

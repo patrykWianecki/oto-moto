@@ -1,9 +1,23 @@
 # DELETE ALL VEHICLES
-DELETE http://localhost:8080/vehicles/all
+
+# LOCALHOST
+DELETE http://localhost:8081/vehicles/all
+
+###
+
+# MICROSERVICES
+DELETE http://172.18.0.6:8081/vehicles/all
 
 ###
 
 # DELETE VEHICLE BY ID
-DELETE http://localhost:8080/vehicles?vehicleId={vehicleId}
+
+# LOCALHOST
+DELETE http://localhost:8081/vehicles?vehicleId={vehicleId}
+
+###
+
+# MICROSERVICES
+DELETE http://172.18.0.6:8081/vehicles?vehicleId={vehicleId}
 
 ###
