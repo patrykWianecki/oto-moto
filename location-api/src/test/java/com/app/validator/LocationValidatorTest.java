@@ -16,7 +16,7 @@ class LocationValidatorTest {
   @InjectMocks
   private LocationValidator locationValidator;
 
-  private LocationResponse response = createValidLocationResponse();
+  private final LocationResponse response = createValidLocationResponse();
 
   @Test
   void should_validate_response_without_throwing_any_exception() {
@@ -26,11 +26,14 @@ class LocationValidatorTest {
 
   @Test
   void should_throw_exception_when_response_is_null() {
-    // given
+    // when
+    NullPointerException exception = assertThrows(
+        NullPointerException.class,
+        () -> locationValidator.validateLocationResponse(null)
+    );
 
-    // when + then
-    assertThrows(NullPointerException.class,
-        () -> locationValidator.validateLocationResponse(null));
+    // then
+    assertEquals("Missing location response", exception.getMessage());
   }
 
   @Test
@@ -39,12 +42,14 @@ class LocationValidatorTest {
     response.setVoivodeshipName(null);
 
     // when
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
-        () -> locationValidator.validateLocationResponse(response));
+    IllegalArgumentException exception = assertThrows(
+        IllegalArgumentException.class,
+        () -> locationValidator.validateLocationResponse(response)
+    );
 
     // then
     assertEquals("Voivodeship name is null or in wrong format",
-        illegalArgumentException.getMessage());
+        exception.getMessage());
   }
 
   @Test
@@ -53,12 +58,12 @@ class LocationValidatorTest {
     response.setVoivodeshipName(response.getVoivodeshipName().toLowerCase());
 
     // when
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
+    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
         () -> locationValidator.validateLocationResponse(response));
 
     // then
     assertEquals("Voivodeship name is null or in wrong format",
-        illegalArgumentException.getMessage());
+        exception.getMessage());
   }
 
   @Test
@@ -67,11 +72,11 @@ class LocationValidatorTest {
     response.setCountyName(null);
 
     // when
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
+    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
         () -> locationValidator.validateLocationResponse(response));
 
     // then
-    assertEquals("County name is null or in wrong format", illegalArgumentException.getMessage());
+    assertEquals("County name is null or in wrong format", exception.getMessage());
   }
 
   @Test
@@ -80,11 +85,11 @@ class LocationValidatorTest {
     response.setCountyName(response.getCountyName().toLowerCase());
 
     // when
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
+    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
         () -> locationValidator.validateLocationResponse(response));
 
     // then
-    assertEquals("County name is null or in wrong format", illegalArgumentException.getMessage());
+    assertEquals("County name is null or in wrong format", exception.getMessage());
   }
 
   @Test
@@ -93,11 +98,11 @@ class LocationValidatorTest {
     response.setLocalityName(null);
 
     // when
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
+    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
         () -> locationValidator.validateLocationResponse(response));
 
     // then
-    assertEquals("Locality name is null or in wrong format", illegalArgumentException.getMessage());
+    assertEquals("Locality name is null or in wrong format", exception.getMessage());
   }
 
   @Test
@@ -106,11 +111,11 @@ class LocationValidatorTest {
     response.setLocalityName(response.getLocalityName().toLowerCase());
 
     // when
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
+    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
         () -> locationValidator.validateLocationResponse(response));
 
     // then
-    assertEquals("Locality name is null or in wrong format", illegalArgumentException.getMessage());
+    assertEquals("Locality name is null or in wrong format", exception.getMessage());
   }
 
   @Test
@@ -119,10 +124,10 @@ class LocationValidatorTest {
     response.setRadius(0);
 
     // when
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
+    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
         () -> locationValidator.validateLocationResponse(response));
 
     // then
-    assertEquals("Radious must be greater than zero", illegalArgumentException.getMessage());
+    assertEquals("Radious must be greater than zero", exception.getMessage());
   }
 }

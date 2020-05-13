@@ -8,22 +8,22 @@ import com.app.model.LocationResponse;
 import com.app.model.Voivodeship;
 import com.app.model.dto.LocalityDto;
 
-public class MockDataForTests {
+public interface MockDataForTests {
 
-  public static final String PODKARPACKIE_VOIVODESHIP = "PODKARPACKIE";
-  public static final String STALOWOWOLSKI_COUNTY = "STALOWOWOLSKI";
-  public static final String STALOWA_WOLA_LOCALITY = "STALOWA WOLA";
-  public static final String PYSZNICA_LOCALITY = "PYSZNICA";
-  public static final String ZAKLIKOW_LOCALITY = "ZAKLIKÓW";
+  String PODKARPACKIE_VOIVODESHIP = "PODKARPACKIE";
+  String STALOWOWOLSKI_COUNTY = "STALOWOWOLSKI";
+  String STALOWA_WOLA_LOCALITY = "STALOWA WOLA";
+  String PYSZNICA_LOCALITY = "PYSZNICA";
+  String ZAKLIKOW_LOCALITY = "ZAKLIKÓW";
 
-  public static Voivodeship createVoivodeship() {
+  static Voivodeship createVoivodeship() {
     return Voivodeship.builder()
         .id("11")
         .name(PODKARPACKIE_VOIVODESHIP)
         .build();
   }
 
-  public static County createCounty() {
+  static County createCounty() {
     return County.builder()
         .id("11-11")
         .voivodeshipId("11")
@@ -31,7 +31,7 @@ public class MockDataForTests {
         .build();
   }
 
-  public static Locality createLocality() {
+  static Locality createLocality() {
     return Locality.builder()
         .id("11-11-11")
         .countyId("11-11")
@@ -41,7 +41,7 @@ public class MockDataForTests {
         .build();
   }
 
-  public static List<LocalityDto> createLocalitiesDto() {
+  static List<LocalityDto> createLocalitiesDto() {
     return List.of(
         LocalityDto.builder()
             .id("11-11-11")
@@ -70,7 +70,7 @@ public class MockDataForTests {
     );
   }
 
-  public static List<Locality> createLocalities() {
+  static List<Locality> createLocalities() {
     return List.of(
         Locality.builder()
             .id("11-11-11")
@@ -96,7 +96,7 @@ public class MockDataForTests {
     );
   }
 
-  public static LocationResponse createValidLocationResponse() {
+  static LocationResponse createValidLocationResponse() {
     return LocationResponse.builder()
         .voivodeshipName(PODKARPACKIE_VOIVODESHIP)
         .countyName(STALOWOWOLSKI_COUNTY)

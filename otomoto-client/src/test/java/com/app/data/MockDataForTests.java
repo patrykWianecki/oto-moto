@@ -19,24 +19,24 @@ import static com.app.model.Gearbox.*;
 import static com.app.model.Make.*;
 import static com.app.model.Type.*;
 
-public class MockDataForTests {
+public interface MockDataForTests {
 
-  public static final String BLANK = "";
-  public static final String VEHICLE_DTO_ID = "7865asfdasdfaw3";
-  public static final String VIN = "JH4CW2H61CC000073";
-  public static final String CURRENCY_PLN = "PLN";
-  public static final String LOCATION_WARSAW = "Warsaw";
-  public static final Long MILEAGE = 0L;
-  public static final Integer NUMBER_OF_SEATS = 4;
-  public static final Integer NUMBER_OF_VEHICLE_OWNERS = 0;
-  public static final Integer POWER = 612;
-  public static final BigDecimal PRICE = BigDecimal.valueOf(900000);
-  public static final Double CAPACITY = 4.0D;
-  public static final Double FUEL_CONSUMPTION = 15.0D;
-  public static final LocalDate DATE_OF_PRODUCTION = LocalDate.of(2019, 12, 1);
-  public static final LocalDate DATE_OF_FIRST_REGISTRATION = LocalDate.of(2020, 1, 1);
+  String BLANK = "";
+  String VEHICLE_DTO_ID = "7865asfdasdfaw3";
+  String VIN = "JH4CW2H61CC000073";
+  String CURRENCY_PLN = "PLN";
+  String LOCATION_WARSAW = "Warsaw";
+  Long MILEAGE = 0L;
+  Integer NUMBER_OF_SEATS = 4;
+  Integer NUMBER_OF_VEHICLE_OWNERS = 0;
+  Integer POWER = 612;
+  BigDecimal PRICE = BigDecimal.valueOf(900000);
+  Double CAPACITY = 4.0D;
+  Double FUEL_CONSUMPTION = 15.0D;
+  LocalDate DATE_OF_PRODUCTION = LocalDate.of(2019, 12, 1);
+  LocalDate DATE_OF_FIRST_REGISTRATION = LocalDate.of(2020, 1, 1);
 
-  public static VehicleDto createVehicleDto() {
+  static VehicleDto createVehicleDto() {
     return VehicleDto.builder()
         .id(VEHICLE_DTO_ID)
         .colour(BLACK)
@@ -64,7 +64,7 @@ public class MockDataForTests {
         .build();
   }
 
-  public static EngineDto createEngineDto() {
+  static EngineDto createEngineDto() {
     return EngineDto.builder()
         .capacity(CAPACITY)
         .emmisionClass(EURO_5)
@@ -74,41 +74,41 @@ public class MockDataForTests {
         .build();
   }
 
-  public static String createValidResponse() {
+  static String createValidResponse() {
     return "{\n" +
-            "          \"id\": \"7865asfdasdfaw3\",\n" +
-            "          \"colour\": \"BLACK\",\n" +
-            "          \"condition\": \"NEW\",\n" +
-            "          \"currency\": \"PLN\",\n" +
-            "          \"dateOfProduction\": \"2019-12-01\",\n" +
-            "          \"drive\": \"ALL_WHEEL_DRIVE\",\n" +
-            "          \"engineDto\": {\n" +
-            "            \"capacity\": 4.0,\n" +
-            "            \"emmisionClass\": \"EURO_5\",\n" +
-            "            \"fuel\": \"DIESEL\",\n" +
-            "            \"fuelConsumption\": 15.0,\n" +
-            "            \"power\": 612\n" +
-            "          },\n" +
-            "          \"features\": [\n" +
-            "            \"ESP\",\n" +
-            "            \"ABS\",\n" +
-            "            \"ASR\"\n" +
-            "          ],\n" +
-            "          \"firstRegistration\": \"2020-01-01\",\n" +
-            "          \"gearbox\": \"AUTOMATIC\",\n" +
-            "          \"generation\": \"C8\",\n" +
-            "          \"location\": \"Warsaw\",\n" +
-            "          \"make\": \"AUDI\",\n" +
-            "          \"mileage\": 0,\n" +
-            "          \"model\": \"A_6\",\n" +
-            "          \"numberOfSeats\": 4,\n" +
-            "          \"numberOfVehicleOwners\": 0,\n" +
-            "          \"price\": 900000,\n" +
-            "          \"type\": \"SEDAN\",\n" +
-            "          \"vin\": \"JH4CW2H61CC000073\",\n" +
-            "          \"priceNegotiable\": false,\n" +
-            "          \"damaged\": false,\n" +
-            "          \"accidentFree\": true\n" +
-            "        }";
+        "          \"id\": \"7865asfdasdfaw3\",\n" +
+        "          \"colour\": \"BLACK\",\n" +
+        "          \"condition\": \"NEW\",\n" +
+        "          \"currency\": \"PLN\",\n" +
+        "          \"dateOfProduction\": \"2019-12-01\",\n" +
+        "          \"drive\": \"ALL_WHEEL_DRIVE\",\n" +
+        "          \"engineDto\": {\n" +
+        "            \"capacity\": 4.0,\n" +
+        "            \"emmisionClass\": \"EURO_5\",\n" +
+        "            \"fuel\": \"DIESEL\",\n" +
+        "            \"fuelConsumption\": 15.0,\n" +
+        "            \"power\": 612\n" +
+        "          },\n" +
+        "          \"features\": [\n" +
+        "            \"ESP\",\n" +
+        "            \"ABS\",\n" +
+        "            \"ASR\"\n" +
+        "          ],\n" +
+        "          \"firstRegistration\": \"2020-01-01\",\n" +
+        "          \"gearbox\": \"AUTOMATIC\",\n" +
+        "          \"generation\": \"C8\",\n" +
+        "          \"location\": \"Warsaw\",\n" +
+        "          \"make\": \"AUDI\",\n" +
+        "          \"mileage\": 0,\n" +
+        "          \"model\": \"A_6\",\n" +
+        "          \"numberOfSeats\": 4,\n" +
+        "          \"numberOfVehicleOwners\": 0,\n" +
+        "          \"price\": 900000,\n" +
+        "          \"type\": \"SEDAN\",\n" +
+        "          \"vin\": \"JH4CW2H61CC000073\",\n" +
+        "          \"priceNegotiable\": false,\n" +
+        "          \"damaged\": false,\n" +
+        "          \"accidentFree\": true\n" +
+        "        }";
   }
 }

@@ -2,7 +2,6 @@ package com.app.validator;
 
 import java.math.BigDecimal;
 import java.util.Collections;
-import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,8 +24,8 @@ class VehicleValidatorTest {
   @InjectMocks
   private VehicleValidator vehicleValidator;
 
-  private VehicleDto vehicleDto = createVehicleDto();
-  private EngineDto engineDto = createEngineDto();
+  private final VehicleDto vehicleDto = createVehicleDto();
+  private final EngineDto engineDto = createEngineDto();
   private Errors errors;
 
   @BeforeEach
