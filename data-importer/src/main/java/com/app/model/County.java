@@ -12,7 +12,7 @@ import lombok.Getter;
 public class County {
 
   @Id
-  private String id;
-  private String name;
-  private String voivodeshipId;
+  private final String id;
+  private final String name;
+  private final String voivodeshipId;
 }

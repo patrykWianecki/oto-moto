@@ -1,4 +1,4 @@
-package com.app.importer;
+package com.app.service;
 
 import java.util.List;
 
@@ -32,7 +32,8 @@ class ImporterServiceTest {
   private MongoCollection<Document> documentMongoCollection;
 
   @InjectMocks
-  private final ImporterService jsonImporter = new ImporterService("localhost", "test_db", 8888);
+  private final ImporterService jsonImporter =
+      new ImporterService("localhost", "test_db", 8888);
 
   @BeforeEach
   public void setUp() {

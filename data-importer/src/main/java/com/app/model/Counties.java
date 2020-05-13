@@ -9,5 +9,5 @@ import lombok.Getter;
 @Getter
 public class Counties {
 
-  private List<County> counties;
+  private final List<County> counties;
 }
