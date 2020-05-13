@@ -19,8 +19,8 @@ services:
       dockerfile: Dockerfile
     restart: always
     depends_on:
-      - mongodb
       - eureka-server
+      - mongodb
     ports:
       - 8080
     volumes:
@@ -35,8 +35,8 @@ services:
       dockerfile: Dockerfile
     restart: always
     links:
-      - otomoto-service
       - eureka-server
+      - otomoto-service
     ports:
       - 8081
     volumes:
@@ -72,20 +72,21 @@ services:
 #    networks:
 #      - otomoto-network
 
-#  data-importer:
-#    image: data-importer
-#    build:
-#      context: ./data-importer
-#      dockerfile: Dockerfile
-#    restart: always
-#    depends_on:
-#      - mongodb
-#    ports:
-#      - 8084
-#    volumes:
-#      - /data/data-importer
-#    networks:
-#      - otomoto-network
+  data-importer:
+    image: data-importer
+    build:
+      context: ./data-importer
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - eureka-server
+      - mongodb
+    ports:
+      - 8084
+    volumes:
+      - /data/data-importer
+    networks:
+      - otomoto-network
 
   api-gateway:
     image: api-gateway
@@ -96,10 +97,11 @@ services:
     ports:
       - 8085:8085
     depends_on:
+      - currency-api
+      - data-importer
       - eureka-server
       - otomoto-service
       - otomoto-client
-      - currency-api
     networks:
       - otomoto-network
 
