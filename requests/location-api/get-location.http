@@ -17,8 +17,8 @@ Content-Type: application/json
 
 {
   "voivodeshipName": "PODKARPACKIE",
-  "countyName": "stalowowolski",
-  "localityName": "Stalowa Wola",
+  "countyName": "STALOWOWOLSKI",
+  "localityName": "STALOWA WOLA",
   "radius": 60
 }
 

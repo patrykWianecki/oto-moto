@@ -1,11 +1,5 @@
 package com.app.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-
-@Builder
-@Getter
 public class LocalityDto {
 
   private String id;
@@ -13,6 +7,5 @@ public class LocalityDto {
   private String countyId;
   private double longitude;
   private double latitude;
-  @Setter
   private int distance;
 }

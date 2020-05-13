@@ -7,7 +7,9 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Getter
@@ -15,11 +17,11 @@ import lombok.Getter;
 public class Locality {
 
   @Id
-  private final String id;
-  private final String name;
-  private final String countyId;
-  private final double longitude;
-  private final double latitude;
+  private String id;
+  private String name;
+  private String countyId;
+  private double longitude;
+  private double latitude;
   @Field
-  private final int distance;
+  private int distance;
 }
