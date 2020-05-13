@@ -2,11 +2,20 @@ server:
   port: 8083
 
 spring:
+  application:
+    name: location-api
   data:
     mongodb:
       database: otomoto_db
       host: mongodb
       port: 27017
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka
+  instance:
+    prefer-ip-address: true
 
 logging:
   level:

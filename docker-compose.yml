@@ -34,8 +34,9 @@ services:
       context: ./otomoto-client
       dockerfile: Dockerfile
     restart: always
-    links:
+    depends_on:
       - eureka-server
+    links:
       - otomoto-service
     ports:
       - 8081
@@ -50,6 +51,8 @@ services:
       context: ./currency-api
       dockerfile: Dockerfile
     restart: always
+    depends_on:
+      - eureka-server
     ports:
       - 8082
     volumes:
@@ -57,20 +60,21 @@ services:
     networks:
       - otomoto-network
 
-#  location-api:
-#    image: location-api
-#    build:
-#      context: ./location-api
-#      dockerfile: Dockerfile
-#    restart: always
-#    depends_on:
-#      - mongodb
-#    ports:
-#      - 8083
-#    volumes:
-#      - /data/location-api
-#    networks:
-#      - otomoto-network
+  location-api:
+    image: location-api
+    build:
+      context: ./location-api
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - eureka-server
+      - mongodb
+    ports:
+      - 8083
+    volumes:
+      - /data/location-api
+    networks:
+      - otomoto-network
 
   data-importer:
     image: data-importer
@@ -100,6 +104,7 @@ services:
       - currency-api
       - data-importer
       - eureka-server
+      - location-api
       - otomoto-service
       - otomoto-client
     networks:
