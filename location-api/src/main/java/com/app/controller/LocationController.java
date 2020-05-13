@@ -28,7 +28,8 @@ public class LocationController {
 
   @GetMapping(produces = APPLICATION_JSON_VALUE)
   public ResponseEntity<List<LocalityDto>> getAvailableLocalities(
-      @RequestBody LocationResponse locationResponse) {
+      @RequestBody LocationResponse locationResponse
+  ) {
     locationValidator.validateLocationResponse(locationResponse);
     List<LocalityDto> localities = locationService.createRequest(locationResponse);
 

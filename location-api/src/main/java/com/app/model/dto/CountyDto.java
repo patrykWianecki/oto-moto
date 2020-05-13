@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 public class CountyDto {
 
-  private String id;
-  private String voivodeshipId;
-  private String name;
+  private final String id;
+  private final String voivodeshipId;
+  private final String name;
 }

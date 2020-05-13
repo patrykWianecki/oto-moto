@@ -12,6 +12,6 @@ import lombok.Getter;
 public class Voivodeship {
 
   @Id
-  private String id;
-  private String name;
+  private final String id;
+  private final String name;
 }

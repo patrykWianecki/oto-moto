@@ -3,10 +3,10 @@ GET http://localhost:8083/localities
 Content-Type: application/json
 
 {
-	"voivodeshipName": "PODKARPACKIE",
-	"countyName": "STALOWOWOLSKI",
-	"localityName": "STALOWA WOLA",
-	"radius": 60
+  "voivodeshipName": "PODKARPACKIE",
+  "countyName": "STALOWOWOLSKI",
+  "localityName": "STALOWA WOLA",
+  "radius": 60
 }
 
 ###
@@ -16,10 +16,10 @@ GET http://172.18.0.8:8083/localities
 Content-Type: application/json
 
 {
-	"voivodeshipName": "PODKARPACKIE",
-	"countyName": "STALOWOWOLSKI",
-	"localityName": "STALOWA WOLA",
-	"radius": 60
+  "voivodeshipName": "PODKARPACKIE",
+  "countyName": "stalowowolski",
+  "localityName": "Stalowa Wola",
+  "radius": 60
 }
 
 ###

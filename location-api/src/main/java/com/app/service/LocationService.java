@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 import com.app.model.LocationResponse;
 import com.app.model.dto.CountyDto;
 import com.app.model.dto.LocalityDto;
-import com.app.model.dto.mapper.ModelMapper;
 import com.app.model.dto.VoivodeshipDto;
+import com.app.model.dto.mapper.ModelMapper;
 import com.app.repository.CountyRepository;
 import com.app.repository.LocalityRepository;
 import com.app.repository.VoivodeshipRepository;
@@ -25,7 +25,7 @@ import static java.lang.Math.*;
 @RequiredArgsConstructor
 public class LocationService {
 
-  private final static double EARTH_RADIUS = 6371;
+  private static final double EARTH_RADIUS = 6371;
 
   private final VoivodeshipRepository voivodeshipRepository;
   private final CountyRepository countyRepository;
@@ -33,16 +33,16 @@ public class LocationService {
 
   public List<LocalityDto> createRequest(LocationResponse locationResponse) {
     LocalityDto baseLocality = findLocalityWithGivenName(locationResponse);
-    List<LocalityDto> localities = getLocalitiesMatchingGivenRadious(locationResponse.getRadius());
+    List<LocalityDto> localities = getLocalitiesMatchingGivenRadius(locationResponse.getRadius());
     updateDistanceBetweenLocalities(localities, baseLocality);
 
     return localities;
   }
 
-  private List<LocalityDto> getLocalitiesMatchingGivenRadious(int radious) {
+  private List<LocalityDto> getLocalitiesMatchingGivenRadius(int radius) {
     return localityRepository.findAll()
         .stream()
-        .filter(locality -> radious >= locality.getDistance())
+        .filter(locality -> radius >= locality.getDistance())
         .map(ModelMapper::fromLocalityToLocalityDto)
         .collect(Collectors.toList());
   }

@@ -7,6 +7,6 @@ import lombok.Getter;
 @Getter
 public class VoivodeshipDto {
 
-  private String id;
-  private String name;
+  private final String id;
+  private final String name;
 }

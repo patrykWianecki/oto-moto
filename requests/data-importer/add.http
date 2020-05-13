@@ -48,12 +48,12 @@ Content-Type: application/json
   "counties": [
     {
       "id": "5e920820cc59bf3c462ba6s2",
-      "name": "stalowowolski",
+      "name": "STALOWOWOLSKI",
       "voivodeshipId": "5e920820cc59bf3c462ba6b4"
     },
     {
       "id": "5e920820cc60bf3c462ba6s2",
-      "name": "niżański",
+      "name": "NIŻAŃSKI",
       "voivodeshipId": "5e920820cc59bf3c462ba6b4"
     }
   ]
@@ -69,12 +69,12 @@ Content-Type: application/json
   "counties": [
     {
       "id": "5e920820cc59bf3c462ba6s2",
-      "name": "stalowowolski",
+      "name": "STALOWOWOLSKI",
       "voivodeshipId": "5e920820cc59bf3c462ba6b4"
     },
     {
       "id": "5e920820cc60bf3c462ba6s2",
-      "name": "niżański",
+      "name": "NIŻAŃSKI",
       "voivodeshipId": "5e920820cc59bf3c462ba6b4"
     }
   ]
@@ -92,14 +92,14 @@ Content-Type: application/json
   "localities": [
     {
       "id": "5e920820cc59bf3c462ba6qs",
-      "name": "Stalowa Wola",
+      "name": "STALOWA WOLA",
       "countyId": "5e920820cc59bf3c462ba6s2",
       "longitude": 22.0499998,
       "latitude": 50.5666644
     },
     {
       "id": "4e920820cc59bf3c462ba6qs",
-      "name": "Jastkowice",
+      "name": "JASTKOWICE",
       "countyId": "5e920820cc59bf3c462ba6s2",
       "longitude": 22.10667,
       "latitude": 50.60389
@@ -117,14 +117,14 @@ Content-Type: application/json
   "localities": [
     {
       "id": "5e920820cc59bf3c462ba6qs",
-      "name": "Stalowa Wola",
+      "name": "STALOWA WOLA",
       "countyId": "5e920820cc59bf3c462ba6s2",
       "longitude": 22.0499998,
       "latitude": 50.5666644
     },
     {
       "id": "4e920820cc59bf3c462ba6qs",
-      "name": "Jastkowice",
+      "name": "JASTKOWICE",
       "countyId": "5e920820cc59bf3c462ba6s2",
       "longitude": 22.10667,
       "latitude": 50.60389
