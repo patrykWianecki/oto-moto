@@ -7,5 +7,5 @@ import lombok.Builder;
 @Builder
 public class LocationRequest {
 
-  private List<Locality> localities;
+  private final List<Locality> localities;
 }

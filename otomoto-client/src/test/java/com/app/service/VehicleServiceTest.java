@@ -1,6 +1,8 @@
 package com.app.service;
 
 import java.io.IOException;
+import java.util.Objects;
+import java.util.Set;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -8,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.app.configuration.JacksonConfiguration;
+import com.app.model.EngineDto;
 import com.app.model.Generation.Audi.A_6;
 import com.app.model.Model.Audi;
 import com.app.model.VehicleDto;
@@ -22,10 +25,13 @@ import reactor.test.StepVerifier;
 import static com.app.data.MockDataForTests.*;
 import static com.app.model.Colour.*;
 import static com.app.model.Condition.*;
+import static com.app.model.Drive.*;
+import static com.app.model.EmmisionClass.*;
+import static com.app.model.Feature.*;
+import static com.app.model.Fuel.*;
 import static com.app.model.Gearbox.*;
 import static com.app.model.Make.*;
 import static com.app.model.Type.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.http.HttpHeaders.*;
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.MediaType.*;
@@ -36,8 +42,6 @@ public class VehicleServiceTest {
   private static final VehicleDto vehicleDto = createVehicleDto();
 
   private final String PATH_VEHICLES = "/vehicles";
-  private final String PATH_VEHICLE_ID = "?vehicleId=" + VEHICLE_DTO_ID;
-  private final String PATH_ALL = "/all";
   private final MockWebServer mockWebServer = new MockWebServer();
   private final String PATH = "http://localhost:" + mockWebServer.getPort() + PATH_VEHICLES;
   private final JacksonConfiguration jacksonConfiguration = new JacksonConfiguration();
@@ -61,7 +65,8 @@ public class VehicleServiceTest {
     // then
     StepVerifier.create(response)
         .expectNextMatches(vehicleResponse -> OK.equals(vehicleResponse.getStatusCode()) &&
-            vehicleDto.equals(vehicleResponse.getBody()));
+            isVehicleValid(Objects.requireNonNull(vehicleResponse.getBody()))
+        );
   }
 
   @Test
@@ -80,7 +85,7 @@ public class VehicleServiceTest {
     StepVerifier
         .create(response)
         .expectNextMatches(vehicleResponse -> OK.equals(vehicleResponse.getStatusCode()) &&
-            vehicleDto.equals(vehicleResponse.getBody())
+            isVehicleValid(Objects.requireNonNull(vehicleResponse.getBody()))
         );
   }
 
@@ -99,7 +104,8 @@ public class VehicleServiceTest {
     StepVerifier
         .create(response)
         .expectNextMatches(vehicleResponse -> OK.equals(vehicleResponse.getStatusCode()) &&
-            vehicleDto.equals(vehicleResponse.getBody()));
+            isVehicleValid(Objects.requireNonNull(vehicleResponse.getBody()))
+        );
   }
 
   @Test
@@ -121,7 +127,9 @@ public class VehicleServiceTest {
     // then
     StepVerifier
         .create(response)
-        .expectNextMatches(vehicleDto::equals);
+        .expectNextMatches(
+            vehicleResponse -> isVehicleValid(Objects.requireNonNull(vehicleResponse))
+        );
   }
 
   @Test
@@ -170,27 +178,38 @@ public class VehicleServiceTest {
         .setHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE);
   }
 
-  private static void assertVehicle(VehicleDto vehicleDto) {
-    assertNotNull(vehicleDto);
-    assertEquals(VEHICLE_DTO_ID, vehicleDto.getId());
-    assertEquals(BLACK, vehicleDto.getColour());
-    assertEquals(NEW, vehicleDto.getCondition());
-    assertEquals(CURRENCY_PLN, vehicleDto.getCurrency());
-    assertEquals(DATE_OF_PRODUCTION, vehicleDto.getDateOfProduction());
-    assertEquals(DATE_OF_FIRST_REGISTRATION, vehicleDto.getFirstRegistration());
-    assertEquals(AUTOMATIC, vehicleDto.getGearbox());
-    assertEquals(A_6.C8.name(), vehicleDto.getGeneration());
-    assertTrue(vehicleDto.isAccidentFree());
-    assertFalse(vehicleDto.isDamaged());
-    assertFalse(vehicleDto.isPriceNegotiable());
-    assertEquals(LOCATION_WARSAW, vehicleDto.getLocation());
-    assertEquals(AUDI, vehicleDto.getMake());
-    assertEquals(MILEAGE, vehicleDto.getMileage());
-    assertEquals(Audi.A_6.name(), vehicleDto.getModel());
-    assertEquals(NUMBER_OF_SEATS, vehicleDto.getNumberOfSeats());
-    assertEquals(NUMBER_OF_VEHICLE_OWNERS, vehicleDto.getNumberOfVehicleOwners());
-    assertEquals(PRICE, vehicleDto.getPrice());
-    assertEquals(SEDAN, vehicleDto.getType());
-    assertEquals(VIN, vehicleDto.getVin());
+  private static boolean isVehicleValid(VehicleDto vehicleDto) {
+    return VEHICLE_DTO_ID.equals(vehicleDto.getId()) &&
+        BLACK.equals(vehicleDto.getColour()) &&
+        NEW.equals(vehicleDto.getCondition()) &&
+        CURRENCY_PLN.equals(vehicleDto.getCurrency()) &&
+        DATE_OF_PRODUCTION.isEqual(vehicleDto.getDateOfProduction()) &&
+        ALL_WHEEL_DRIVE.equals(vehicleDto.getDrive()) &&
+        isEngineValid(vehicleDto.getEngineDto()) &&
+        DATE_OF_FIRST_REGISTRATION.isEqual(vehicleDto.getFirstRegistration()) &&
+        Set.of(ABS, ASR, ESP).containsAll(vehicleDto.getFeatures()) &&
+        AUTOMATIC.equals(vehicleDto.getGearbox()) &&
+        A_6.C8.name().equals(vehicleDto.getGeneration()) &&
+        vehicleDto.isAccidentFree() &&
+        !vehicleDto.isDamaged() &&
+        !vehicleDto.isPriceNegotiable() &&
+        LOCATION_WARSAW.equals(vehicleDto.getLocation()) &&
+        AUDI.equals(vehicleDto.getMake()) &&
+        MILEAGE == vehicleDto.getMileage() &&
+        Audi.A_6.name().equals(vehicleDto.getModel()) &&
+        NUMBER_OF_SEATS == vehicleDto.getNumberOfSeats() &&
+        NUMBER_OF_VEHICLE_OWNERS == vehicleDto.getNumberOfVehicleOwners() &&
+        PRICE.equals(vehicleDto.getPrice()) &&
+        SEDAN.equals(vehicleDto.getType()) &&
+        VIN.equals(vehicleDto.getVin());
+  }
+
+  private static boolean isEngineValid(final EngineDto engineDto) {
+    return Objects.nonNull(engineDto) &&
+        CAPACITY == engineDto.getCapacity() &&
+        EURO_6.equals(engineDto.getEmmisionClass()) &&
+        PETROL.equals(engineDto.getFuel()) &&
+        FUEL_CONSUMPTION == engineDto.getFuelConsumption() &&
+        POWER == engineDto.getPower();
   }
 }

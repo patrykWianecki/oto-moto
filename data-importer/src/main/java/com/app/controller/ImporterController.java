@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.app.importer.ImporterService;
+import com.app.service.ImporterService;
 import com.app.model.County;
 import com.app.model.Locality;
 import com.app.model.Voivodeship;

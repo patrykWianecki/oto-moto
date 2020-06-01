@@ -9,5 +9,5 @@ import lombok.Getter;
 @Getter
 public class Voivodeships {
 
-  private List<Voivodeship> voivodeships;
+  private final List<Voivodeship> voivodeships;
 }

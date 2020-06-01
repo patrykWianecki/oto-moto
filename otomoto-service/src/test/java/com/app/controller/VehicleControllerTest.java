@@ -39,8 +39,8 @@ class VehicleControllerTest {
   @Autowired
   private WebTestClient webTestClient;
 
-  private Vehicle vehicle = createVehicle();
-  private VehicleDto vehicleDto = createVehicleDto();
+  private final Vehicle vehicle = createVehicle();
+  private final VehicleDto vehicleDto = createVehicleDto();
 
   @BeforeEach
   public void setUp() {

@@ -9,5 +9,5 @@ import lombok.Getter;
 @Getter
 public class Localities {
 
-  private List<Locality> localities;
+  private final List<Locality> localities;
 }

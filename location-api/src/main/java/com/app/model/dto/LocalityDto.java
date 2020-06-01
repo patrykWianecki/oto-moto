@@ -8,11 +8,11 @@ import lombok.Setter;
 @Getter
 public class LocalityDto {
 
-  private String id;
-  private String name;
-  private String countyId;
-  private double longitude;
-  private double latitude;
+  private final String id;
+  private final String name;
+  private final String countyId;
+  private final double longitude;
+  private final double latitude;
   @Setter
   private int distance;
 }

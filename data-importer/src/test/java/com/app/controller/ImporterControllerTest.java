@@ -9,7 +9,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.app.importer.ImporterService;
+import com.app.service.ImporterService;
 
 import static com.app.data.MockDataForTests.*;
 import static org.hamcrest.Matchers.*;

@@ -10,13 +10,13 @@ import com.app.model.Rate;
  *
  * @author Patryk Wianecki
  */
-public class MockDataForTests {
+public interface MockDataForTests {
 
-  public static final String PLN = "PLN";
-  public static final String EUR = "EUR";
-  public static final LocalDate DATE = LocalDate.of(2020, 10, 10);
+  String PLN = "PLN";
+  String EUR = "EUR";
+  LocalDate DATE = LocalDate.of(2020, 10, 10);
 
-  public static Currency createPLNBaseCurrency() {
+  static Currency createPLNBaseCurrency() {
     return Currency.builder()
         .base(PLN)
         .date(DATE.toString())
@@ -24,7 +24,7 @@ public class MockDataForTests {
         .build();
   }
 
-  public static Currency createNoBaseCurrency() {
+  static Currency createNoBaseCurrency() {
     return Currency.builder()
         .base(EUR)
         .date(DATE.toString())

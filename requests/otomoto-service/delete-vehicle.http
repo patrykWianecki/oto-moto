@@ -1,9 +1,23 @@
 # DELETE ALL VEHICLES
+
+# LOCALHOST
 DELETE http://localhost:8080/vehicles/all
 
 ###
 
+# MICROSERVICES
+DELETE http://{eureka-server-address}:8080/vehicles/all
+
+###
+
 # DELETE VEHICLE BY ID
+
+# LOCALHOST
 DELETE http://localhost:8080/vehicles?vehicleId={vehicleId}
+
+###
+
+# MICROSERVICES
+DELETE http://{eureka-server-address}:8080/vehicles?vehicleId={vehicleId}
 
 ###

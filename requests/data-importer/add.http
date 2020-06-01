@@ -1,4 +1,6 @@
 # ADD VOIVODESHIPS
+
+# LOCALHOST
 POST http://localhost:8084/importer/voivodeships
 Content-Type: application/json
 
@@ -17,7 +19,28 @@ Content-Type: application/json
 
 ###
 
+# MICROSERVICES
+POST http://{eureka-server-address}:8084/importer/voivodeships
+Content-Type: application/json
+
+{
+  "voivodeships": [
+    {
+      "id": "5e920820cc59bf3c462ba6b4",
+      "name": "PODKARPACKIE"
+    },
+    {
+      "id": "5e920820cc59bf3c462ba6b5",
+      "name": "MAŁOPOLSKIE"
+    }
+  ]
+}
+
+###
+
 # ADD COUNTIES
+
+# LOCALHOST
 POST http://localhost:8084/importer/counties
 Content-Type: application/json
 
@@ -25,12 +48,33 @@ Content-Type: application/json
   "counties": [
     {
       "id": "5e920820cc59bf3c462ba6s2",
-      "name": "stalowowolski",
+      "name": "STALOWOWOLSKI",
       "voivodeshipId": "5e920820cc59bf3c462ba6b4"
     },
     {
       "id": "5e920820cc60bf3c462ba6s2",
-      "name": "niżański",
+      "name": "NIŻAŃSKI",
+      "voivodeshipId": "5e920820cc59bf3c462ba6b4"
+    }
+  ]
+}
+
+###
+
+# MICROSERVICES
+POST http://{eureka-server-address}:8084/importer/counties
+Content-Type: application/json
+
+{
+  "counties": [
+    {
+      "id": "5e920820cc59bf3c462ba6s2",
+      "name": "STALOWOWOLSKI",
+      "voivodeshipId": "5e920820cc59bf3c462ba6b4"
+    },
+    {
+      "id": "5e920820cc60bf3c462ba6s2",
+      "name": "NIŻAŃSKI",
       "voivodeshipId": "5e920820cc59bf3c462ba6b4"
     }
   ]
@@ -39,6 +83,8 @@ Content-Type: application/json
 ###
 
 # ADD LOCALITIES
+
+# LOCALHOST
 POST http://localhost:8084/importer/localities
 Content-Type: application/json
 
@@ -46,14 +92,39 @@ Content-Type: application/json
   "localities": [
     {
       "id": "5e920820cc59bf3c462ba6qs",
-      "name": "Stalowa Wola",
+      "name": "STALOWA WOLA",
       "countyId": "5e920820cc59bf3c462ba6s2",
       "longitude": 22.0499998,
       "latitude": 50.5666644
     },
     {
       "id": "4e920820cc59bf3c462ba6qs",
-      "name": "Jastkowice",
+      "name": "JASTKOWICE",
+      "countyId": "5e920820cc59bf3c462ba6s2",
+      "longitude": 22.10667,
+      "latitude": 50.60389
+    }
+  ]
+}
+
+###
+
+# MICROSERVICES
+POST http://{eureka-server-address}:8084/importer/localities
+Content-Type: application/json
+
+{
+  "localities": [
+    {
+      "id": "5e920820cc59bf3c462ba6qs",
+      "name": "STALOWA WOLA",
+      "countyId": "5e920820cc59bf3c462ba6s2",
+      "longitude": 22.0499998,
+      "latitude": 50.5666644
+    },
+    {
+      "id": "4e920820cc59bf3c462ba6qs",
+      "name": "JASTKOWICE",
       "countyId": "5e920820cc59bf3c462ba6s2",
       "longitude": 22.10667,
       "latitude": 50.60389

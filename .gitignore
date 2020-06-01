@@ -12,8 +12,10 @@
 *.iws
 *.iml
 *.ipr
+api-gateway/target/
 currency-api/target/
 data-importer/target/
+eureka-server/target/
 location-api/target/
 otomoto-client/target/
 otomoto-service/target/

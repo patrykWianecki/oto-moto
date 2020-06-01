@@ -44,8 +44,8 @@ public class VehicleServiceTest {
   @InjectMocks
   private VehicleService vehicleService;
 
-  private static Vehicle vehicle = createVehicle();
-  private static VehicleDto vehicleDto = createVehicleDto();
+  private final Vehicle vehicle = createVehicle();
+  private final VehicleDto vehicleDto = createVehicleDto();
 
   @Test
   public void should_add_vehicle() {

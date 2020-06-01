@@ -12,10 +12,10 @@ import lombok.Getter;
 public class Locality {
 
   @Id
-  private String id;
-  private String countyId;
-  private String name;
-  private double longitude;
-  private double latitude;
-  private int distance;
+  private final String id;
+  private final String countyId;
+  private final String name;
+  private final double longitude;
+  private final double latitude;
+  private final int distance;
 }
