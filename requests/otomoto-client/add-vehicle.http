@@ -40,7 +40,7 @@ Content-Type: application/json
 
 ###
 # LOCALHOST
-POST http://172.18.0.6:8081/vehicles
+POST http://{eureka-server-address}:8081/vehicles
 Content-Type: application/json
 
 {

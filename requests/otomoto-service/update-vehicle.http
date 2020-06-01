@@ -43,7 +43,7 @@ Content-Type: application/json
 ###
 
 # MICROSERVICES
-PUT http://172.18.0.5:8080/vehicles?vehicleId=5e5845ddd040ea6ca8383dd9
+PUT http://{eureka-server-address}:8080/vehicles?vehicleId=5e5845ddd040ea6ca8383dd9
 Content-Type: application/json
 
 {

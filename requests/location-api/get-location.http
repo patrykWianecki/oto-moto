@@ -12,7 +12,7 @@ Content-Type: application/json
 ###
 
 # MICROSERVICES
-GET http://172.18.0.8:8083/localities
+GET http://{eureka-server-address}:8083/localities
 Content-Type: application/json
 
 {

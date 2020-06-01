@@ -20,7 +20,7 @@ Content-Type: application/json
 ###
 
 # MICROSERVICES
-POST http://172.18.0.8:8084/importer/voivodeships
+POST http://{eureka-server-address}:8084/importer/voivodeships
 Content-Type: application/json
 
 {
@@ -62,7 +62,7 @@ Content-Type: application/json
 ###
 
 # MICROSERVICES
-POST http://172.18.0.8:8084/importer/counties
+POST http://{eureka-server-address}:8084/importer/counties
 Content-Type: application/json
 
 {
@@ -110,7 +110,7 @@ Content-Type: application/json
 ###
 
 # MICROSERVICES
-POST http://172.18.0.8:8084/importer/localities
+POST http://{eureka-server-address}:8084/importer/localities
 Content-Type: application/json
 
 {

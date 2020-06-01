@@ -6,7 +6,7 @@ GET http://localhost:8080/vehicles/all
 ###
 
 # MICROSERVICES
-GET http://172.18.0.5:8080/vehicles/all
+GET http://{eureka-server-address}:8080/vehicles/all
 
 ###
 
@@ -18,6 +18,6 @@ GET http://localhost:8080/vehicles?vehicleId={vehicleId}
 ###
 
 # MICROSERVICES
-GET http://172.18.0.5:8080/vehicles?vehicleId={vehicleId}
+GET http://{eureka-server-address}:8080/vehicles?vehicleId={vehicleId}
 
 ###

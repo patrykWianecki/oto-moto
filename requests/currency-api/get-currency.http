@@ -6,18 +6,18 @@ GET http://localhost:8082/currency?base=
 ###
 
 # MICROSERVICES
-GET http://172.18.0.2:8082/currency?base=
+GET http://{eureka-server-address}:8082/currency?base=
 
 ###
 
 # GET ACTUAL CURRENCIES WITH PLN BASE
 
 # LOCALHOST
-GET http://172.18.0.2:8082/currency?base=PLN
+GET http://localhost:8082/currency?base=PLN
 
 ###
 
 # MICROSERVICE
-GET http://172.18.0.2:8082/currency?base=PLN
+GET http://{eureka-server-address}:8082/currency?base=PLN
 
 ###

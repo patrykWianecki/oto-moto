@@ -41,7 +41,7 @@ Content-Type: application/json
 ###
 
 # MICROSERVICES
-POST http://172.18.0.5:8080/vehicles
+POST http://{eureka-server-address}:8080/vehicles
 Content-Type: application/json
 
 {
