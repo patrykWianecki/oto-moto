@@ -1,26 +1,20 @@
 package com.app.service;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
+import com.app.model.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.mongodb.reactivestreams.client.MongoClient;
+import com.mongodb.reactivestreams.client.MongoDatabase;
 import org.apache.commons.collections4.CollectionUtils;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.app.model.Counties;
-import com.app.model.County;
-import com.app.model.Localities;
-import com.app.model.Locality;
-import com.app.model.Voivodeship;
-import com.app.model.Voivodeships;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.mongodb.MongoClient;
-import com.mongodb.client.MongoDatabase;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ImporterService {
