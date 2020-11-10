@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Show vehicles</title>
+    <link rel="stylesheet" th:href="@{/css/common.css}" />
+    <script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.5.0/css/bootstrap.min.css" />
+</head>
+<body>
+<div th:replace="fragments/menu"></div>
+<div class="col">
+    <h1 class="title">Vehicles</h1>
+    <a class="text btn btn-success btn-lg" href="/vehicles/add">Add vehicle</a>
+</div>
+<div class="row offset-2">
+    <ul class="list-unstyled">
+        <li th:each="v : ${vehiclesPage}">
+            <div class="media-body mr-2">
+                <h5 class="text">Colour:<span th:text="${v.colour.name()}"></span></h5>
+                <h5 class="text">Date of production: <span th:text="${v.dateOfProduction}"></span>
+                </h5>
+                <div>
+                    <h5 class="text">Capacity: <span th:text="${v.engineDto.capacity}"></span>
+                    </h5>
+                    <h5 class="text">Fuel: <span th:text="${v.engineDto.fuel}"></span></h5>
+                    <h5 class="text">Power: <span th:text="${v.engineDto.power}"></span>
+                    </h5>
+                </div>
+                <h5 class="text">Location:<span th:text="${v.location}"></span></h5>
+                <h5 class="text">Make:<span th:text="${v.make}"></span></h5>
+                <h5 class="text">Mileage:<span th:text="${v.mileage}"></span></h5>
+                <h5 class="text">Model:<span th:text="${v.model}"></span></h5>
+                <h5 class="text">Price:<span th:text="${v.price}"></span></h5>
+                <h5 class="text">Type:<span th:text="${v.type}"></span></h5>
+                <h5 class="text">Vin:<span th:text="${v.vin}"></span></h5>
+                <div class="media-body text">
+                    <a
+                        th:href="@{/vehicles/update/{id}(id=${v.id})}"
+                        class="btn btn-success">
+                        Edit
+                    </a>
+                    <a th:href="@{/vehicles/{id}(id=${v.id})}" class="btn btn-info">Details</a>
+                    <form th:action="@{/vehicles/delete}" method="post" style="display: inline">
+                        <input
+                            hidden="hidden"
+                            readonly="readonly"
+                            type="text"
+                            name="id"
+                            th:value="${v.id}"
+                        >
+                        <button type="submit" class="btn btn-danger">Remove</button>
+                    </form>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+<div
+    th:if="${vehiclesPage.totalPages > 0}" class="pagination"
+    th:each="pageNumber : ${pageNumbers}"
+>
+    <a
+        th:href="@{/listVehicles(size=${vehiclesPage.size}, page=${pageNumber})}"
+        th:text="${pageNumber}"
+        th:class="${pageNumber == vehiclesPage.number + 1} ? active"
+    >
+    </a>
+</div>
+<!--<div th:replace="fragments/footer" />-->
+</body>
+</html>

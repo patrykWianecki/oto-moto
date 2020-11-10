@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Show vehicle</title>
+    <link rel="stylesheet" th:href="@{/css/common.css}" />
+    <script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.5.0/css/bootstrap.min.css" />
+</head>
+<body class="background">
+<div th:replace="fragments/menu"></div>
+
+<div th:object="${vehicle}">
+    <h5 class="text">Colour:<span th:text="${vehicle.colour.name()}"></span></h5>
+    <h5 class="text">Condition: <span th:text="${vehicle.condition.name()}"></span>
+    </h5>
+    <h5 class="text">Currency: <span th:text="${vehicle.currency}"></span></h5>
+    <h5 class="text">Date of production: <span th:text="${vehicle.dateOfProduction}"></span>
+    </h5>
+    <h5 class="text">Drive: <span th:text="${vehicle.drive}"></span></h5>
+    <div>
+        <p>Engine</p>
+        <h5 class="text">Capacity: <span th:text="${vehicle.engineDto.capacity}"></span>
+        </h5>
+        <h5 class="text">Emission class: <span
+            th:text="${vehicle.engineDto.emmisionClass}"></span></h5>
+        <h5 class="text">Fuel: <span th:text="${vehicle.engineDto.fuel}"></span>
+        </h5>
+        <h5 class="text">Power: <span th:text="${vehicle.engineDto.power}"></span>
+        </h5>
+    </div>
+    <div>
+        <p>Features</p>
+        <ul class="list-inline">
+            <li th:each="f : ${vehicle.features}">
+                <h5 class="text"> + <span th:text="${f}"></span></h5>
+            </li>
+        </ul>
+    </div>
+    <h5 class="text">Date of registration:<span th:text="${vehicle.firstRegistration}"></span>
+    </h5>
+    <h5 class="text">Gearbox:<span th:text="${vehicle.gearbox}"></span></h5>
+    <h5 class="text">Generation:<span th:text="${vehicle.generation}"></span></h5>
+    <h5 class="text">Is accident free:<span th:text="${vehicle.accidentFree}"></span>
+    </h5>
+    <h5 class="text">Is damaged:<span th:text="${vehicle.damaged}"></span></h5>
+    <h5 class="text">Is price negotiable:<span th:text="${vehicle.priceNegotiable}"></span>
+    </h5>
+    <h5 class="text">Location:<span th:text="${vehicle.location}"></span></h5>
+    <h5 class="text">Make:<span th:text="${vehicle.make}"></span></h5>
+    <h5 class="text">Mileage:<span th:text="${vehicle.mileage}"></span></h5>
+    <h5 class="text">Model:<span th:text="${vehicle.model}"></span></h5>
+    <h5 class="text">Number of seats:<span th:text="${vehicle.numberOfSeats}"></span>
+    </h5>
+    <h5 class="text">Number of vehicle owners:<span
+        th:text="${vehicle.numberOfVehicleOwners}"></span></h5>
+    <h5 class="text">Price:<span th:text="${vehicle.price}"></span></h5>
+    <h5 class="text">Type:<span th:text="${vehicle.type}"></span></h5>
+    <h5 class="text">Vin:<span th:text="${vehicle.vin}"></span></h5>
+</div>
+
+<div th:replace="fragments/footer"></div>
+</body>
+</html>

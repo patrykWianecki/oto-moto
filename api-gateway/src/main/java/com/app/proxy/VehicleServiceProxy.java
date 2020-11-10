@@ -17,22 +17,22 @@ import reactor.core.publisher.Mono;
 @FeignClient(name = "otomoto-service")
 public interface VehicleServiceProxy {
 
-    @PostMapping("/vehicles")
-    Mono<ResponseEntity<VehicleDto>> addVehicle(@RequestBody VehicleDto vehicle);
+  @PostMapping("/vehicles")
+  Mono<ResponseEntity<VehicleDto>> addVehicle(@RequestBody VehicleDto vehicle);
 
-    @PutMapping("/vehicles")
-    Mono<ResponseEntity<VehicleDto>> updateVehicle(@RequestParam String vehicleId,
-            @RequestBody VehicleDto vehicleDto);
+  @PutMapping("/vehicles")
+  Mono<ResponseEntity<VehicleDto>> updateVehicle(@RequestParam String vehicleId,
+      @RequestBody VehicleDto vehicleDto);
 
-    @GetMapping("/vehicles")
-    Mono<ResponseEntity<VehicleDto>> findVehicleById(@RequestParam String vehicleId);
+  @GetMapping("/vehicles")
+  Mono<ResponseEntity<VehicleDto>> findVehicleById(@RequestParam String vehicleId);
 
-    @GetMapping("/vehicles/all")
-    Flux<VehicleDto> findAllVehicles();
+  @GetMapping("/vehicles/all")
+  Flux<VehicleDto> findAllVehicles();
 
-    @DeleteMapping("/vehicles")
-    Mono<ResponseEntity<Void>> removeVehicleById(@RequestParam String vehicleId);
+  @DeleteMapping("/vehicles")
+  Mono<ResponseEntity<Void>> removeVehicleById(@RequestParam String vehicleId);
 
-    @DeleteMapping("/vehicles/all")
-    Mono<ResponseEntity<Void>> removeAllVehicles();
+  @DeleteMapping("/vehicles/all")
+  Mono<ResponseEntity<Void>> removeAllVehicles();
 }

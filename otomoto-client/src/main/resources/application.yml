@@ -4,6 +4,9 @@ server:
 spring:
   application:
     name: otomoto-client
+  devtools:
+    livereload:
+      enabled: true
 
 eureka:
   client:
@@ -15,6 +18,6 @@ eureka:
 logging:
   level:
     root:
-      OFF
+      info
     org:
-      springframework: OFF
+      springframework: info
