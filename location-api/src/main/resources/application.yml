@@ -20,6 +20,6 @@ eureka:
 logging:
   level:
     root:
-      OFF
+      info
     org:
-      springframework: OFF
+      springframework: info

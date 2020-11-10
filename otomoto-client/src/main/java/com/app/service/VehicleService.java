@@ -1,88 +1,97 @@
 package com.app.service;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.BodyInserters;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.client.RestTemplate;
 
 import com.app.model.VehicleDto;
 
 import lombok.RequiredArgsConstructor;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
-import static org.springframework.http.HttpHeaders.*;
-import static org.springframework.http.MediaType.*;
+import static com.app.constants.ClientConstants.*;
+import static org.springframework.http.HttpMethod.*;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class VehicleService {
 
-  private static final String URL = "http://otomoto-service:8080/vehicles";
-  private static final String VEHICLE_ID_PARAM = "?vehicleId={vehicleId}";
-  private static final String ALL = "/all";
+  private static final String URL = "http://localhost:8080/vehicles";
 
-  private final WebClient webClient;
+  private final RestTemplate restTemplate;
 
-  public VehicleService() {
-    webClient = WebClient.builder()
-        .defaultHeader(ACCEPT, APPLICATION_JSON_VALUE)
-        .baseUrl(URL)
-        .build();
+  public VehicleDto addVehicle(final VehicleDto vehicleDto) {
+    HttpEntity<VehicleDto> entity = new HttpEntity<>(vehicleDto, new HttpHeaders());
+    ResponseEntity<VehicleDto> response = restTemplate.postForEntity(URL, entity, VehicleDto.class);
+    return response.getBody();
   }
 
-  public Mono<ResponseEntity<VehicleDto>> addVehicle(final VehicleDto vehicleDto) {
-    return webClient
-        .post()
-        .body(BodyInserters.fromValue(vehicleDto))
-        .retrieve()
-        .bodyToMono(VehicleDto.class)
-        .map(ResponseEntity::ok);
+  public VehicleDto updateVehicle(final VehicleDto vehicleDto) {
+    final String vehicleId = vehicleDto.getId();
+    HttpEntity<VehicleDto> entity = new HttpEntity<>(vehicleDto, new HttpHeaders());
+    ResponseEntity<VehicleDto> response =
+        restTemplate.exchange(URL + VEHICLE_ID_QUERY + vehicleId, PUT, entity, VehicleDto.class);
+    return response.getBody();
   }
 
-  public Mono<ResponseEntity<VehicleDto>> updateVehicle(final String vehicleId,
-      final VehicleDto vehicleDto) {
-    return webClient
-        .put()
-        .uri(VEHICLE_ID_PARAM, vehicleId)
-        .body(BodyInserters.fromValue(vehicleDto))
-        .retrieve()
-        .bodyToMono(VehicleDto.class)
-        .map(ResponseEntity::ok);
+  public VehicleDto findVehicleById(final String vehicleId) {
+    ResponseEntity<VehicleDto> response =
+        restTemplate.getForEntity(URL + VEHICLE_ID_QUERY + vehicleId, VehicleDto.class);
+    return response.getBody();
   }
 
-  public Mono<ResponseEntity<VehicleDto>> findVehicleById(final String vehicleId) {
-    return webClient
-        .get()
-        .uri(VEHICLE_ID_PARAM, vehicleId)
-        .retrieve()
-        .bodyToMono(VehicleDto.class)
-        .map(ResponseEntity::ok);
+  public Page<VehicleDto> findPaginatedVehicles(Pageable pageable) {
+    List<VehicleDto> vehicles = findAllVehicles();
+    int pageSize = pageable.getPageSize();
+    int currentPage = pageable.getPageNumber();
+    int startItem = currentPage * pageSize;
+
+    List<VehicleDto> vehiclesOnPage;
+    if (vehicles.size() < startItem) {
+      vehiclesOnPage = Collections.emptyList();
+    } else {
+      int toIndex = Math.min(startItem + pageSize, vehicles.size());
+      vehiclesOnPage = vehicles.subList(startItem, toIndex);
+    }
+
+    return new PageImpl<>(vehiclesOnPage, PageRequest.of(currentPage, pageSize), vehicles.size());
   }
 
-  public Flux<VehicleDto> findAllVehicles() {
-    return webClient
-        .get()
-        .uri(ALL)
-        .retrieve()
-        .bodyToFlux(VehicleDto.class);
+  private List<VehicleDto> findAllVehicles() {
+    HttpEntity<VehicleDto> entity = new HttpEntity<>(null, new HttpHeaders());
+    ResponseEntity<VehicleDto[]> response =
+        restTemplate.exchange(URL + "/all", GET, entity, VehicleDto[].class);
+    final VehicleDto[] body = response.getBody();
+    if (body == null || body.length == 0) {
+      return Collections.emptyList();
+    }
+    return Arrays.asList(body);
   }
 
-  public Mono<ResponseEntity<Void>> removeVehicleById(final String vehicleId) {
-    return webClient
-        .delete()
-        .uri(VEHICLE_ID_PARAM, vehicleId)
-        .retrieve()
-        .bodyToMono(Void.class)
-        .map(ResponseEntity::ok);
+  public VehicleDto removeVehicleById(final String vehicleId) {
+    HttpEntity<VehicleDto> entity = new HttpEntity<>(null, new HttpHeaders());
+    ResponseEntity<VehicleDto> response =
+        restTemplate.exchange(URL + VEHICLE_ID_QUERY + vehicleId, DELETE, entity, VehicleDto.class);
+    return response.getBody();
   }
 
-  public Mono<ResponseEntity<Void>> removeAllVehicles() {
-    return webClient
-        .delete()
-        .uri(ALL)
-        .retrieve()
-        .bodyToMono(Void.class)
-        .map(ResponseEntity::ok);
+  public List<VehicleDto> removeAllVehicles() {
+    HttpEntity<VehicleDto> entity = new HttpEntity<>(null, new HttpHeaders());
+    ResponseEntity<VehicleDto[]> response =
+        restTemplate.exchange(URL, DELETE, entity, VehicleDto[].class);
+    final VehicleDto[] body = response.getBody();
+    if (body == null || body.length == 0) {
+      return Collections.emptyList();
+    }
+    return Arrays.asList(body);
   }
 }

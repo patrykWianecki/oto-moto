@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Set;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,10 +23,12 @@ public class VehicleDto {
   private Colour colour;
   private Condition condition;
   private String currency;
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
   private LocalDate dateOfProduction;
   private Drive drive;
   private EngineDto engineDto;
   private Set<Feature> features;
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
   private LocalDate firstRegistration;
   private Gearbox gearbox;
   private String generation;
