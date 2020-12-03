@@ -1,4 +1,4 @@
-FROM openjdk:14-oracle
+FROM openjdk:15-oracle
 EXPOSE 8761
 ADD target/eureka-server.jar eureka-server.jar
 ENTRYPOINT ["java", "-jar", "eureka-server.jar"]

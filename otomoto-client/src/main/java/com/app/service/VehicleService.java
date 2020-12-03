@@ -25,7 +25,7 @@ import static org.springframework.http.HttpMethod.*;
 @RequiredArgsConstructor
 public class VehicleService {
 
-  private static final String URL = "http://localhost:8080/vehicles";
+  private static final String URL = "http://otomoto-service:8080/vehicles";
 
   private final RestTemplate restTemplate;
 
