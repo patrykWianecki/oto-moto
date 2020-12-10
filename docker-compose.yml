@@ -1,14 +1,19 @@
-version: '3.5'
+version: '3.8'
 
 services:
-  mongodb:
-    image: mongo:latest
-    container_name: mongodb
+  otomoto-db:
+    image: postgres:latest
+    container_name: otomoto-db
+    environment:
+      POSTGRES_PASSWORD: root
+      POSTGRES_USER: postgres
+      POSTGRES_DB: otomoto_db
+      PGDATA: /var/lib/postgresql/data/pgdata
     restart: always
     ports:
-      - 27017
+      - 5432
     volumes:
-      - /data/mongodb
+      - oto-moto-volumes:/var/lib/postgresql/data/pgdata
     networks:
       - otomoto-network
 
@@ -20,7 +25,7 @@ services:
     restart: always
     depends_on:
       - eureka-server
-      - mongodb
+      - otomoto-db
     ports:
       - 8080
     volumes:
@@ -68,7 +73,7 @@ services:
     restart: always
     depends_on:
       - eureka-server
-      - mongodb
+      - otomoto-db
     ports:
       - 8083
     volumes:
@@ -84,7 +89,7 @@ services:
     restart: always
     depends_on:
       - eureka-server
-      - mongodb
+      - otomoto-db
     ports:
       - 8084
     volumes:
@@ -124,4 +129,4 @@ services:
 networks:
   otomoto-network:
 volumes:
-  otomoto-volume: {}
+  oto-moto-volumes: { }

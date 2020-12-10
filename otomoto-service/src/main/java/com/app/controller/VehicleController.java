@@ -1,5 +1,7 @@
 package com.app.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
@@ -19,8 +21,6 @@ import com.app.service.VehicleService;
 import com.app.validator.VehicleValidator;
 
 import lombok.RequiredArgsConstructor;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,33 +36,28 @@ public class VehicleController {
   }
 
   @PostMapping
-  public Mono<ResponseEntity<VehicleDto>> addVehicle(@RequestBody @Valid final VehicleDto vehicle) {
+  public ResponseEntity<VehicleDto> addVehicle(@RequestBody @Valid final VehicleDto vehicle) {
     return vehicleService.addVehicle(vehicle);
   }
 
   @PutMapping
-  public Mono<ResponseEntity<VehicleDto>> updateVehicle(@RequestParam String vehicleId,
+  public ResponseEntity<VehicleDto> updateVehicle(@RequestParam long vehicleId,
       @RequestBody @Valid final VehicleDto vehicleDto) {
     return vehicleService.updateVehicle(vehicleId, vehicleDto);
   }
 
   @GetMapping
-  public Mono<ResponseEntity<VehicleDto>> findVehicleById(@RequestParam final String vehicleId) {
+  public ResponseEntity<VehicleDto> findVehicleById(@RequestParam final long vehicleId) {
     return vehicleService.findVehicleById(vehicleId);
   }
 
   @GetMapping("/all")
-  public Flux<VehicleDto> findAllVehicles() {
+  public List<VehicleDto> findAllVehicles() {
     return vehicleService.findAllVehicles();
   }
 
   @DeleteMapping
-  public Mono<ResponseEntity<Void>> removeVehicleById(@RequestParam final String vehicleId) {
+  public ResponseEntity<VehicleDto> removeVehicleById(@RequestParam final long vehicleId) {
     return vehicleService.removeVehicleById(vehicleId);
-  }
-
-  @DeleteMapping("/all")
-  public Mono<ResponseEntity<Void>> removeAllVehicles() {
-    return vehicleService.removeAllVehicles();
   }
 }

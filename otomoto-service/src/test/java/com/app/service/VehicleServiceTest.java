@@ -1,6 +1,7 @@
 package com.app.service;
 
-import java.util.Objects;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
@@ -17,10 +18,6 @@ import com.app.model.dto.EngineDto;
 import com.app.model.dto.VehicleDto;
 import com.app.repository.VehicleRepository;
 
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-import reactor.test.StepVerifier;
-
 import static com.app.data.MockDataForTests.*;
 import static com.app.model.Colour.*;
 import static com.app.model.Condition.*;
@@ -31,12 +28,13 @@ import static com.app.model.Fuel.*;
 import static com.app.model.Gearbox.*;
 import static com.app.model.Make.*;
 import static com.app.model.Type.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.http.HttpStatus.*;
 
 @ExtendWith(SpringExtension.class)
-public class VehicleServiceTest {
+class VehicleServiceTest {
 
   @Mock
   private VehicleRepository vehicleRepository;
@@ -48,187 +46,176 @@ public class VehicleServiceTest {
   private final VehicleDto vehicleDto = createVehicleDto();
 
   @Test
-  public void should_add_vehicle() {
+  void should_add_vehicle() {
     // given
-    when(vehicleRepository.save(any(Vehicle.class))).thenReturn(Mono.just(vehicle));
+    when(vehicleRepository.save(any(Vehicle.class))).thenReturn(vehicle);
 
     // when
-    Mono<ResponseEntity<VehicleDto>> actualVehicle = vehicleService.addVehicle(vehicleDto);
+    ResponseEntity<VehicleDto> response = vehicleService.addVehicle(vehicleDto);
 
     // then
-    StepVerifier
-        .create(actualVehicle)
-        .expectNextMatches(VehicleServiceTest::isResponseValid)
-        .expectComplete()
-        .verify();
+    assertNotNull(response);
+    assertEquals(OK, response.getStatusCode());
+    assertVehicle(response.getBody());
+
+    verify(vehicleRepository, times(1)).save(any(Vehicle.class));
+    verifyNoMoreInteractions(vehicleRepository);
   }
 
   @Test
-  public void should_return_bad_request_when_add_vehicle_fails() {
+  void should_update_vehicle() {
     // given
-    when(vehicleRepository.save(any(Vehicle.class))).thenReturn(Mono.empty());
+    when(vehicleRepository.findById(anyLong())).thenReturn(Optional.of(vehicle));
+    when(vehicleRepository.save(any(Vehicle.class))).thenReturn(vehicle);
 
     // when
-    Mono<ResponseEntity<VehicleDto>> actualResponse = vehicleService.addVehicle(vehicleDto);
+    ResponseEntity<VehicleDto> response = vehicleService.updateVehicle(VEHICLE_ID, vehicleDto);
 
     // then
-    StepVerifier
-        .create(actualResponse)
-        .expectNextMatches(response -> BAD_REQUEST.equals(response.getStatusCode()))
-        .expectComplete()
-        .verify();
+    assertNotNull(response);
+    assertEquals(OK, response.getStatusCode());
+    assertVehicle(response.getBody());
+
+    verify(vehicleRepository, times(1)).findById(anyLong());
+    verify(vehicleRepository, times(1)).save(any(Vehicle.class));
+    verifyNoMoreInteractions(vehicleRepository);
   }
 
   @Test
-  public void should_update_vehicle() {
+  void should_return_not_found_status_when_vehicle_with_id_does_not_exist() {
     // given
-    when(vehicleRepository.findById(anyString())).thenReturn(Mono.just(vehicle));
-    when(vehicleRepository.save(any(Vehicle.class))).thenReturn(Mono.just(vehicle));
+    when(vehicleRepository.findById(anyLong())).thenReturn(Optional.empty());
 
     // when
-    Mono<ResponseEntity<VehicleDto>> actualResponse
-        = vehicleService.updateVehicle(VEHICLE_DTO_ID, vehicleDto);
+    ResponseEntity<VehicleDto> response = vehicleService.updateVehicle(VEHICLE_ID, vehicleDto);
 
     // then
-    StepVerifier
-        .create(actualResponse)
-        .expectNextMatches(VehicleServiceTest::isResponseValid)
-        .expectComplete()
-        .verify();
+    assertNotNull(response);
+    assertEquals(NOT_FOUND, response.getStatusCode());
+
+    verify(vehicleRepository, times(1)).findById(anyLong());
+    verifyNoMoreInteractions(vehicleRepository);
   }
 
   @Test
-  public void should_return_bad_request_when_update_vehicle_fails() {
+  void should_find_vehicle_by_id() {
     // given
-    when(vehicleRepository.findById(anyString())).thenReturn(Mono.empty());
-    when(vehicleRepository.save(any(Vehicle.class))).thenReturn(Mono.empty());
+    when(vehicleRepository.findById(anyLong())).thenReturn(Optional.of(vehicle));
 
     // when
-    Mono<ResponseEntity<VehicleDto>> actualResponse
-        = vehicleService.updateVehicle(VEHICLE_DTO_ID, vehicleDto);
+    ResponseEntity<VehicleDto> response = vehicleService.findVehicleById(VEHICLE_ID);
 
     // then
-    StepVerifier
-        .create(actualResponse)
-        .expectNextMatches(response -> BAD_REQUEST.equals(response.getStatusCode()))
-        .expectComplete()
-        .verify();
+    assertNotNull(response);
+    assertEquals(OK, response.getStatusCode());
+    assertVehicle(response.getBody());
+
+    verify(vehicleRepository, times(1)).findById(anyLong());
+    verifyNoMoreInteractions(vehicleRepository);
   }
 
   @Test
-  public void should_find_vehicle_by_id() {
+  void should_return_not_found_status_when_vehicle_with_given_id_does_not_exist() {
     // given
-    when(vehicleRepository.findById(anyString())).thenReturn(Mono.just(vehicle));
+    when(vehicleRepository.findById(anyLong())).thenReturn(Optional.empty());
 
     // when
-    Mono<ResponseEntity<VehicleDto>> actualResponse
-        = vehicleService.findVehicleById(VEHICLE_DTO_ID);
+    ResponseEntity<VehicleDto> response = vehicleService.findVehicleById(VEHICLE_ID);
 
     // then
-    StepVerifier
-        .create(actualResponse)
-        .expectNextMatches(VehicleServiceTest::isResponseValid)
-        .expectComplete()
-        .verify();
+    assertNotNull(response);
+    assertEquals(NOT_FOUND, response.getStatusCode());
+
+    verify(vehicleRepository, times(1)).findById(anyLong());
+    verifyNoMoreInteractions(vehicleRepository);
   }
 
   @Test
-  public void should_return_bad_request_when_find_vehicle_by_id_fails() {
+  void should_find_all_vehicles() {
     // given
-    when(vehicleRepository.findById(anyString())).thenReturn(Mono.empty());
+    when(vehicleRepository.findAll()).thenReturn(List.of(vehicle));
 
     // when
-    Mono<ResponseEntity<VehicleDto>> actualResponse
-        = vehicleService.findVehicleById(VEHICLE_DTO_ID);
+    List<VehicleDto> vehicles = vehicleService.findAllVehicles();
 
     // then
-    StepVerifier
-        .create(actualResponse)
-        .expectNextMatches(response -> BAD_REQUEST.equals(response.getStatusCode()))
-        .expectComplete()
-        .verify();
+    assertNotNull(vehicles);
+    assertEquals(1, vehicles.size());
+    assertVehicle(vehicles.get(0));
+
+    verify(vehicleRepository, times(1)).findAll();
+    verifyNoMoreInteractions(vehicleRepository);
   }
 
   @Test
-  public void should_find_all_vehicles() {
+  void should_remove_vehicle_by_id() {
     // given
-    when(vehicleRepository.findAll()).thenReturn(Flux.just(vehicle));
+    when(vehicleRepository.deleteVehicleById(anyLong())).thenReturn(Optional.of(vehicle));
 
     // when
-    Flux<VehicleDto> actualVehicles = vehicleService.findAllVehicles();
+    ResponseEntity<VehicleDto> response = vehicleService.removeVehicleById(VEHICLE_ID);
 
     // then
-    StepVerifier
-        .create(actualVehicles)
-        .expectNextMatches(VehicleServiceTest::isVehicleValid)
-        .expectComplete()
-        .verify();
+    assertNotNull(response);
+    assertEquals(OK, response.getStatusCode());
+    assertVehicle(response.getBody());
+
+    verify(vehicleRepository, times(1)).deleteVehicleById(anyLong());
+    verifyNoMoreInteractions(vehicleRepository);
   }
 
   @Test
-  public void should_remove_vehicle_by_id() {
+  void should_return_not_found_status_when_vehicle_with_id_to_remove_does_not_exist() {
     // given
-    when(vehicleRepository.deleteById(anyString())).thenReturn(Mono.empty());
+    when(vehicleRepository.deleteVehicleById(anyLong())).thenReturn(Optional.empty());
 
     // when
-    Mono<ResponseEntity<Void>> actualResponse = vehicleService.removeVehicleById(VEHICLE_DTO_ID);
+    ResponseEntity<VehicleDto> response = vehicleService.removeVehicleById(VEHICLE_ID);
 
     // then
-    StepVerifier
-        .create(actualResponse)
-        .verifyComplete();
+    assertNotNull(response);
+    assertEquals(NOT_FOUND, response.getStatusCode());
+
+    verify(vehicleRepository, times(1)).deleteVehicleById(anyLong());
+    verifyNoMoreInteractions(vehicleRepository);
   }
 
-  @Test
-  public void should_remove_all_vehicles() {
-    // given
-    when(vehicleRepository.deleteAll()).thenReturn(Mono.empty());
+  private static void assertVehicle(VehicleDto vehicleDto) {
+    assertNotNull(vehicleDto);
+    assertEquals(VEHICLE_ID, vehicleDto.getId());
+    assertEquals(BLACK, vehicleDto.getColour());
+    assertEquals(NEW, vehicleDto.getCondition());
+    assertEquals(CURRENCY_PLN, vehicleDto.getCurrency());
+    assertEquals(dateOfProduction, vehicleDto.getDateOfProduction());
+    assertEquals(ALL_WHEEL_DRIVE, vehicleDto.getDrive());
 
-    // when
-    Mono<ResponseEntity<Void>> actualResponse = vehicleService.removeAllVehicles();
+    assertEngine(vehicleDto.getEngineDto());
 
-    // then
-    StepVerifier
-        .create(actualResponse)
-        .verifyComplete();
+    assertTrue(Set.of(ABS, ASR, ESP).containsAll(vehicleDto.getFeatures()));
+    assertEquals(dateOfFirstRegistration, vehicleDto.getFirstRegistration());
+    assertEquals(AUTOMATIC, vehicleDto.getGearbox());
+    assertEquals(SClass.W222.name(), vehicleDto.getGeneration());
+    assertTrue(vehicleDto.isAccidentFree());
+    assertFalse(vehicleDto.isDamaged());
+    assertFalse(vehicleDto.isPriceNegotiable());
+    assertEquals(LOCATION_WARSAW, vehicleDto.getLocation());
+    assertEquals(MERCEDES, vehicleDto.getMake());
+    assertEquals(MILEAGE, vehicleDto.getMileage());
+    assertEquals(Model.Mercedes.SCLASS.name(), vehicleDto.getModel());
+    assertEquals(NUMBER_OF_SEATS, vehicleDto.getNumberOfSeats());
+    assertEquals(NUMBER_OF_VEHICLE_OWNERS, vehicleDto.getNumberOfVehicleOwners());
+    assertEquals(PRICE, vehicleDto.getPrice());
+    assertEquals(SEDAN, vehicleDto.getType());
+    assertEquals(VIN, vehicleDto.getVin());
   }
 
-  private static boolean isResponseValid(final ResponseEntity<VehicleDto> response) {
-    VehicleDto vehicleDto = response.getBody();
-    return Objects.nonNull(vehicleDto) && isVehicleValid(vehicleDto);
-  }
-
-  private static boolean isVehicleValid(VehicleDto vehicleDto) {
-    return BLACK.equals(vehicleDto.getColour()) &&
-        NEW.equals(vehicleDto.getCondition()) &&
-        CURRENCY_PLN.equals(vehicleDto.getCurrency()) &&
-        dateOfProduction.isEqual(vehicleDto.getDateOfProduction()) &&
-        ALL_WHEEL_DRIVE.equals(vehicleDto.getDrive()) &&
-        isEngineValid(vehicleDto.getEngineDto()) &&
-        Set.of(ABS, ASR, ESP).containsAll(vehicleDto.getFeatures()) &&
-        dateOfFirstRegistration.isEqual(vehicleDto.getFirstRegistration()) &&
-        AUTOMATIC.equals(vehicleDto.getGearbox()) &&
-        SClass.W222.name().equals(vehicleDto.getGeneration()) &&
-        vehicleDto.isAccidentFree() &&
-        !vehicleDto.isDamaged() &&
-        !vehicleDto.isPriceNegotiable() &&
-        LOCATION_WARSAW.equals(vehicleDto.getLocation()) &&
-        MERCEDES.equals(vehicleDto.getMake()) &&
-        MILEAGE == vehicleDto.getMileage() &&
-        Model.Mercedes.SCLASS.name().equals(vehicleDto.getModel()) &&
-        NUMBER_OF_SEATS == vehicleDto.getNumberOfSeats() &&
-        NUMBER_OF_VEHICLE_OWNERS == vehicleDto.getNumberOfVehicleOwners() &&
-        PRICE.equals(vehicleDto.getPrice()) &&
-        SEDAN.equals(vehicleDto.getType()) &&
-        VIN.equals(vehicleDto.getVin());
-  }
-
-  private static boolean isEngineValid(final EngineDto engineDto) {
-    return Objects.nonNull(engineDto) &&
-        CAPACITY == engineDto.getCapacity() &&
-        EURO_6.equals(engineDto.getEmmisionClass()) &&
-        PETROL.equals(engineDto.getFuel()) &&
-        FUEL_CONSUMPTION == engineDto.getFuelConsumption() &&
-        POWER == engineDto.getPower();
+  private static void assertEngine(EngineDto engineDto) {
+    assertNotNull(engineDto);
+    assertEquals(ENGINE_ID, engineDto.getId());
+    assertEquals(CAPACITY, engineDto.getCapacity());
+    assertEquals(EURO_6, engineDto.getEmmisionClass());
+    assertEquals(PETROL, engineDto.getFuel());
+    assertEquals(FUEL_CONSUMPTION, engineDto.getFuelConsumption());
+    assertEquals(POWER, engineDto.getPower());
   }
 }

@@ -21,7 +21,7 @@ import lombok.Setter;
 @Setter
 public class VehicleDto {
 
-  private String id;
+  private long id;
   private Colour colour;
   private Condition condition;
   private String currency;

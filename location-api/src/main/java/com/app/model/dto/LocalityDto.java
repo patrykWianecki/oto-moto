@@ -8,9 +8,9 @@ import lombok.Setter;
 @Getter
 public class LocalityDto {
 
-  private final String id;
+  private final long id;
   private final String name;
-  private final String countyId;
+  private final long countyId;
   private final double longitude;
   private final double latitude;
   @Setter

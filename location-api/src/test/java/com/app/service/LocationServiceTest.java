@@ -7,8 +7,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.app.model.County;
+import com.app.model.Locality;
+import com.app.model.LocationResponse;
+import com.app.model.Voivodeship;
 import com.app.model.dto.LocalityDto;
 import com.app.repository.CountyRepository;
 import com.app.repository.LocalityRepository;
@@ -17,9 +22,15 @@ import com.app.repository.VoivodeshipRepository;
 import static com.app.data.MockDataForTests.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static org.springframework.http.HttpStatus.*;
 
 @ExtendWith(SpringExtension.class)
 class LocationServiceTest {
+
+  private static final LocationResponse LOCATION_RESPONSE = createValidLocationResponse();
+  private static final Voivodeship VOIVODESHIP = createVoivodeship();
+  private static final County COUNTY = createCounty();
+  private static final Locality LOCALITY = createLocality();
 
   @Mock
   private CountyRepository countyRepository;
@@ -34,17 +45,22 @@ class LocationServiceTest {
   @Test
   void should_find_all_matching_localities() {
     // given
-    when(voivodeshipRepository.findByName(PODKARPACKIE_VOIVODESHIP))
-        .thenReturn(Optional.of(createVoivodeship()));
-    when(countyRepository.findByName(STALOWOWOLSKI_COUNTY)).thenReturn(Optional.of(createCounty()));
-    when(localityRepository.findByName(STALOWA_WOLA_LOCALITY))
-        .thenReturn(Optional.of(createLocality()));
+    when(voivodeshipRepository.findVoivodeshipByName(PODKARPACKIE_VOIVODESHIP))
+        .thenReturn(Optional.of(VOIVODESHIP));
+    when(countyRepository.findCountyByName(STALOWOWOLSKI_COUNTY))
+        .thenReturn(Optional.of(COUNTY));
+    when(localityRepository.findLocalityByName(STALOWA_WOLA_LOCALITY))
+        .thenReturn(Optional.of(LOCALITY));
     when(localityRepository.findAll()).thenReturn(createLocalities());
 
     // when
-    List<LocalityDto> localities = locationService.createRequest(createValidLocationResponse());
+    ResponseEntity<List<LocalityDto>> response = locationService.createRequest(LOCATION_RESPONSE);
 
     // then
+    assertNotNull(response);
+    assertEquals(OK, response.getStatusCode());
+
+    List<LocalityDto> localities = response.getBody();
     assertNotNull(localities);
     assertEquals(3, localities.size());
 
@@ -59,64 +75,101 @@ class LocationServiceTest {
     LocalityDto thirdLocality = localities.get(2);
     assertEquals(ZAKLIKOW_LOCALITY, thirdLocality.getName());
     assertEquals(17, thirdLocality.getDistance());
+
+    verify(voivodeshipRepository, times(1)).findVoivodeshipByName(anyString());
+    verify(countyRepository, times(1)).findCountyByName(anyString());
+    verify(localityRepository, times(1)).findLocalityByName(anyString());
+    verify(localityRepository, times(1)).findAll();
+    verify(localityRepository, times(3)).save(any(Locality.class));
+    verifyNoMoreInteractions(voivodeshipRepository, countyRepository, localityRepository);
   }
 
   @Test
   void should_return_empty_list_of_localities() {
     // given
-    when(voivodeshipRepository.findByName(PODKARPACKIE_VOIVODESHIP))
-        .thenReturn(Optional.of(createVoivodeship()));
-    when(countyRepository.findByName(STALOWOWOLSKI_COUNTY)).thenReturn(Optional.of(createCounty()));
-    when(localityRepository.findByName(STALOWA_WOLA_LOCALITY))
-        .thenReturn(Optional.of(createLocality()));
+    when(voivodeshipRepository.findVoivodeshipByName(PODKARPACKIE_VOIVODESHIP))
+        .thenReturn(Optional.of(VOIVODESHIP));
+    when(countyRepository.findCountyByName(STALOWOWOLSKI_COUNTY))
+        .thenReturn(Optional.of(COUNTY));
+    when(localityRepository.findLocalityByName(STALOWA_WOLA_LOCALITY))
+        .thenReturn(Optional.of(LOCALITY));
 
     // when
-    List<LocalityDto> localities = locationService.createRequest(createValidLocationResponse());
+    ResponseEntity<List<LocalityDto>> response = locationService.createRequest(LOCATION_RESPONSE);
 
     // then
-    assertNotNull(localities);
-    assertEquals(0, localities.size());
+    assertNotNull(response);
+    assertEquals(NO_CONTENT, response.getStatusCode());
+
+    List<LocalityDto> localities = response.getBody();
+    assertNull(localities);
+
+    verify(voivodeshipRepository, times(1)).findVoivodeshipByName(anyString());
+    verify(countyRepository, times(1)).findCountyByName(anyString());
+    verify(localityRepository, times(1)).findLocalityByName(anyString());
+    verify(localityRepository, times(1)).findAll();
+    verifyNoMoreInteractions(voivodeshipRepository, countyRepository, localityRepository);
   }
 
   @Test
   void should_throw_exception_when_voivodeship_does_not_exist_in_database() {
     // when
-    NullPointerException nullPointerException = assertThrows(NullPointerException.class,
-        () -> locationService.createRequest(createValidLocationResponse()));
+    NullPointerException exception = assertThrows(
+        NullPointerException.class, () -> locationService.createRequest(LOCATION_RESPONSE)
+    );
 
     // then
-    assertEquals("Voivodeship with given name does not exist " + PODKARPACKIE_VOIVODESHIP,
-        nullPointerException.getMessage());
+    assertEquals(
+        "Voivodeship with given name does not exist " + PODKARPACKIE_VOIVODESHIP,
+        exception.getMessage()
+    );
+
+    verify(voivodeshipRepository, times(1)).findVoivodeshipByName(anyString());
+    verifyNoMoreInteractions(voivodeshipRepository, countyRepository, localityRepository);
   }
 
   @Test
   void should_throw_exception_when_county_does_not_exist_in_database() {
     // given
-    when(voivodeshipRepository.findByName(PODKARPACKIE_VOIVODESHIP))
-        .thenReturn(Optional.of(createVoivodeship()));
+    when(voivodeshipRepository.findVoivodeshipByName(PODKARPACKIE_VOIVODESHIP))
+        .thenReturn(Optional.of(VOIVODESHIP));
 
     // when
-    NullPointerException nullPointerException = assertThrows(NullPointerException.class,
-        () -> locationService.createRequest(createValidLocationResponse()));
+    NullPointerException exception = assertThrows(
+        NullPointerException.class, () -> locationService.createRequest(LOCATION_RESPONSE)
+    );
 
     // then
-    assertEquals("County with given name does not exist " + STALOWOWOLSKI_COUNTY,
-        nullPointerException.getMessage());
+    assertEquals(
+        "County with given name does not exist " + STALOWOWOLSKI_COUNTY, exception.getMessage()
+    );
+
+    verify(voivodeshipRepository, times(1)).findVoivodeshipByName(anyString());
+    verify(countyRepository, times(1)).findCountyByName(anyString());
+    verifyNoMoreInteractions(voivodeshipRepository, countyRepository, localityRepository);
   }
 
   @Test
   void should_throw_exception_when_locality_does_not_exist_in_database() {
     // given
-    when(voivodeshipRepository.findByName(PODKARPACKIE_VOIVODESHIP))
-        .thenReturn(Optional.of(createVoivodeship()));
-    when(countyRepository.findByName(STALOWOWOLSKI_COUNTY)).thenReturn(Optional.of(createCounty()));
+    when(voivodeshipRepository.findVoivodeshipByName(PODKARPACKIE_VOIVODESHIP))
+        .thenReturn(Optional.of(VOIVODESHIP));
+    when(countyRepository.findCountyByName(STALOWOWOLSKI_COUNTY))
+        .thenReturn(Optional.of(COUNTY));
 
     // when
-    NullPointerException nullPointerException = assertThrows(NullPointerException.class,
-        () -> locationService.createRequest(createValidLocationResponse()));
+    NullPointerException exception = assertThrows(
+        NullPointerException.class, () -> locationService.createRequest(LOCATION_RESPONSE)
+    );
 
     // then
-    assertEquals("Locality with given name does not exist " + STALOWA_WOLA_LOCALITY,
-        nullPointerException.getMessage());
+    assertEquals(
+        "Locality with given name does not exist " + STALOWA_WOLA_LOCALITY, exception.getMessage()
+    );
+
+    verify(voivodeshipRepository, times(1)).findVoivodeshipByName(anyString());
+    verify(countyRepository, times(1)).findCountyByName(anyString());
+    verify(localityRepository, times(1)).findLocalityByName(anyString());
+    verifyNoMoreInteractions(voivodeshipRepository, countyRepository, localityRepository);
   }
 }

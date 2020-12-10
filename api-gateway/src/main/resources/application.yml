@@ -1,0 +1,34 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: api-gateway
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka
+  instance:
+    prefer-ip-address: true
+
+zuul:
+  ignored-services: '*'
+  host:
+    connect-timeout-millis: 30000
+  routes:
+    currency-api:
+      path: /currency/**
+      service-id: currency-api
+    data-importer:
+      path: /importer/**
+      service-id: data-importer
+    location-api:
+      path: /localities/**
+      service-id: location-api
+    otomoto-service:
+      path: /vehicles/**
+      service-id: otomoto-service
+    otomoto-client:
+      path: /vehicles/**
+      service-id: otomoto-client

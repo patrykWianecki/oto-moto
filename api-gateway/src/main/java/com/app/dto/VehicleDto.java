@@ -4,17 +4,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Set;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-@AllArgsConstructor
-@Builder
-@Getter
-@NoArgsConstructor
-@Setter
 public class VehicleDto {
 
   private String id;
