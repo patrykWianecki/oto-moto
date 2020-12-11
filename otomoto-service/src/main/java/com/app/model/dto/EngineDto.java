@@ -12,6 +12,7 @@ import lombok.Setter;
 @Setter
 public class EngineDto {
 
+  private long id;
   private double capacity;
   private EmmisionClass emmisionClass;
   private Fuel fuel;

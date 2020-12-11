@@ -65,6 +65,7 @@ public interface ModelMapper {
 
   static Engine fromEngineDtoToEngine(final EngineDto engineDto) {
     return Engine.builder()
+        .id(engineDto.getId())
         .capacity(engineDto.getCapacity())
         .emmisionClass(engineDto.getEmmisionClass())
         .fuel(engineDto.getFuel())
@@ -75,6 +76,7 @@ public interface ModelMapper {
 
   static EngineDto fromEngineToEngineDto(final Engine engine) {
     return EngineDto.builder()
+        .id(engine.getId())
         .capacity(engine.getCapacity())
         .emmisionClass(engine.getEmmisionClass())
         .fuel(engine.getFuel())

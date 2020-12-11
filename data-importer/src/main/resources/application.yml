@@ -1,9 +1,9 @@
 server:
-  port: 8080
+  port: 8084
 
 spring:
   application:
-    name: otomoto-service
+    name: data-importer
   datasource:
     url: jdbc:postgresql://otomoto-db:5432/otomoto_db
     username: postgres

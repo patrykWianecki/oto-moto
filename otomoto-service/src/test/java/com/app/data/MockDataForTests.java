@@ -23,9 +23,8 @@ import static com.app.model.Type.*;
 
 public interface MockDataForTests {
 
-  String BLANK = "";
-  String VEHICLE_ID = "71623v12hvk1j2";
-  String VEHICLE_DTO_ID = "7865asfdasdfaw3";
+  long VEHICLE_ID = 716232L;
+  long ENGINE_ID = 211245L;
   String VIN = "JH4CW2H61CC000073";
   String CURRENCY_PLN = "PLN";
   String LOCATION_WARSAW = "Warsaw";
@@ -69,6 +68,7 @@ public interface MockDataForTests {
 
   private static Engine createEngine() {
     return Engine.builder()
+        .id(ENGINE_ID)
         .capacity(CAPACITY)
         .emmisionClass(EURO_6)
         .fuel(PETROL)
@@ -79,7 +79,7 @@ public interface MockDataForTests {
 
   static VehicleDto createVehicleDto() {
     return VehicleDto.builder()
-        .id(VEHICLE_DTO_ID)
+        .id(VEHICLE_ID)
         .colour(BLACK)
         .condition(NEW)
         .currency(CURRENCY_PLN)
@@ -113,43 +113,5 @@ public interface MockDataForTests {
         .fuelConsumption(FUEL_CONSUMPTION)
         .power(POWER)
         .build();
-  }
-
-  static String createValidResponse() {
-    return "{\n" +
-        "          \"id\": \"71623v12hvk1j2\",\n" +
-        "          \"colour\": \"BLACK\",\n" +
-        "          \"condition\": \"NEW\",\n" +
-        "          \"currency\": \"PLN\",\n" +
-        "          \"dateOfProduction\": \"2019-12-01\",\n" +
-        "          \"drive\": \"ALL_WHEEL_DRIVE\",\n" +
-        "          \"engineDto\": {\n" +
-        "            \"capacity\": 4.0,\n" +
-        "            \"emmisionClass\": \"EURO_6\",\n" +
-        "            \"fuel\": \"PETROL\",\n" +
-        "            \"fuelConsumption\": 15.0,\n" +
-        "            \"power\": 612\n" +
-        "          },\n" +
-        "          \"features\": [\n" +
-        "            \"ASR\",\n" +
-        "            \"ESP\",\n" +
-        "            \"ABS\"\n" +
-        "          ],\n" +
-        "          \"firstRegistration\": \"2020-01-01\",\n" +
-        "          \"gearbox\": \"AUTOMATIC\",\n" +
-        "          \"generation\": \"W222\",\n" +
-        "          \"accidentFree\": true,\n" +
-        "          \"damaged\": false,\n" +
-        "          \"priceNegotiable\": false,\n" +
-        "          \"location\": \"Warsaw\",\n" +
-        "          \"make\": \"MERCEDES\",\n" +
-        "          \"mileage\": 0,\n" +
-        "          \"model\": \"SCLASS\",\n" +
-        "          \"numberOfSeats\": 4,\n" +
-        "          \"numberOfVehicleOwners\": 0,\n" +
-        "          \"price\": 900000,\n" +
-        "          \"type\": \"SEDAN\",\n" +
-        "          \"vin\": \"JH4CW2H61CC000073\"\n" +
-        "        }";
   }
 }

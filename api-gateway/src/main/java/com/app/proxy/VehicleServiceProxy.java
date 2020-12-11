@@ -1,5 +1,7 @@
 package com.app.proxy;
 
+import java.util.List;
+
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,28 +13,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.app.dto.VehicleDto;
 
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-
 @FeignClient(name = "otomoto-service")
 public interface VehicleServiceProxy {
 
   @PostMapping("/vehicles")
-  Mono<ResponseEntity<VehicleDto>> addVehicle(@RequestBody VehicleDto vehicle);
+  ResponseEntity<VehicleDto> addVehicle(@RequestBody VehicleDto vehicle);
 
   @PutMapping("/vehicles")
-  Mono<ResponseEntity<VehicleDto>> updateVehicle(@RequestParam String vehicleId,
+  ResponseEntity<VehicleDto> updateVehicle(@RequestParam long vehicleId,
       @RequestBody VehicleDto vehicleDto);
 
   @GetMapping("/vehicles")
-  Mono<ResponseEntity<VehicleDto>> findVehicleById(@RequestParam String vehicleId);
+  ResponseEntity<VehicleDto> findVehicleById(@RequestParam long vehicleId);
 
   @GetMapping("/vehicles/all")
-  Flux<VehicleDto> findAllVehicles();
+  List<VehicleDto> findAllVehicles();
 
   @DeleteMapping("/vehicles")
-  Mono<ResponseEntity<Void>> removeVehicleById(@RequestParam String vehicleId);
-
-  @DeleteMapping("/vehicles/all")
-  Mono<ResponseEntity<Void>> removeAllVehicles();
+  ResponseEntity<VehicleDto> removeVehicleById(@RequestParam long vehicleId);
 }

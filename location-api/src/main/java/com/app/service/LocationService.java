@@ -3,9 +3,10 @@ package com.app.service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.app.model.LocationResponse;
@@ -25,18 +26,22 @@ import static java.lang.Math.*;
 @RequiredArgsConstructor
 public class LocationService {
 
-  private static final double EARTH_RADIUS = 6371;
+  private static final double EARTH_RADIUS = 6371D;
 
   private final VoivodeshipRepository voivodeshipRepository;
   private final CountyRepository countyRepository;
   private final LocalityRepository localityRepository;
 
-  public List<LocalityDto> createRequest(LocationResponse locationResponse) {
+  public ResponseEntity<List<LocalityDto>> createRequest(LocationResponse locationResponse) {
     LocalityDto baseLocality = findLocalityWithGivenName(locationResponse);
     List<LocalityDto> localities = getLocalitiesMatchingGivenRadius(locationResponse.getRadius());
     updateDistanceBetweenLocalities(localities, baseLocality);
 
-    return localities;
+    if (CollectionUtils.isEmpty(localities)) {
+      return ResponseEntity.noContent().build();
+    }
+
+    return ResponseEntity.ok(localities);
   }
 
   private List<LocalityDto> getLocalitiesMatchingGivenRadius(int radius) {
@@ -63,10 +68,9 @@ public class LocationService {
     VoivodeshipDto voivodeshipDto = findVoivodeshipWithGivenName(
         locationResponse.getVoivodeshipName());
     CountyDto countyDto = findCountyWithGivenName(voivodeshipDto, locationResponse.getCountyName());
-    return localityRepository.findByName(locationResponse.getLocalityName())
+    return localityRepository.findLocalityByName(locationResponse.getLocalityName())
         .stream()
-        .filter(locality -> Objects.nonNull(locality.getCountyId()))
-        .filter(locality -> countyDto.getId().equals(locality.getCountyId()))
+        .filter(locality -> countyDto.getId() == locality.getCountyId())
         .map(ModelMapper::fromLocalityToLocalityDto)
         .findFirst()
         .orElseThrow(() -> new NullPointerException(
@@ -76,7 +80,7 @@ public class LocationService {
   }
 
   private VoivodeshipDto findVoivodeshipWithGivenName(String voidodeshipName) {
-    return voivodeshipRepository.findByName(voidodeshipName)
+    return voivodeshipRepository.findVoivodeshipByName(voidodeshipName)
         .map(ModelMapper::fromVoivodeshipToVoivodeshipDto)
         .orElseThrow(() -> new NullPointerException(
                 "Voivodeship with given name does not exist " + voidodeshipName
@@ -85,10 +89,9 @@ public class LocationService {
   }
 
   private CountyDto findCountyWithGivenName(VoivodeshipDto voivodeshipDto, String countyName) {
-    return countyRepository.findByName(countyName)
+    return countyRepository.findCountyByName(countyName)
         .stream()
-        .filter(county -> Objects.nonNull(county.getVoivodeshipId()))
-        .filter(county -> voivodeshipDto.getId().equals(county.getVoivodeshipId()))
+        .filter(county -> voivodeshipDto.getId() == county.getVoivodeshipId())
         .map(ModelMapper::fromCountyToCountyDto)
         .findFirst()
         .orElseThrow(
@@ -104,7 +107,7 @@ public class LocationService {
     double latitudeToCalculate = baseLocalityDto.getLatitude();
 
     if (baseLocalityLatitude == latitudeToCalculate && baseLocalityLongitude == longitudeToCalculate) {
-      return 0;
+      return BigDecimal.ZERO.intValue();
     }
 
     double distanceBetweenLongitudes = toRadians(longitudeToCalculate - baseLocalityLongitude);
@@ -123,7 +126,7 @@ public class LocationService {
         ));
 
     return distance.multiply(BigDecimal.valueOf(EARTH_RADIUS))
-        .setScale(0, RoundingMode.HALF_UP)
+        .setScale(BigDecimal.ZERO.intValue(), RoundingMode.HALF_UP)
         .intValue();
   }
 }

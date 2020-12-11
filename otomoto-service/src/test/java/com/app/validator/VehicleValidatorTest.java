@@ -16,6 +16,7 @@ import com.app.model.dto.VehicleDto;
 
 import static com.app.data.MockDataForTests.*;
 import static java.time.temporal.ChronoUnit.*;
+import static org.apache.commons.lang3.StringUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
@@ -285,7 +286,7 @@ class VehicleValidatorTest {
   @Test
   void should_throw_exception_when_generation_is_blank() {
     // given
-    vehicleDto.setGeneration(BLANK);
+    vehicleDto.setGeneration(EMPTY);
 
     // when
     IllegalArgumentException exception = assertThrows(
@@ -327,7 +328,7 @@ class VehicleValidatorTest {
   @Test
   void should_throw_exception_when_location_is_blank() {
     // given
-    vehicleDto.setLocation(BLANK);
+    vehicleDto.setLocation(EMPTY);
 
     // when
     IllegalArgumentException exception = assertThrows(
@@ -383,7 +384,7 @@ class VehicleValidatorTest {
   @Test
   void should_throw_exception_when_model_is_blank() {
     // given
-    vehicleDto.setModel(BLANK);
+    vehicleDto.setModel(EMPTY);
 
     // when
     IllegalArgumentException exception = assertThrows(
@@ -495,7 +496,7 @@ class VehicleValidatorTest {
   @Test
   void should_throw_exception_when_vin_is_blank() {
     // given
-    vehicleDto.setVin(BLANK);
+    vehicleDto.setVin(EMPTY);
 
     // when
     IllegalArgumentException exception = assertThrows(
